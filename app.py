@@ -91,7 +91,7 @@ def resume_openai_call(messages):
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=messages,
-                temperature=0.4
+                temperature=0.6
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -267,6 +267,8 @@ def render_interview_ui(api_key):
             display_message(query_text, sender="user")
             st.markdown("<hr>", unsafe_allow_html=True)
 
+            result = system_tech_prt.format(job_description=job_description, context=context)
+            print("result", result)
             messages = [
                 {"role": "system", "content": system_tech_prt.format(job_description=job_description, context=context)},
                 {"role": "user", "content": f"Question: {query_text}"}

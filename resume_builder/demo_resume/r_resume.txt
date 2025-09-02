@@ -3,7 +3,7 @@ Bobby Estes
 Senior Software, Gen AI/ML Backend Engineer, System Designer	
 Florida, United State(US citizen)
 email: bobbyestes.ai@gmail.com
-linkedin: https://bobby-linkedin-redirect.vercel.app/
+linkedin: https://www.linkedin.com/in/bobby-estes-2234a5363
 website: https://bobby-estes.vercel.app/
 phone: +18632130426   
 I am an ambitious Senior AI Engineer, with 10 years of experience in the Software Development industry. 

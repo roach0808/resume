@@ -5,31 +5,15 @@ import os
 load_dotenv()
 
 system_tech_prt = """
-You are Sr, AI/Machine learning Backend Engineer who has job interview. 
-Based on the job description, and the interview questions, you should answer to the questions in a way that reflects that you are best fit with this job position/decription by choosing the best project example from your knowledge base like developing LLM twin, healthcare, financial analyze platform, recommendation system....
-
+Here I am going to have an online job interview with the HR manager on Machine learning Engineer role and in this call I have to demonstrate my previous experience with Go.
+Be sure to give me the answers to the questions I specify in a natural, conversational, human, realistic, appealing, tactful, a bit humorous yet professional.
+Explain about the Machine learning System architecture, pipelines, advanced RAG techniques, multi-indexing mechanism, chunking, CI/CD, and MLOps... and the other things related to job description.
+and you can refer from the tech context provided below.
 ### Job descrioption:
 {job_description}
 
-### Context:
+### tech Context:
 {context}
-
-
-1. generate the answer to question based on thoroughly the context in spoken language and just customize it in the star method like situation, task, best approach / best techniques I chose, and result.
-also, avoid to generate the AI based sentences and keyword, generated sentences should be answer like real AI developer, not by AI.
-Also, when generate the answer, put sentences in the next row by reading pause point on all sentences generated.
-
-2. If there is no relevant context, provide a professional answer based on your knowledge and experience in AI/Machine learning field.
-3. If the question is behavioral,  answer to the questions from your professional knowledge and expereince.
-4. Avoid unnecessary fluff or filler content.
-5. Maintain a professional tone throughout the response.
-6. Use clear and concise language to convey your points effectively.
-give me answer based on the context provided. if it doesn't have enough info, please provide me answer from your own data
-give me only answer to the question without additional unnecesary information and explanations.
-7.don't say "I don't know" or "in the context provided".
-
-Always use simple word and conversation style to make it easy to understand.
-
 
 
 """
@@ -46,45 +30,107 @@ Please provide good answers that is best fit with job description to behavioral 
 """
 
 easy_generate_prompt = """
-You are a professional resume editor. Your task is to rewrite the "Experience" section of a resume by updating each company's experience bullets according to the following instructions:
+You are a professional resume editor. Your task is to rewrite and expand the Experience section of a resume by doing the following:
 
-### Inputs:
-Current Resume Experience Content: A list of bullet points describing the candidate’s past roles and responsibilities.
-# resume_txt
+Ensure every rewritten work experience bullet based on the current experiences, reflects 2–3 relevant tech stacks from the Extracted Tech Stacks.
+
+If tech stacks, or others are missing from the original resume but appear in the extracted tech stack, generate new, enriched experience content by referencing the project list, tech context, and job description — making their use clear and contextually accurate.
+
+Maintain or increase the length of the original experience sentences — do not shorten or simplify them.
+
+Where appropriate, combine shorter bullets into longer, more technically rich and complete sentences.
+
+🔻 Inputs:
+1. Original Resume
+Contains: name, job title, contact info, summary, experience bullets, and education
+# original_resume
 {resume_txt}
 
-Extracted Tech Stacks: A list of technologies, tools, frameworks, and programming languages used by the candidate.
+2. Extracted Tech Stacks
+Flat list of all technologies, tools, libraries, platforms, and domains used by the candidate or required by the job
 # extracted_tech_stacks
 {extracted_tech_stacks}
 
-Tech Context: A description of the domain, technical environment, and role focus (e.g., cloud infrastructure, data engineering, frontend platforms, etc.).
+3. Tech Context
+Domain and focus of the candidate’s role (e.g., computer vision, MLOps, cloud infra)
 # tech_context
 {tech_context}
 
-Project List: Detailed project descriptions the candidate has worked on, including outcomes and technologies used.
-
+4. Project List
+Detailed projects showing responsibilities, tools, and results
 # projects
 {projects}
 
-Target Job Description: The job role the resume is being tailored for.
+5. Target Job Description
+The job role this resume is being optimized for
 # target_job_description
 {target_job_description}
 
-### Task:
-For each company listed in the current experience section, rewrite the bullet points by doing the following:
+🎯 Instructions:
+✅ 1. Header & Summary
+Retain the candidate’s name, and contact info from the original resume.
 
-Preserve the sentence structure, writing style, and length of each bullet exactly as in the original resume.
+update current job title to relevant job title in each companies with the target job title.
 
-Replace or enrich technology mentions with items from the Extracted Tech Stacks, ensuring accuracy and alignment with what the candidate actually used.
+If a summary is present, update it to reflect the tech context and target role, keeping original tone and length.
 
-Choose the most relevant project(s) from the Project List for each company and reflect their details (e.g., features built, impact, or responsibilities) in the bullets, but do not add new bullets.
+✅ 2. Skills Section
+Create a flat Skills section using all items from Extracted Tech Stacks.
 
-Incorporate the Tech Context naturally to reflect the candidate’s role and domain expertise.
+Do not categorize (e.g., by language/tool/etc.) — just list them as-is, separated by commas.
 
-Ensure alignment with the Target Job Description, by subtly highlighting relevant skills or technologies, but without altering the number of bullets or sentence tone.
+✅ 3. Experience Section (Main Focus)
+For each company in the experience section:
+Use the original resume bullets, project list, tech context, and target job description to rewrite each bullet.
 
-### Output:
-Return the rewritten experience bullets for each company, formatted identically to a professional resume, with the updated technologies, enhanced relevance, and integrated project and domain context.
+Each bullet must be equal to or longer than the original in sentence length and detail.
+
+Integrate 2–3 relevant technologies from the Extracted Tech Stacks into each bullet.
+
+If extracted tools like ComfyUI, Pillow, YOLOv8, or LangChain are not mentioned in the original experience, but appear in the project list or tech context:
+
+Explicitly include them in the rewritten bullets
+
+Generate realistic, accurate responsibilities or accomplishments that reflect their use, based on project list/tech context thorougly
+
+
+Emphasize technical contributions, tools used, project impact, and measurable outcomes.
+
+🔍 Example:
+Extracted Tech Stack includes: ComfyUI, YOLOv8, Pillow, OpenCV
+Original bullet:
+
+Built automation scripts for image processing tasks.
+Project list:
+
+Built a pipeline using ComfyUI and YOLOv8 for object detection in satellite images.
+
+Rewritten bullet (longer, enriched, integrated):
+
+Designed and implemented automated image processing workflows using ComfyUI and Pillow, enabling object detection and classification from large satellite datasets using YOLOv8, significantly accelerating pipeline throughput.
+
+✅ 4. Education Section
+Retain the education section exactly as written in the original resume.
+
+📤 Output Format:
+Return a professionally formatted resume with:
+
+Updated Summary (if present)
+
+Flat Skills section (using all Extracted Tech Stacks)
+
+Rewritten Experience section:
+
+Each bullet includes 2–3 relevant tech stacks
+
+All missing but relevant tech stacks (e.g., ComfyUI, Pillow) are inserted based on project/role context
+
+Sentence length is equal to or longer than the original
+
+Short bullets combined for clarity and impact
+
+Unchanged Education section
+
 """
 
 skill_extracting_prt = """
@@ -99,32 +145,32 @@ Please format the output as a bullet list, ensuring clarity and organization."
 projects_txt = """
 
 You can use these my real projects to build experience in new resume.
-- building LLM Twin
+### building LLM Twin
 It is an AI character that learns to write like somebody by incorporating its style and personality into an LLM.
 
-- Financial advisor platform
+### Financial advisor platform
 implemented a real-time feature pipeline that streams financial news into a vector DB deployed on AWS.
 
--Personalized recommendation system
+### Personalized recommendation system
 I built a highly scalable and modular real-time personalized recommender on retail platform data.
 
 We designed a strategy similar to what TikTok employs for short videos, which will be applied to H&M retail items.
 
 We will present all the architectural patterns necessary for building an end-to-end TikTok-like personalized recommender for H&M fashion items, from feature engineering to model training to real-time serving.
 
-- Automating Multi-Specialist Medical Diagnosis
+### Automating Multi-Specialist Medical Diagnosis
 Traditional medical diagnosis can be time-consuming and requires collaboration between different specialists. AI can help streamline this process by providing initial assessments based on medical reports, allowing doctors to focus on critical cases and improving efficiency. This project aims to:
 
-- folderr.com
+### folderr.com
 AI platform that customer can build their own multi-agent system
 Output only updated plain resume text with new bullets integrated without any description, header or markdown formattings.
 
-- HIPPA project - https://chartauditor.com/
+### HIPPA project - https://chartauditor.com/
 The project has a goal of helping healthcare providers and other professionals detect and help identify healthcare compliance issues as they arise with the goal of delivering a detailed report on what is compliant and what is not, making it easier for healthcare providers to identify areas that need improvement and maintain regulatory compliance. 
 It’s a system that simplifies the processing of ensuring compliance with state and insurance regulations for patient charts in the behavioral health field. 
 The system works by first de-identifying the patient chart, which means removing any personal information that could identify the patient. then compares it to medical necessity guidelines and state guidelines to generate a detailed report.
 
-- Credit default predictions
+### Credit default predictions
 This project is to develop ML models to predict whether a customer will fail to repay their loan or credit card balance. This helps financial institutions assess credit risk, make informed lending decisions, and reduce the likelihood of financial losses by identifying potential defaulters in advance
 
 """

@@ -8,6 +8,9 @@ Only output the plain JSON text. Do not include any explanations, headers, or **
 The contents not mentioned in the structure should be included in the "Extra" field.
 The plain JSON text should be valid and **parsable**. Do not include any comments or explanations.
 
+Don't summarize experiences in each company and don't split one bullit point into multiple bullit.
+Maintain the resume structure and content.
+
 Note: The plain JSON text should not contain any extra spaces or new lines.
 
 {{
@@ -46,7 +49,7 @@ Note: The plain JSON text should not contain any extra spaces or new lines.
     }},
     ...
   ], 
-  "Certification": [
+  "Certificates": [
     {{
       "certificate_name": "Certificate Name",
       "issued_by": "Issuer",
