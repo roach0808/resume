@@ -30,107 +30,286 @@ Please provide good answers that is best fit with job description to behavioral 
 """
 
 easy_generate_prompt = """
-You are a professional resume editor. Your task is to rewrite and expand the Experience section of a resume by doing the following:
-
-Ensure every rewritten work experience bullet based on the current experiences, reflects 2–3 relevant tech stacks from the Extracted Tech Stacks.
-
-If tech stacks, or others are missing from the original resume but appear in the extracted tech stack, generate new, enriched experience content by referencing the project list, tech context, and job description — making their use clear and contextually accurate.
-
-Maintain or increase the length of the original experience sentences — do not shorten or simplify them.
-
-Where appropriate, combine shorter bullets into longer, more technically rich and complete sentences.
+You are an expert resume optimization specialist. Your task is to create a highly targeted resume that achieves 99% alignment with the job description while preserving the candidate's authentic experience and adding comprehensive detail.
 
 🔻 Inputs:
 1. Original Resume
-Contains: name, job title, contact info, summary, experience bullets, and education
 # original_resume
 {resume_txt}
 
 2. Extracted Tech Stacks
-Flat list of all technologies, tools, libraries, platforms, and domains used by the candidate or required by the job
 # extracted_tech_stacks
 {extracted_tech_stacks}
 
 3. Tech Context
-Domain and focus of the candidate’s role (e.g., computer vision, MLOps, cloud infra)
 # tech_context
 {tech_context}
 
 4. Project List
-Detailed projects showing responsibilities, tools, and results
 # projects
 {projects}
 
 5. Target Job Description
-The job role this resume is being optimized for
 # target_job_description
 {target_job_description}
 
-🎯 Instructions:
-✅ 1. Header & Summary
-Retain the candidate’s name, and contact info from the original resume.
+🎯 CRITICAL REQUIREMENTS:
 
-update current job title to relevant job title in each companies with the target job title.
+✅ 1. PRESERVE ALL ORIGINAL CONTENT
+- Keep name, company names, project names EXACTLY as in original
+- Retain ALL certificates section from original resume
+- Maintain education section unchanged
+- Preserve contact information
+- UPDATE job titles for each company to match job requirements while maintaining similar level and scope
+- MANDATORY: Include ALL 4 professional experiences: InsoftAI, CoreWeave, Kensho, Dana Scott Design
 
-If a summary is present, update it to reflect the tech context and target role, keeping original tone and length.
+✅ 2. SKILLS SECTION - MAXIMUM JOB ALIGNMENT
+- Create comprehensive skills section using ALL extracted tech stacks
+- Prioritize skills by job description importance (most critical first)
+- Add missing but relevant skills from job requirements
+- Format as comma-separated list for ATS optimization
 
-✅ 2. Skills Section
-Create a flat Skills section using all items from Extracted Tech Stacks.
+✅ 3. EXPERIENCE SECTION - DETAILED & COMPREHENSIVE
+For EACH company/role, create 8-10 highly detailed bullet points that:
 
-Do not categorize (e.g., by language/tool/etc.) — just list them as-is, separated by commas.
+- Expand original experience with job-relevant technologies and methodologies
+- Include specific metrics, achievements, and quantifiable results (use numbers, percentages, timeframes)
+- Integrate 3-4 relevant tech stacks per bullet point with specific versions/frameworks
+- Add detailed project explanations with technical depth and business impact
+- Include specific project names, methodologies, and implementation details
+- Emphasize leadership, ownership, technical innovation, and measurable outcomes
+- Use strong action verbs and ATS-friendly language
+- Ensure each bullet is comprehensive (3-4 sentences minimum with technical depth)
+- Include specific technologies, tools, frameworks, and their business applications
+- Add context about team size, budget impact, timeline, and scalability considerations
 
-✅ 3. Experience Section (Main Focus)
-For each company in the experience section:
-Use the original resume bullets, project list, tech context, and target job description to rewrite each bullet.
+🎯 CRITICAL: PROJECT PRIORITIZATION STRATEGY
+- For the MOST RECENT COMPANY (last company): Prioritize and expand job-relevant projects from original resume
+- ONLY use projects that exist in the original resume - DO NOT create new projects
+- If job requires healthcare experience, prioritize healthcare projects in the most recent company
+- If job requires fintech experience, prioritize fintech projects in the most recent company
+- Make the most recent company experience the most comprehensive and job-aligned
+- For older companies, include relevant projects but focus more on the most recent company
 
-Each bullet must be equal to or longer than the original in sentence length and detail.
+✅ 4. PROJECT INTEGRATION & DETAILED PROJECT SECTIONS
+- ONLY use projects from the original resume - DO NOT create new projects
+- Prioritize job-relevant projects in the most recent company
+- Ensure project descriptions match job requirements and are expanded with job-relevant details
+- Maintain consistency with original resume's project style
+- Add comprehensive project sections for each company with:
+  * Project names and descriptions (from original resume)
+  * Technical architecture and implementation details (expanded for job relevance)
+  * Technologies used (with specific versions, aligned with job requirements)
+  * Team collaboration and leadership aspects
+  * Measurable outcomes and business impact
+  * Timeline and budget considerations
+  * Scalability and performance metrics
 
-Integrate 2–3 relevant technologies from the Extracted Tech Stacks into each bullet.
+🔍 PROJECT SELECTION LOGIC:
+- Analyze job description to identify key requirements (healthcare, fintech, AI/ML, etc.)
+- For most recent company: Select and expand projects that best match job requirements
+- For older companies: Include relevant projects but with less detail
+- Ensure the most recent company has the most comprehensive and job-aligned project experience
 
-If extracted tools like ComfyUI, Pillow, YOLOv8, or LangChain are not mentioned in the original experience, but appear in the project list or tech context:
+✅ 5. CONTENT STYLE & FORMAT
+- Use professional, concise language
+- Ensure seamless integration without keyword stuffing
+- Maintain consistent formatting and structure
+- Keep language active and achievement-focused
 
-Explicitly include them in the rewritten bullets
+✅ 6. JOB MATCHING STRATEGY
+- Achieve 99% alignment with job requirements
+- Incorporate ALL required and preferred skills
+- Match domain knowledge and industry experience
+- Align with company culture and role expectations
 
-Generate realistic, accurate responsibilities or accomplishments that reflect their use, based on project list/tech context thorougly
+📤 OUTPUT FORMAT:
+Return a complete, professionally formatted resume with:
 
+1. Header (Name, Title, Contact Info)
+2. Summary (Updated for job alignment)
+3. Skills (Comprehensive, job-focused)
+4. Professional Experience (Following original format structure)
+5. Certificates (Preserved from original)
+6. Education (Unchanged)
 
-Emphasize technical contributions, tools used, project impact, and measurable outcomes.
+🎯 EXPERIENCE SECTION FORMAT (CRITICAL):
+Follow this EXACT structure for each company:
 
-🔍 Example:
-Extracted Tech Stack includes: ComfyUI, YOLOv8, Pillow, OpenCV
-Original bullet:
+Company Name, Location
+Job Title (UPDATED to match job requirements)    Start Date – End Date
+Brief company description (1-2 lines about the company's focus and your role)
 
-Built automation scripts for image processing tasks.
-Project list:
+🔍 JOB TITLE UPDATE STRATEGY:
+- Analyze the target job description to identify the desired job title and level
+- Update job titles for each company to align with job requirements while maintaining similar seniority level
+- Examples:
+  * If target job is "Senior AI/ML Engineer" → Update all company titles to similar AI/ML roles
+  * If target job is "Healthcare AI Specialist" → Update titles to emphasize healthcare AI experience
+  * If target job is "Cloud Solutions Architect" → Update titles to emphasize cloud architecture experience
+- Maintain the progression and seniority level across companies
+- Ensure titles reflect the actual work done at each company but align with job requirements
 
-Built a pipeline using ComfyUI and YOLOv8 for object detection in satellite images.
+- Experience bullets using · symbol (5-7 detailed bullets)
+· Detailed experience bullet 1 with specific technologies, metrics, and outcomes
+· Detailed experience bullet 2 with specific technologies, metrics, and outcomes
+· Detailed experience bullet 3 with specific technologies, metrics, and outcomes
+· Detailed experience bullet 4 with specific technologies, metrics, and outcomes
+· Detailed experience bullet 5 with specific technologies, metrics, and outcomes
 
-Rewritten bullet (longer, enriched, integrated):
+- Project Section 1: Project Name - Brief Description
+· Detailed project bullet 1 with technical implementation details
+· Detailed project bullet 2 with specific technologies and outcomes
+· Detailed project bullet 3 with metrics and business impact
+· Detailed project bullet 4 with team collaboration and leadership aspects
+· Detailed project bullet 5 with scalability and performance considerations
 
-Designed and implemented automated image processing workflows using ComfyUI and Pillow, enabling object detection and classification from large satellite datasets using YOLOv8, significantly accelerating pipeline throughput.
+- Project Section 2: Project Name - Brief Description
+· Detailed project bullet 1 with technical implementation details
+· Detailed project bullet 2 with specific technologies and outcomes
+· Detailed project bullet 3 with metrics and business impact
+· Detailed project bullet 4 with team collaboration and leadership aspects
+· Detailed project bullet 5 with scalability and performance considerations
 
-✅ 4. Education Section
-Retain the education section exactly as written in the original resume.
+🔍 EXAMPLE OF DETAILED EXPERIENCE BULLET:
+Instead of: "Engineered multi-agent healthcare assistant systems for Doktor365, reducing clinician workload by 70% through CRM integration and AI-driven automation."
 
-📤 Output Format:
-Return a professionally formatted resume with:
+Write: "Architected and deployed a comprehensive multi-agent healthcare assistant platform for Doktor365, integrating specialized AI agents (secretary, clinic admin, tourism guide, pre-op coordinator) using LangGraph orchestration and real-time CRM synchronization. Implemented WhatsApp-based conversational interfaces with memory-persistent agents, enabling seamless patient intake workflows and automated appointment management. Developed robust webhook pipelines and event-driven architecture using FastAPI and WebSocket connections, achieving 70% reduction in operational workload while maintaining HIPAA compliance. Led a cross-functional team of 5 engineers over 8 months, delivering a production-grade solution that processed 10,000+ patient interactions monthly with 95% accuracy in intent recognition and automated 85% of routine administrative tasks."
 
-Updated Summary (if present)
+🎯 PROJECT PRIORITIZATION EXAMPLE:
+If job description requires "healthcare AI experience":
+- MOST RECENT COMPANY (InsoftAI): Prioritize "Healthcare CRM-Integrated Multimodal Multi-Agent Healthcare Assistant System" project
+- Expand this project with detailed technical implementation, metrics, and outcomes
+- Include other relevant projects but focus primarily on healthcare-related ones
+- For older companies: Include healthcare projects but with less detail
 
-Flat Skills section (using all Extracted Tech Stacks)
+🎯 JOB TITLE UPDATE EXAMPLE:
+If target job is "Senior Healthcare AI Engineer":
+- InsoftAI: "Senior Healthcare AI Engineer & Multi-Agent Specialist" (instead of "Senior ML/MLOps Full Stack & AI-Agent Specialist")
+- CoreWeave: "Senior AI Engineer - Healthcare & Fintech Solutions" (instead of "Senior AI/MLOps Engineer & Agent Developer")
+- Kensho: "Senior AI Developer - Healthcare & Financial Systems" (instead of "Sr. Backend-heavy AI Developer")
+- Dana Scott Design: "AI Research Intern - Healthcare & NLP Focus" (instead of "Full Stack AI Research Intern")
 
-Rewritten Experience section:
+🔍 MANDATORY COMPANY INCLUSION:
+You MUST include ALL 4 professional experiences in this exact order:
+1. InsoftAI, FL, United State (MOST RECENT - prioritize job-relevant projects)
+2. CoreWeave, Livingston, NJ (Detailed experience with job-aligned projects)
+3. Kensho, Massachusetts, United State (Comprehensive experience with relevant projects)
+4. Dana Scott Design, Indianapolis, United States (Complete experience with job-relevant projects)
 
-Each bullet includes 2–3 relevant tech stacks
+🎯 MANDATORY PROJECT SECTIONS FOR EACH COMPANY:
+For EVERY company experience, you MUST include:
+- Key project experience sections using the EXACT format from original resume
+- Project headers using "-" symbol followed by project name and description
+- Project bullets using "·" symbol with detailed technical implementation
+- Each company MUST have multiple project sections (minimum 2-3 projects per company)
+- Projects must be job-relevant and prioritized based on job description requirements
+- Follow the original resume's project section structure and formatting exactly
 
-All missing but relevant tech stacks (e.g., ComfyUI, Pillow) are inserted based on project/role context
+📋 PROJECT SECTION FORMAT EXAMPLE:
+```
+- Lead AI/Agent Engineer – Fintech-focused AI platform development
+· Partnered with Kilocode.ai to co-develop their open-source AI code copilot platform...
+· Integrated dynamic memory and context-awareness using MCP (Model Context Protocol)...
+· Solved key growth challenges by building AI-powered analytics...
 
-Sentence length is equal to or longer than the original
+- Healthcare CRM-Integrated Multimodal Multi-Agent Healthcare Assistant System
+· Architected and deployed a multi-agent assistant platform for Doktor365...
+· Enabled WhatsApp-based conversational intake and follow-ups...
+· Orchestrated multi-agent logic using LangGraph with dynamic state transitions...
+```
 
-Short bullets combined for clarity and impact
+Ensure the resume is ready for ATS systems and human review, with maximum impact and job relevance.
+"""
 
-Unchanged Education section
+# Second-generation prompt for improved results
+resume_regeneration_prompt = """
+You are an expert resume refinement specialist. I'm providing you with a previously generated resume that needs enhancement for maximum job alignment and professional presentation.
 
+🔻 Inputs:
+1. Previously Generated Resume
+# previous_resume
+{previous_resume}
+
+2. Original Resume (for reference)
+# original_resume
+{original_resume}
+
+3. Target Job Description
+# target_job_description
+{target_job_description}
+
+4. Project List (for additional context)
+# projects
+{projects}
+
+🎯 ENHANCEMENT REQUIREMENTS:
+
+✅ 1. EXPERIENCE DETAIL ENHANCEMENT
+- Make experience at ALL companies much more detailed (8-10 comprehensive bullet points per role)
+- Add specific project experience with detailed explanations and technical depth
+- Include quantifiable metrics, achievements, and technical outcomes (numbers, percentages, timeframes)
+- Ensure each bullet point is substantial and impactful (3-4 sentences minimum)
+- Match the detailed style of the original resume's project sections
+- Add comprehensive project sections for each company with technical architecture details
+- Include specific technologies, frameworks, and methodologies with versions
+- Emphasize leadership, team collaboration, and measurable business impact
+
+🎯 CRITICAL: PROJECT PRIORITIZATION FOR ENHANCEMENT
+- For the MOST RECENT COMPANY: Prioritize and expand job-relevant projects from original resume
+- ONLY use projects that exist in the original resume - DO NOT create new projects
+- Focus on making the most recent company experience the most comprehensive and job-aligned
+- If job requires specific domain experience (healthcare, fintech, etc.), prioritize those projects in the most recent company
+- Ensure the most recent company has the most detailed and relevant project experience
+
+🎯 JOB TITLE ENHANCEMENT:
+- Update job titles for each company to better align with the target job requirements
+- Maintain similar seniority level and progression across companies
+- Ensure titles reflect the actual work done but emphasize job-relevant aspects
+- Make titles more specific to the target job domain (healthcare, fintech, AI/ML, etc.)
+
+🔍 MANDATORY COMPANY INCLUSION:
+You MUST include ALL 4 professional experiences in this exact order:
+1. InsoftAI, FL, United State (MOST RECENT - prioritize job-relevant projects)
+2. CoreWeave, Livingston, NJ (Detailed experience with job-aligned projects)
+3. Kensho, Massachusetts, United State (Comprehensive experience with relevant projects)
+4. Dana Scott Design, Indianapolis, United States (Complete experience with job-relevant projects)
+
+🎯 MANDATORY PROJECT SECTIONS FOR EACH COMPANY:
+For EVERY company experience, you MUST include:
+- Key project experience sections using the EXACT format from original resume
+- Project headers using "-" symbol followed by project name and description
+- Project bullets using "·" symbol with detailed technical implementation
+- Each company MUST have multiple project sections (minimum 2-3 projects per company)
+- Projects must be job-relevant and prioritized based on job description requirements
+- Follow the original resume's project section structure and formatting exactly
+
+✅ 2. TECHNICAL SKILLS OPTIMIZATION
+- Ensure ALL technical skills perfectly match job description requirements
+- Add any missing critical technologies from the job description
+- Prioritize skills by job relevance and importance
+- Include specific versions, frameworks, and methodologies mentioned in JD
+
+✅ 3. CONTENT REFINEMENT
+- Enhance language for maximum professional impact
+- Add more specific technical details and methodologies
+- Include industry-specific terminology and best practices
+- Ensure ATS optimization while maintaining readability
+
+✅ 4. FORMAT CONSISTENCY
+- Maintain consistent formatting throughout
+- Ensure proper section organization and flow
+- Keep professional tone and structure
+- Preserve all original information (name, companies, dates, etc.)
+
+✅ 5. JOB ALIGNMENT MAXIMIZATION
+- Achieve 99%+ alignment with job requirements
+- Incorporate ALL required and preferred qualifications
+- Match company culture and role expectations
+- Ensure domain expertise is clearly demonstrated
+
+📤 OUTPUT:
+Return the enhanced, professional resume with maximum job alignment, detailed experience descriptions, and comprehensive technical coverage. The resume should be ready for immediate submission and optimized for both ATS systems and human reviewers.
 """
 
 skill_extracting_prt = """

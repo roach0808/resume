@@ -14,3 +14,5 @@ requests
 pdfplumber
 python-dotenv
 pypandoc
+streamlit
+langchain_community

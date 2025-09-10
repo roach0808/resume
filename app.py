@@ -16,10 +16,14 @@ from chromadb.utils import embedding_functions
 import chromadb
 from openai import OpenAI
 import time
-from config import system_tech_prt, system_behavioral_prt, cover_letter_generator_prompt, easy_generate_prompt, skill_extracting_prt, projects_txt
+from dotenv import load_dotenv
+from config import system_tech_prt, system_behavioral_prt, cover_letter_generator_prompt, easy_generate_prompt, skill_extracting_prt, projects_txt, resume_regeneration_prompt
 from resume_builder.parser.resume_parser import read_pdf_text, parse_text_resume
 
 from resume_builder.autocv_core import generate_final_output
+
+# Load environment variables
+load_dotenv()
 
 # import pypandoc
 # pypandoc.download_pandoc()
@@ -211,7 +215,53 @@ def render_resume_builder(api_key):
         print("2")
         result = generate_final_output(job_description, parsed_resume_json, cover_letter, output_dir, 'pdf', 'both')
         print("3")
-        st.success("✅ Resume parsed successfully!")
+        st.success("✅ Resume generated successfully!")
+        
+        # Store the generated resume for potential regeneration
+        st.session_state.generated_resume = response
+        st.session_state.original_resume = resume_txt
+        st.session_state.job_description = job_description
+        
+        # Add regeneration button
+        st.markdown("---")
+        st.subheader("🔄 Resume Enhancement")
+        st.info("💡 If you want to improve the resume further, click the button below for enhanced generation with more detailed experience and better job alignment.")
+        
+        if st.button("🚀 Generate Enhanced Resume (2nd Generation)"):
+            if 'generated_resume' in st.session_state:
+                st.info("🔄 Generating enhanced resume with improved detail and job alignment...")
+                
+                message = [
+                    {"role": "system", "content": "You are an expert resume enhancement specialist"},
+                    {"role": "user", "content": resume_regeneration_prompt.format(
+                        previous_resume=st.session_state.generated_resume,
+                        original_resume=st.session_state.original_resume,
+                        target_job_description=st.session_state.job_description,
+                        projects=projects_txt
+                    )}
+                ]
+                
+                enhanced_response = resume_openai_call(message)
+                print("Enhanced resume response", enhanced_response)
+                
+                st.info("🤖 Generating enhanced resume with detailed experience...")
+                enhanced_parsed_resume_json = parse_text_resume(enhanced_response)
+                print("Enhanced parsed resume", enhanced_parsed_resume_json)
+                
+                # Generate enhanced cover letter
+                message = [
+                    {"role": "system", "content": "You are cover letter builder"},
+                    {"role": "user", "content": cover_letter_generator_prompt.format(context=context, jd_txt=job_description, resume_json=enhanced_response)}
+                ]
+                enhanced_cover_letter = resume_openai_call(message)
+                
+                # Generate enhanced final output
+                enhanced_result = generate_final_output(job_description, enhanced_parsed_resume_json, enhanced_cover_letter, output_dir, 'pdf', 'both')
+                
+                st.success("✅ Enhanced resume generated successfully!")
+                st.info("📄 The enhanced resume includes more detailed experience descriptions, better job alignment, and comprehensive technical coverage.")
+            else:
+                st.warning("Please generate a resume first before using the enhancement feature.")
 # === Interview UI ===
 
 def render_interview_ui(api_key):
@@ -236,10 +286,6 @@ def render_interview_ui(api_key):
     uploaded_files = st.sidebar.file_uploader("Upload PDFs", type="pdf", accept_multiple_files=True)
 
     if uploaded_files and api_key:
-        if not api_key.startswith('sk-'):
-            st.error("❌ Invalid OpenAI API key format")
-            return
-
         temp_file_paths = []
         for uploaded_file in uploaded_files:
             temp_path = os.path.join("temp", uploaded_file.name)
@@ -315,8 +361,18 @@ def main():
     st.set_page_config(page_title="AI Career Assistant", layout="wide")
     st.sidebar.title("🧭 Navigation")
 
-    # Always show these in the sidebar
-    api_key = st.sidebar.text_input("🔑 OpenAI API Key", type="password")
+    # Get API key from environment variable
+    api_key = os.getenv("OPENAI_API_KEY")
+    
+    # Validate API key
+    if not api_key:
+        st.error("❌ OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.")
+        st.info("💡 Create a .env file in your project root with: OPENAI_API_KEY=your_api_key_here")
+        return
+    
+    # Show API key status
+    st.sidebar.success("✅ OpenAI API Key loaded from environment")
+    
     app_mode = st.sidebar.radio("Select App Mode:", options=["Interview", "Resume Builder"])
 
     # Always show ChromaDB stats
@@ -326,11 +382,6 @@ def main():
         st.sidebar.write(f"📊 Total Chunks: {total_chunks}")
     except Exception as e:
         st.sidebar.error(f"Error fetching chunk count: {str(e)}")
-
-    # Validate API key
-    if not api_key:
-        st.warning("Please enter your OpenAI API key to continue.")
-        return
 
     # Show relevant content in main area
     if app_mode == "Interview":

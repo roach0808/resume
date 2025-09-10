@@ -10,6 +10,15 @@ The plain JSON text should be valid and **parsable**. Do not include any comment
 
 Don't summarize experiences in each company and don't split one bullit point into multiple bullit.
 Maintain the resume structure and content.
+Include detailed project information for each company with specific project names, descriptions, technologies used, and outcomes.
+MANDATORY: Extract ALL professional experiences including InsoftAI, CoreWeave, Kensho, and Dana Scott Design.
+For each company, include:
+- A brief description of the company and your role
+- Experience bullets using · symbol (5-7 detailed bullets)
+- MANDATORY: Key project experience sections using - symbol with detailed project explanations and bullets using · symbol
+- Each company MUST have multiple project sections (minimum 2-3 projects per company)
+- Project sections must follow the EXACT format from original resume
+- Update job titles to align with job requirements while maintaining similar seniority level
 
 Note: The plain JSON text should not contain any extra spaces or new lines.
 
@@ -35,7 +44,15 @@ Note: The plain JSON text should not contain any extra spaces or new lines.
       "end_date": "End Date",
       "role": "Optional Role",
       "location": "Company Location",
-      "bullets": ["task 1", "task 2", ...]
+      "description": "Brief company description (1-2 lines)",
+      "bullets": ["task 1", "task 2", ...],
+      "project_sections": [
+        {{
+          "name": "Project Section Name",
+          "description": "Brief project description",
+          "bullets": ["project bullet 1", "project bullet 2", ...]
+        }}
+      ]
     }},
     ...
   ], 

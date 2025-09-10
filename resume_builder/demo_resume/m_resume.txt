@@ -1,23 +1,26 @@
 John Thomason
-Senior Python/AI/ML & Agent Specialist	NC, United State(US citizen)
+Senior AI/ML/MLOps Full Stack Engineer & Cloud Solution Architect & Agent Specialist & RAG Expert	NC, United State(US citizen)
 thomasonjohn972@gmail.com
-www.linkedin.com/in/john-thomason-9b6991366
+www.linkedin.com/in/john-thomason-26a9ab376
 https://john-thomason-ai.vercel.app/
 +18632130426
 
-I am an ambitious Senior AI/ML Backend Engineer, with 10 years of experience in the Software Development industry. 
-My passion for Artificial Intelligence research and development ignited at its very beginning in America. Since then, I’ve been keen on architecting, designing, and implementing top-of-the-line software solutions tailored to the unique needs of businesses. 
+I am an ambitious Senior AI/ML Full Stack Engineer, with 10 years of experience in the Software Development industry. 
+My passion for Artificial Intelligence research and Full Stack development ignited at its very beginning in America. Since then, I’ve been architecting, designing, and implementing top-of-the-line software solutions tailored to the unique needs of businesses. 
 My commitment to staying at the forefront of technological advancements has enabled me to exceed the evolving demands of the digital business landscape. 
-My biggest differentiator is my expertise - based upon best practices study, a non-conventional approach that goes beyond the latest tech trends, and proven solutions that best fit business objectives. Whether we’re talking about Product Development, driving projects as a Contractor, I’m enthusiastic about delivering results that transcend expectations. 
-My proficiency in AI, MLOps, and System Architecture are not just skill sets. They are components that bridge the gap between real-world solutions and advanced algorithmic strategies.
+Fintech & Healthcare & Tech solution Industry Expertise
+I have led end-to-end AI initiatives in both fintech and healthcare domains, bringing industry - specific context, regulatory awareness, and agentic intelligence into high-impact applications.
+· Fintech: Built AI-powered credit decisioning pipelines, real-time scoring, and risk reduction systems. Implemented predictive analytics that transformed lender workflows, accelerating approvals and improving model precision with XGBoost and Scikit-learn frameworks.
+· Healthcare: Architected multi-agent diagnostic and operations platforms integrated with EHRs, automating scheduling, patient intake, clinical workflows, and administrative tasks. These systems improved diagnostic accuracy, reduced clinician burden, and enhanced patient coordination.
+
 - Technical Proficiencies
 
-Languages:	Python, JavaScript, C++, Rust, C#
-Software Design Architecture:	FTI Architecture, batch serving architecture, online real-time pipeline, offline batch pipeline, asyncronous inference pipeline
-AI Frameworks:	PyTorch, TensorFlow, Keras, Scikit-learn, XGBoost, langchain, Llama-index, Haystack, langGraph, AutoGen, Crew AI, Agentic Transformer
-MLOps	GCP(Vertex AI, GCR, GKE, GCS, pub/sub), AWS(AWS SageMaker, Fargate, lambda, S3 bucket), Azure, W&B, DVC, Arize, Comet ML,Qwak, Databricks, MLFlow, Apache Spark
+Languages:	Python, JavaScript, C++, Rust, C#, GoLang
+Software Design Architecture:	FTI Architecture, batch serving architecture, online real-time pipeline, offline batch pipeline, asynchronous inference pipeline
+AI Frameworks:	PyTorch, TensorFlow, Keras, Scikit-learn, XGBoost, langchain, Llama-index, Haystack, langGraph, AutoGen, Crew AI, Agentic Transformer, Transformer architecture, semantic Kernel
+MLOps	GCP(Vertex AI, GCR, GKE, GCS, pub/sub), AWS(SageMaker, Fargate, lambda, S3 bucket, Databricks), Azure, W&B, DVC, Arize, Comet ML,Qwak, Databricks, MLFlow, Apache Spark
 LLM:
-	OpenAI, Anthropic, Azure, Llama-3,Mistral, Multi-modal LLM(TTS/STT/VST/AST), SDXL, Gemini,Vertex, Perplexity, Advanced RAG, TAG, Advanced chunking strategy
+	OpenAI, Anthropic, Azure, Llama-3,Mistral, Multi-modal LLM(TTS/STT/VST/AST), SDXL, Gemini,Vertex, Perplexity, Advanced RAG, TAG, Advanced chunking strategy, attention mechanisms, sequence-to-sequence models, encoder-decoder, BERT
 Data Science:	     Pydantic, PySpark, Pandas, Polar, Ibis, BigQuery, MCP
 Fullstack Development:	     Django, Flask, FastAPI, Express.JS, Node.js, PHP, React.JS, Next.JS
 Database:
@@ -28,80 +31,125 @@ API Design Models:	REST API, RPC, GraphQL
 CI/CD:	Git, GitLab, GitHub Actions, Jenkins, Kubernetes, CircleCI
 Cloud Infrastructure Tools:	Terraform, Cloudformation, CDK, Pulumi
 Streaming:	Apache Kafka, AWS Flink, Bytewax, CDC pattern, RabbitMQ, GCP pub/sub
-ML Optimization	TorchServe, TensorFlow Serving, Ray Serve, NVIDIA TensorRT-LLM, NVIDIA Triton 
-Inference Server, ollama, llama.cpp, vllm, sglang, LitServe, TGI, KV cache 
-Continuous batching, Speculative Decoding, FL(with ONNX)
 
 - Career Experience
 InsoftAI, FL, United State
-Senior Machine Learning & AI-Agent Specialist	02/2023 – present
-I led and developed powerful AI-Driven Platforms and ML projects, streaming business operations by integrating AI- driven systems capable of handling up to 90% of customer inquiries.  Developed Support-nGen™, a proprietary system designed to enhance customer service by efficiently managing FAQs, support tickets, and complex queries.
-Also, I developed a LLM Twin, an advanced AI character that emulates individual writing/coding styles, voices, and personalities to serve as an effective writing co-pilot, facilitating brand creation by automating the writing process, generating new creative ideas, and streamlining content creation.
+Senior ML/MLOps Full Stack & AI-Agent Specialist & Solution Cloud Architect & RAG Expert	02/2023 – 08/2025
+Focused on both fintech and healthcare client projects, delivering AI systems for financial risk assessment and 
+healthcare process automation.
+- Lead AI/Agent Engineer – Fintech-focused AI platform development 
+· Partnered with Kilocode.ai to co-develop their open-source AI code copilot platform, delivering multi-agent support for architecting, writing, and debugging code directly inside the developer workflow and designed agentic workflows for modular code generation, enabling tools like auto-debugging, refactoring, and self-healing pipelines that adjust based on test outcomes and user intent.
+· Integrated dynamic memory and context-awareness using MCP (Model Context Protocol) and Context‑7, significantly reducing LLM hallucinations and boosting user trust.
+· Solved key growth challenges by building AI-powered analytic to optimize PPC campaign performance and automatically reallocate ad budgets to the highest-converting channels, improving ROAS by 35%.
+· Engineered data pipelines to surface activation and retention patterns from platform usage data, helping Kilocode identify drop-off points and cohort-specific engagement gaps.
+· Enabled multi-model support with Claude 4, GPT-4.1, and Gemini 2.5, with no config needed—driving higher adoption rates from non-technical users and reducing friction at on boarding.
+· Co-authored growth dashboards that correlated user behavior with feature usage and retention, directly influencing product roadmap and GTM strategy.
+· Integrated real-time metrics tracking into the code copilot platform to support user feedback loops, personalized prompts, and usage-based outreach campaigns.
+· Supported community growth through strategic OSS contributions, inbound developer feedback loops, and continuous improvements that positioned Kilocode as a competitive alternative to GitHub Copilot and Cursor.
+- AI/ML Focus + Product Impact
+· Led the AI/ML Back-end architecture of xngen.app, building intelligent lead enrichment pipelines that combined LLM-driven summarization, business profiling, and automated outreach message generation.
+· Integrated state-of-the-art language models to auto-generate personalized cold emails, subject lines, and intros tailored to a lead's company, domain, and role.
+· Designed and deployed a real-time inference engine to process user-entered data (emails, domains, CSVs) and return enriched lead profiles in under 2 seconds, optimizing latency and API throughput.
+· Developed custom data cleaning, deduplication, and entity resolution algorithms, boosting the accuracy of enriched contact data by over 35%.
+· Engineered zero-friction user flows that converted cold input (emails, domains) into full-blown prospecting campaigns with AI-generated content, resulting in high activation rates.
+· Built a multi-modal search engine (people, domain, company) with dynamic filters and scoring, enhancing precision in B2B lead targeting across various industries.
+· Integrated CRM and email tools (like HubSpot, Gmail, and custom SMTP) using secure token-based APIs, enabling users to directly launch outreach campaigns from enriched data sets.
+- LLM Twin: Personalized AI Outreach Agent/MLOps best practice for Scalable Lead Engagement
+· Designed and developed “LLM Twin”, a personalized AI agent that mimics individual user tone, messaging style, and goals to autonomously generate high-conversion outreach content and built a persona-aware text generation pipeline leveraging prompt engineering, memory persistence, and retrieval-augmented generation (RAG) for deep contextual awareness.
+· Integrated end-to-end TTS/STT pipelines into LLM Twin architecture using Whisper for domain-tuned speech recognition and FastSpeech 2 + HiFi-GAN for natural, real-time voice synthesis, enabling fully voice-driven LLM interaction with dynamic context tracking and audio fallback logic.
+         · Integrated LLM orchestration tools (LangChain, OpenAI API) to support multi-agent pipelines, dynamic context injection, and scalable personalization for diverse user personas and enabled plug-and-play deployment for SaaS tools and CRM platforms, with an abstracted architecture for easy fine-tuning, cloning, and customization of LLM-based  agents.
+         · Architected a low-latency, real-time inference pipeline for large language models by implementing a sequential request
+processing system and adopting an online-first inference strategy, reducing average response times under tight SLAs.
+· Designed a modular microservice architecture, splitting core ML services into a business logic REST API and an optimized LLM microservice, enabling dynamic scaling across various model sizes (e.g., Mistral, LLaMA, Falcon) with intelligent hardware utilization.
+· Integrated advanced Graph RAG with Neo4j, enhancing pre-retrieval, retrieval, and post-retrieval stages using binary quantization, achieving up to 40x faster semantic search performance with improved answer accuracy.
+· Deployed high-performance LLM inference infrastructure on AWS SageMaker using Hugging Face DLCs and the Text Generation Inference (TGI) engine, implementing flash attention, speculative decoding, safetensors, and continuous batching to achieve 2–4× speedups in token-level response latency.
+· Developed a fine-tuning workflow using Unsloth, leveraging custom CUDA kernels for 2–5× faster training and up to 80% memory reduction, enabling cost-efficient adaptation of open-source LLMs for custom downstream tasks.
+· Orchestrated full ML pipelines with ZenML and Airflow, containerizing applications with Docker, deploying on AWS EKS/ECS, and managing metadata/version control for reproducibility and observability.
+· Implemented real-time Web-socket API layer in Fast-API, enabling live token-streaming interactions for agent-based systems and conversational AI experiences with sub-second round-trip latency.
+· Built a robust evaluation and observability stack using Opik, Ragas, and ARES, combining trace visualizations, classifier-based QA metrics, and LLM-assisted assessments to optimize agentic workflows and iterate rapidly on model performance.
+· Used advanced profiling tools on Kubernetes (Linux-based clusters) to uncover CPU, GPU, and I/O bottlenecks, leading to a 20% reduction in infra costs through precision optimization of compute-heavy pipelines.
+- Healthcare CRM-Integrated Multimodal Multi-Agent Healthcare Assistant System
+· Architected and deployed a multi-agent assistant platform for Doktor365, integrating roles like secretary, clinic admin, tourism guide, and pre-op coordinator with full CRM synchronization and built real-time, event-driven integration with healthcare CRM to allow agents to read/update patient data, appointment history, treatment stages, and lead status across workflows
+· Enabled WhatsApp-based conversational intake and follow-ups, with automated agent responses logged directly into the CRM system for audit and handoff and developed memory-persistent agents with CRM context-awareness, allowing seamless continuity across voice, chat, and web interactions
+· Orchestrated multi-agent logic using LangGraph with dynamic state transitions based on CRM data triggers (lead conversion, appointment updates, patient status) and reduced operational workload by over 70% by automating repetitive CRM tasks like patient onboarding, pre-op form collection, appointment reminders, and travel coordination
+· Designed robust CRM-webhook pipelines to ensure real-time updates across agents and backend, improving patient experience and service coordination.
+· Delivered a fully production-grade solution combining AI agents, CRM workflows, voice and text interfaces, and healthcare process automation at scale.
+- Tamy AI: Real-Time Market Intelligence with Multi-Agent LLM System - LangGraph&Semantic Kernel
+· Architected and deployed Tamy AI’s core AI assistant using LangGraph to power its lead-generation and market-intelligence platform, enabling stateful agent orchestration, contextual branching, and human-in-the-loop handoffs 
+· Implemented real-time streaming interactions and persistent memory layers, allowing agents to recall prior queries, maintain context across sessions, and deliver personalized insights .
+· Built robust error-handling, caching, and fallback mechanisms to ensure high uptime and reliability in production workflows .
+· Integrated external data pipelines—including CRM enrichment, live contact data ingestion, and API-driven market intelligence—to power proactive and accurate B2B insights 
+· Designed multi-agent workflows where specialized agents collaborate dynamically: routing intent, synthesizing data, summarizing results, and escalating human verification when needed .
+· Leveraged LangSmith and LangGraph logging for full observability: tracked agent state transitions, prompt performance, drift, and conversational quality in production 
+· Delivered the system at scale using containerized microservices and cloud-native infrastructure, enabling AI-powered lead delivery in real time to enterprise clients.
 
-Designed and developed a suite of intelligent, domain-specific AI agents for healthcare, tourism, and operations, enabling multimodal interaction via WhatsApp and web interfaces. 
-☑ Delivered robust capabilities such as appointment automation, medical form handling, travel logistics, and dynamic multilingual support—each powered by typo-tolerant natural language understanding and integrated backend workflows. ☑ Built a scalable orchestration system and deployed a fast, ASR-free multimodal LLM for seamless text and voice interaction, significantly improving user experience and operational efficiency.
-☑ Implemented expertise in implementing a sequential request processing system with a strong emphasis on low latency,  adopting an online real-time inference deployment architecture to enhance overall performance and responsiveness.
-☑ Designed cloud-service/microservice architecture by splitting the ML service into a REST API server for business logic and an optimized LLM microservice, leveraging powerful machines and various engines to enhance latency and memory usage, thereby facilitating quick adaptation of the infrastructure based on different LLM sizes.
-☑ Demonstrated a comprehensive approach by integrating Graph RAG with Neo4j within the business microservice, incorporating advanced RAG techniques to optimize the pre-retrieval, retrieval, and post-retrieval steps, resulting in enhanced accuracy and improved response, implementing binay quantization solution improving RAG search to 40x faster.
-☑ Utilized Opik to develop a sophisticated dashboard for monitoring complex prompt traces and implemented its Python SDK to effectively evaluate agentic and RAG applications, resulting in enhanced experiment tracking and improved performance comparisons.
-☑ Implemented a highly efficient deployment strategy for the LLM microservice on AWS SageMaker, utilizing Hugging Face’s Deep Learning Containers (DLCs) to enhance model inference. This robust infrastructure supported scalable, secure, and efficient real-time predictions through critical components such as SageMaker endpoints, model configuration, and inference components. By leveraging the Text Generation Inference (TGI) engine, the system achieved superior computational efficiency via tensor and dynamic batching for leading open-source LLMs like Mistral, Llama, and Falcon, accomplished optimizing performance with flash-attention, minimizing model size through model parallelism and weight quantization, enhancing throughput with speculative decoding, continuous batching, accelerating weight loading using safetensors, and enabling real-time interactions via token streaming, culminating in a responsive and effective LLM serving solution and achieving speedups of 2-4x or more.
-☑ Developed and implemented fine-tuning process with Unsloth, a high-performance library, utilizing custom kernels, accelerating training by 2-5x and significantly reducing memory usage by up to 80%. 
-☑ Engineered a business microservice using FastAPI, initially deployed to AWS Elastic Kubernetes Service (EKS) or AWS Elastic Container Service (ECS), involving Dockerization of the application, pushing the Docker image to AWS ECR, and configuring the deployment, while also orchestrating ML pipelines using ZenML / Airflow, storing and versioning ML pipelines as outputs, and attaching metadata to artifacts for better observability.
-☑ Utilized advanced profiling tools to identify costly lines of code and uncover performance blind spots in local programs and Kubernetes clusters running on Linux, successfully optimizing CPU, GPU, and I/O performance, which led to an estimated 20% reduction in infrastructure costs.
-☑ By integrating Ragas’s strengths in production monitoring and LLM-assisted metrics with ARES’s configurable evaluation process and classifier-based assessments, enhanced evaluation capabilities, achieving quick iterations and in-depth, customized evaluations that significantly improve performance outcomes.
-☑ Designed a clean backend–frontend architecture with FastAPI, built a web API using FastAPI and add WebSocket support agent can respond in real time.
-☑ Exhibited strong leadership abilities by mentoring junior staff, enhancing their communication skills, and encouraging professional development.
 CoreWeave, Livingston, NJ
 Senior AI/MLOps Engineer & Agent Developer	10/2019 – 12/2022
-I specialize in architecting, designing, and implementing cutting-edge software solutions tailored to meet diverse business needs. 
-I led design and implementation of a multimodal AI healthcare multi-agent system to automate multi-specialist medicaldiagnosis. Expanded the system's capabilities by integrating additional medical specialties, including dermatology and nephrology, while establishing seamless connections with electronic health record (EHR) systems to enable direct report retrieval and analysis. I trained AI model using custom-trained algorithms to enhance the accuracy of medical analyses,significantly improving diagnostic efficiency and collaboration among specialists. Also, developed a robust architecture comprising medical report extraction, specialist AI agents for multi-perspective analysis, and a multidisciplinary team agent to aggregate insights, ultimately generating comprehensive multidisciplinary diagnoses stored as text files.
-I engineered a real-time personalized recommender system for H&M fashion articles using the 4-stage recommender architecture and a two-tower model design architecture, leveraging the Hopsworks AI Lakehouse.
-Also, implemented an Intelligent Financial Advisor that provides real-time insights and personalized recommendations to users based on their financial goals and market conditions. Built an ML system for forecasting hourly energy consumption levels across Denmark and built healthcare insurance fraud identification using PCA anomaly detection using unsupervised anomalous outlier techniques on a minimal set of metrics made available in the CMS Medicare inpatient claims.
-☑ Designed 4-stage architecture to build a system that can handle recommendations from a catalog of millions of
-items and two-tower model, a flexible neural network design that creates embeddings for users and items and optimized deploying ML models using Auto scaling, model optimization/parallelism/quantization, implementing a strategy similar to what TikTok employs for short videos, which will be applied to H&M retail items.
-☑ Enhanced recommender systems by integrating advanced evaluation metrics such as NDCG, Precision@K, Recall@K, and Mean Reciprocal Rank (MRR), providing nuanced insights into model performance and user relevance, ultimately improving user satisfaction and engagement.
-☑ Deployed real-time recommendations using Hopsworks Serverless and KServe, a runtime engine for serving predictive and generative ML models on Kubernetes, which simplifies autoscaling, networking, health checks, and server configuration while providing advanced features like GPU autoscaling and canary rollouts; through KServe, I successfully implemented two distinct services— the query encoder service and the ranking service—resulting in improved model performance and responsiveness in production.
-☑ A real-time streaming pipeline that listens to financial news, cleans & embeds the documents, and loads them
-to a vector DB. 
-☑ A fine-tuning pipeline (deployed as a serverless continuous training) that fine-tunes an LLM on financial data
-using QLoRA, monitors the experiments using an experiment tracker, and saves the best model to a model registry. 
-☑ An inference pipeline built in LangChain, LangGraph(multi-agents) and LangSmith (deployed as a serverless RESTful API and monitoring) that loads the fine-tuned LLM from the model registry and answers financial questions using RAG/TAG (using the vector DB populated with financial news in real-time) .
-☑ By addressing the limitations of traditional RAG with KAG, achieved over 94% accuracy in popular science queries and 93% in interpreting medical indicators, showed similarly impressive results, with precision rates of 91.6% and recall rates of 71.8% — a significant improvement over traditional RAG methods.
-☑ I adopted MLOps best practices, including Infrastructure as Code (IaC), CI/CD, monitoring, experiment tracking, and model registries, ensuring the system is reproducible, testable, and trackable and deployed a scalable and cost-effective asynchronous batch architecture on AWS ECS and SQS, dynamically scaling based on job volume and achieving a 52% reduction in AWS costs.
+Led both healthcare agentic diagnosis and fintech analytic systems.
+- Principal AI Architect – Healthcare Diagnostic Agent-Orchestrated Multimodal Diagnosis Platform
+· Spearheaded the architecture and rollout of a multimodal, multi-agent AI system to automate cross-specialty medical diagnosis, 
+transforming a traditionally manual, fragmented process into a real-time collaborative workflow.
+· Engineered a team of autonomous specialist agents—covering dermatology, nephrology, cardiology, and more—each trained with 
+fine-tuned LLMs and clinical protocols to deliver high-precision, specialty-aligned insights.
+· Built real-time EHR integration pipelines to extract structured and unstructured data directly from patient records, enabling zero-latency diagnosis based on up-to-date medical histories.
+· Designed a central orchestration agent to manage role-based task distribution, cross-agent communication, and aggregation of multidisciplinary findings into a unified, context-rich diagnosis file.
+· Achieved 4x faster diagnostic turnaround and 92% accuracy in preliminary diagnosis generation, reducing cognitive load on human physicians and unlocking scalable expert collaboration.
+· Developed a modular pipeline architecture with real-time validation, customization output formats, and long-term memory for tracking patient evolution across visits.
+· Enabled hospital deployment with secure, containerized microservices and HIPAA-compliant data handling—laying the foundation for AI-powered triage and continuous care support systems.
+- Sr. ML Engineer – Fintech Scalable AI-Powered Recommendation and RAG Systems
+· I engineered a real-time personalized recommender system for H&M using TikTok-inspired architecture, deploying a two-tower model on Hopsworks AI Lakehouse to serve recommendations from a catalog of millions and designed and implemented a robust 4-stage recommender pipeline (candidate generation, filtering, ranking, re-ranking), enabling sub-second response times and contextual item matching at scale.
+· Deployed query encoder and ranking services via KServe on Kubernetes with GPU autoscaling and canary rollouts, ensuring high availability and adaptive model performance in production, and integrated evaluation metrics like NDCG, Precision@K, Recall@K, and MRR to optimize relevance scoring, driving measurable improvements in user engagement and satisfaction.
+· Built and deployed a real-time streaming pipeline for ingesting financial news, performing document embedding, and populating a vector DB for live data-driven recommendations and insights.  
+· Implemented a fine-tuning pipeline using QLoRA and serverless training orchestration with experiment tracking and model registry integration, ensuring continuous learning and model evolution.  
+· Delivered a production-grade inference system using LangChain, LangGraph, and LangSmith to enable multi-agent RAG/TAG-based question answering APIs over real-time financial knowledge graphs.
+· Replaced traditional RAG with advanced KAG-based retrieval and reasoning, achieving 94%+ accuracy on popular science queries and a 20%+ improvement over legacy retrieval systems.
+· Adopted full-stack MLOps practices with IaC, CI/CD pipelines, monitoring, and versioned experiment tracking, deploying a serverless, asynchronous architecture on AWS ECS/SQS that cut infrastructure costs by 52% while scaling on demand.
+- Senior MLOps Engineer – Energy Forecasting Fintech Platform
+· Led the architecture and deployment of a production-grade batch ML system to forecast hourly energy demand, enabling utility companies to optimize grid load balancing and reduce operational inefficiencies.
+· Built and orchestrated scalable pipelines with Hopsworks, Airflow, and Docker, transforming volatile energy consumption data into structured, model-ready features with strict data validation, improving forecast reliability.
+· Developed a model training and batch inference pipeline with W&B and GCP integration, automating experimentation and deployment cycles to deliver timely energy forecasts across all grid regions.
+· Designed a user-facing analytics dashboard using FastAPI and Streamlit, equipping grid operators with real-time visibility into regional consumption trends, improving day-ahead planning accuracy by over 30%.
+· Implemented CI/CD with GitHub Actions and containerized the full workflow using Poetry and Docker, accelerating release cycles and improving deployment repeatability across dev and prod environments.
+· Addressed data drift and quality gaps using Great Expectations and custom validation checks, reducing downstream prediction failures and increasing model uptime during peak usage windows.
+
+- Sr. ML Engineer – Second Brain AI Assistant
+· Designed and deployed a Notion-style AI assistant leveraging Advanced RAG to enable smart content generation, summarization, and contextual Q&A across user notes, documents, and tasks.
+· Implemented custom chunking strategies and metadata-aware embedding pipelines to enhance retrieval precision from unstructured workspace data stored in vector databases like Qdrant and PGVector, and built a personalized memory system combining long-term knowledge graphs with short-term context windows, allowing the assistant to deliver coherent multi-turn responses and project-specific insights.
+· Integrated LangGraph-based agent orchestration with tool access for calendar lookups, task prioritization, and document editing—creating a fluid, multimodal AI collaborator and fine-tuned LLMs on workspace-specific datasets to adapt tone, voice, and formatting style, enhancing output quality for note-writing, meeting summaries, and documentation drafting
+· Achieved 92%+ relevance in content retrieval and over 40% improvement in document answer accuracy by applying KAG (Knowledge-Augmented Generation) with multi-hop reasoning.
+· Enabled real-time interaction through a RESTful API and WebSocket endpoints, with streaming token output and plugin integration for Notion-like UI platforms and adopted LLMOps best practices with automated evaluations, prompt monitoring, and continuous retraining pipelines—ensuring reliability and personalization at scale across user bases.
 Kensho, Massachusetts, United State
-Backend-heavy AI Developer	09/2017 – 09/2019
+Sr. Backend-heavy AI Developer	09/2017 – 09/2019
 I worked on a TTS and STT solution, exposing it as an API that accurately clone voices from a short audio clip, significantly enhancing user experience in voice synthesis applications.
-☑ Optimized training processes using distributed computing techniques, reducing training time by 5%.
-☑ Collaborated with research teams to implement cutting-edge algorithms, enhancing the company's AI
-capabilities.
-☑ I built an inference pipleline in LangChain as a serverless RESTful API, enabling real-time financial question answering using RAG/TAG, significantly improving user engagement.
-☑ Extended Meta’s Llama 3 model with multimodal projector, allowing direct audio input for faster responses compared to traditional ASR-LLM combinations, enhancing system efficiency.
-☑ I evaluated the team projects and dedicated time to mentoring junior developers, fostering skill development and enhancing team performance.
-☑ Implemented on a advanced RAG agent that ingest document context and provide assistant-like answers, improving user queries resolution.
-☑ Designed real-time streaming pipeline for monitoring financial news, processing documents, and storing them in a vector database, enhancing data retrieval efficiency.
-☑ Developed a serverless continuous training solution that fine-tunes an LLM on financial data, optimizing model performance through automatic tracking and registry saving.
-☑ Built efficient batch prediction pipelines using Python, leveraing a Feature Store and GCS, orchestrated with Airflow, resulting in streamlined predictions and improved operational workflows.
+· Optimized training processes using distributed computing techniques, reducing training time by 5%.
+· Collaborated with research teams to implement cutting-edge algorithms, enhancing the company's AI capabilities.
+· I built an inference pipeline as a serverless RESTful API, enabling real-time financial question answering using BERT(Transformers), significantly improving user engagement.
+· Extended Meta’s Llama 2 model with multi-modal projector, allowing direct audio input for faster responses compared to traditional ASR-LLM combinations, enhancing system efficiency.
+· I evaluated the team projects and dedicated time to mentoring junior developers, fostering skill development and enhancing team performance.
+· Implemented on a advanced Transformer agent that ingests document context and provides assistant-like answers, improving user queries resolution.
+· Designed real-time streaming pipeline for monitoring financial news, processing documents, and storing them in a vector database, enhancing data retrieval efficiency.
+· Developed a serverless continuous training solution that fine-tunes an LLM on financial data, optimizing model performance through automatic tracking and registry saving.
+· Built efficient batch prediction pipelines using Python, leveraging a Feature Store and GCS, orchestrated with Airflow, resulting in streamlined predictions and improved operational workflows.
 Dana Scott Design, Indianapolis, United States
 Full Stack AI Research Intern	02/2016 – 8/2017
-☑ Started a career as a front-end developer and move to full stack position. 
-☑ Translated Figma designs into user-friendly, reusable React components with high productivity and responsibility by leveraging proficiency in HTML/CSS and React-styled components. 
-☑ Designed and implemented RESTful APIs, optimizing communication and dataflow for enhanced application functionality.
-☑ Assisted in the development of transformer-based models for NLP tasks, contributing to early advancements in the field.
-☑ Conducted experiments to evaluate model architectures, providing insights that guided future research directions.
-☑ Collaborated with senior researchers to publish findings in academic conferences, gaining exposure to the research community.
+· Started a career as a front-end developer and moved to a full stack position. 
+· Translated Figma designs into user-friendly, reusable React components with high productivity and responsibility by leveraging proficiency in HTML/CSS and React-styled components. 
+· Designed and implemented RESTful APIs, optimizing communication and dataflow for enhanced application functionality.
+· Assisted in the development of transformer-based models for NLP tasks, contributing to early advancements in the field.
+· Conducted experiments to evaluate model architectures, providing insights that guided future research directions.
+· Collaborated with senior researchers to publish findings in academic conferences, gaining exposure to the research community.
+
 
 - Certificates
 Databricks Certified Data Engineer Associate 
-Databricks - Issued Dec 2024
-	Hands On Essentials - Data Warehouse
+Databricks - Issued Dec 2024	Hands On Essentials - Data Warehouse
 Snowflake - Issued Oct 2021
 Microsoft Certified: Azure Data Fundamentals
-Microsoft - Issued Oct 2021
-	SnowPro Core Certification
+Microsoft - Issued Oct 2021	SnowPro Core Certification
 Snowflake - Issued Oct 2021
 dbt Fundamentals
 dbt Labs - Issued Mar 2023	
 
 - Education
-Bachelor’s Degree in Mathematics                                                                                       University of Kansas (1/2009 – 4/2013)
-        Master’s Degree in Computer Science                                                                                 University of Kansas (6/2013 – 9/2015)
+Bachelor’s Degree in Mathematics                                                                                       University of Kansas (2009 – 2013)
+        Master’s Degree in Computer Science                                                                                 University of Kansas (2013 – 2015)
