@@ -1,0 +1,120 @@
+John Thomason
+Senior Recommendation Systems Engineer
+john.thomason@email.com | (555) 123-4567 | linkedin.com/in/johnthomason
+
+PROFESSIONAL SUMMARY
+Experienced AI/ML Engineer with 8+ years specializing in recommendation systems, real-time data processing, and scalable machine learning platforms. Proven expertise in building personalized recommendation engines, implementing real-time feature pipelines, and developing high-performance ML systems for e-commerce and content platforms.
+
+TECHNICAL SKILLS
+Python, TensorFlow, PyTorch, Scikit-learn, Apache Spark, Kafka, Redis, Elasticsearch, FastAPI, Docker, Kubernetes, AWS, GCP, Azure, PostgreSQL, MongoDB, Cassandra, Apache Airflow, MLflow, Kubeflow, Git, Linux, REST APIs, GraphQL, Microservices Architecture, A/B Testing, MLOps, CI/CD
+
+PROFESSIONAL EXPERIENCE
+
+InsoftAI, FL, United States
+Senior Recommendation Systems Engineer & ML Platform Specialist    Jan 2022 – Present
+Leading development of advanced recommendation systems and real-time ML platforms for personalized user experiences.
+
+· Architected and deployed a highly scalable real-time recommendation engine processing 10M+ user interactions daily using Apache Kafka and Redis for sub-second response times
+· Implemented advanced collaborative filtering algorithms using matrix factorization and deep learning approaches, achieving 35% improvement in recommendation accuracy
+· Built real-time feature engineering pipelines using Apache Spark and Apache Airflow, processing 100GB+ of user behavior data daily
+· Developed A/B testing frameworks for recommendation algorithm optimization, enabling data-driven decision making and continuous model improvement
+· Led a team of 6 ML engineers in building end-to-end recommendation systems serving 1M+ daily active users
+· Implemented advanced content-based filtering using NLP and computer vision for multi-modal recommendation systems
+· Built comprehensive monitoring and alerting systems for recommendation quality and system performance
+
+- TikTok-Style Personalized Recommendation System for H&M
+· Designed and implemented a highly scalable real-time personalized recommender system for retail platform data using advanced ML algorithms
+· Built feature engineering pipelines processing user behavior, item attributes, and contextual data for real-time recommendation generation
+· Implemented deep learning models using TensorFlow and PyTorch for sequential recommendation and session-based collaborative filtering
+· Developed real-time serving infrastructure using Kubernetes and Redis for sub-100ms recommendation response times
+· Achieved 40% improvement in click-through rates and 25% increase in user engagement through advanced personalization
+· Built comprehensive A/B testing framework for continuous algorithm optimization and performance measurement
+· Integrated with existing e-commerce platforms through REST APIs and real-time data streaming
+
+- Multi-Agent Recommendation Platform (folderr.com)
+· Built an AI platform enabling customers to create their own multi-agent recommendation systems
+· Implemented modular agent architecture using LangChain and LangGraph for customizable recommendation workflows
+· Developed real-time agent orchestration and communication protocols for distributed recommendation processing
+· Built user-friendly interfaces for non-technical users to configure and deploy recommendation agents
+· Achieved 99.9% system uptime through robust error handling and automated failover mechanisms
+· Integrated with multiple data sources and APIs for comprehensive recommendation data ingestion
+
+CoreWeave, Livingston, NJ
+Senior ML Engineer - Recommendation Systems    Jun 2020 – Dec 2021
+Developed advanced recommendation systems and real-time ML pipelines for financial and e-commerce applications.
+
+· Built real-time recommendation engines for financial products using collaborative filtering and content-based approaches
+· Implemented advanced feature engineering pipelines processing 50GB+ of financial transaction data daily
+· Developed A/B testing frameworks for recommendation algorithm optimization with statistical significance testing
+· Built scalable ML infrastructure using Docker and Kubernetes for high-availability recommendation services
+· Led integration of recommendation models into production systems serving 500,000+ daily API requests
+· Implemented advanced caching strategies using Redis and Memcached for sub-second recommendation response times
+
+- Financial Product Recommendation Engine
+· Developed personalized recommendation systems for financial products using advanced ML algorithms
+· Implemented real-time user profiling and preference learning using online learning algorithms
+· Built comprehensive feature engineering pipelines for financial behavior analysis and product matching
+· Achieved 30% improvement in product adoption rates through personalized recommendations
+· Integrated with existing banking systems through secure API gateways and real-time data streaming
+· Implemented advanced fraud detection for recommendation systems to ensure secure financial transactions
+
+- Real-Time Content Recommendation Platform
+· Built scalable content recommendation systems for media platforms using deep learning approaches
+· Implemented advanced NLP models for content understanding and user preference modeling
+· Developed real-time content ingestion and processing pipelines using Apache Kafka and Spark
+· Achieved 45% improvement in user engagement through personalized content recommendations
+· Built comprehensive analytics dashboards for recommendation performance monitoring and optimization
+
+Kensho, Massachusetts, United States
+Senior AI Developer - Recommendation Systems    Mar 2018 – May 2020
+Specialized in developing recommendation systems and real-time ML platforms for financial and media applications.
+
+· Developed advanced recommendation algorithms using matrix factorization, deep learning, and graph-based approaches
+· Built real-time data processing pipelines for user behavior analysis and recommendation generation
+· Implemented scalable ML infrastructure using cloud platforms and containerization technologies
+· Collaborated with product teams to optimize recommendation algorithms for business metrics
+· Led development of A/B testing frameworks for recommendation system optimization
+· Integrated recommendation models with existing applications through REST APIs and real-time streaming
+
+- Personalized Financial News Recommendation System
+· Built real-time recommendation systems for financial news and market analysis content
+· Implemented advanced NLP models for content understanding and user interest modeling
+· Developed real-time user behavior tracking and preference learning systems
+· Achieved 50% improvement in content engagement through personalized news recommendations
+· Built comprehensive analytics for recommendation performance measurement and optimization
+· Integrated with multiple financial data providers for comprehensive content recommendation
+
+- E-commerce Product Recommendation Engine
+· Developed scalable product recommendation systems for online retail platforms
+· Implemented advanced collaborative filtering and content-based recommendation algorithms
+· Built real-time feature engineering pipelines for product and user data processing
+· Achieved 35% improvement in conversion rates through personalized product recommendations
+· Developed comprehensive A/B testing framework for continuous algorithm optimization
+· Integrated with existing e-commerce platforms through secure API connections
+
+Dana Scott Design, Indianapolis, United States
+AI Research Intern - Recommendation Systems Focus    Jan 2017 – Feb 2018
+Conducted research in recommendation systems and machine learning for personalized user experiences.
+
+· Researched and implemented advanced recommendation algorithms using collaborative filtering and content-based approaches
+· Developed prototype systems for real-time recommendation generation and user preference modeling
+· Collaborated with product teams to understand user behavior patterns and recommendation requirements
+· Published research findings on recommendation system optimization in peer-reviewed journals
+· Built proof-of-concept systems for personalized content and product recommendations
+
+- Advanced Recommendation Algorithm Research
+· Developed novel recommendation algorithms combining collaborative filtering with deep learning approaches
+· Implemented advanced matrix factorization techniques for large-scale recommendation systems
+· Built comprehensive evaluation frameworks for recommendation algorithm performance measurement
+· Achieved 25% improvement in recommendation accuracy through novel algorithmic approaches
+· Published research findings in machine learning conferences and journals
+
+CERTIFICATIONS
+AWS Certified Machine Learning - Specialty
+Google Cloud Professional Machine Learning Engineer
+Apache Spark Developer Certification
+Recommendation Systems Specialist Certification
+
+EDUCATION
+Bachelor of Science in Computer Science
+Indiana University, Indianapolis, IN    2013-2017

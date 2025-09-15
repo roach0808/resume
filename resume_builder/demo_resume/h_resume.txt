@@ -1,0 +1,116 @@
+John Thomason
+Senior Healthcare AI Engineer
+john.thomason@email.com | (555) 123-4567 | linkedin.com/in/johnthomason
+
+PROFESSIONAL SUMMARY
+Experienced AI/ML Engineer with 8+ years specializing in healthcare technology solutions, multi-agent systems, and machine learning operations. Proven track record in developing HIPAA-compliant healthcare applications, implementing real-time data pipelines, and building scalable AI platforms for medical diagnosis and patient care optimization.
+
+TECHNICAL SKILLS
+Python, TensorFlow, PyTorch, Scikit-learn, FastAPI, Docker, Kubernetes, AWS, GCP, Azure, PostgreSQL, MongoDB, Redis, LangChain, LangGraph, OpenAI GPT, Healthcare APIs, HL7 FHIR, DICOM, HIPAA Compliance, MLOps, CI/CD, Git, Linux, REST APIs, WebSocket, Microservices Architecture
+
+PROFESSIONAL EXPERIENCE
+
+InsoftAI, FL, United States
+Senior Healthcare AI Engineer & Multi-Agent Specialist    Jan 2022 – Present
+Leading development of AI-powered healthcare solutions and multi-agent systems for medical applications.
+
+· Architected and deployed a comprehensive multi-agent healthcare assistant platform for Doktor365, integrating specialized AI agents (secretary, clinic admin, tourism guide, pre-op coordinator) using LangGraph orchestration and real-time CRM synchronization
+· Implemented WhatsApp-based conversational interfaces with memory-persistent agents, enabling seamless patient intake workflows and automated appointment management
+· Developed robust webhook pipelines and event-driven architecture using FastAPI and WebSocket connections, achieving 70% reduction in operational workload while maintaining HIPAA compliance
+· Led a cross-functional team of 5 engineers over 8 months, delivering a production-grade solution that processed 10,000+ patient interactions monthly with 95% accuracy in intent recognition
+· Automated 85% of routine administrative tasks through intelligent agent coordination and real-time data synchronization
+· Integrated advanced NLP models for medical text processing and patient communication optimization
+· Implemented comprehensive monitoring and alerting systems for healthcare compliance and system reliability
+
+- Healthcare CRM-Integrated Multimodal Multi-Agent Healthcare Assistant System
+· Designed and implemented a sophisticated multi-agent architecture using LangGraph for healthcare workflow automation
+· Integrated real-time patient data synchronization with existing CRM systems using secure API endpoints
+· Developed specialized AI agents for different healthcare roles including patient intake, appointment scheduling, and pre-operative coordination
+· Implemented advanced natural language processing for medical terminology understanding and patient communication
+· Achieved 95% accuracy in medical intent recognition and automated 85% of routine administrative tasks
+· Ensured full HIPAA compliance through encrypted data transmission and secure agent communication protocols
+
+- HIPAA-Compliant Medical Chart Auditing System
+· Built an automated compliance checking system for behavioral health patient charts using advanced NLP and rule-based validation
+· Implemented patient data de-identification algorithms to ensure privacy while maintaining chart integrity
+· Developed real-time compliance reporting with detailed violation identification and improvement recommendations
+· Integrated with existing healthcare management systems through secure API connections
+· Reduced manual chart review time by 90% while maintaining 99.5% compliance accuracy
+
+CoreWeave, Livingston, NJ
+Senior AI Engineer - Healthcare & Fintech Solutions    Jun 2020 – Dec 2021
+Developed AI solutions for healthcare and financial technology applications with focus on real-time data processing and predictive analytics.
+
+· Engineered real-time financial data streaming pipelines processing 1M+ transactions daily using Apache Kafka and Redis for high-frequency trading platforms
+· Developed credit default prediction models using ensemble methods (Random Forest, XGBoost, Neural Networks) achieving 94% accuracy in risk assessment
+· Implemented automated fraud detection systems using anomaly detection algorithms, reducing false positives by 60% and improving detection accuracy by 85%
+· Built scalable microservices architecture using Docker and Kubernetes for financial data processing with 99.9% uptime
+· Led integration of machine learning models into production systems serving 100,000+ daily API requests
+· Collaborated with healthcare clients to develop HIPAA-compliant data processing pipelines for patient analytics
+
+- Financial Advisor AI Platform
+· Architected a real-time feature pipeline streaming financial news into vector databases deployed on AWS
+· Implemented advanced NLP models for sentiment analysis of financial news and market data
+· Built recommendation engines for personalized financial advice using collaborative filtering and content-based approaches
+· Integrated with multiple financial data providers through secure API connections
+· Achieved 40% improvement in investment recommendation accuracy through advanced feature engineering
+
+- Credit Risk Assessment System
+· Developed ML models to predict customer loan default probability using historical transaction data
+· Implemented feature engineering pipelines for real-time risk scoring with sub-second response times
+· Built automated model retraining pipelines using MLOps best practices and A/B testing frameworks
+· Integrated with existing banking systems through secure API gateways and message queues
+· Reduced credit risk assessment time from hours to seconds while maintaining 94% prediction accuracy
+
+Kensho, Massachusetts, United States
+Senior AI Developer - Healthcare & Financial Systems    Mar 2018 – May 2020
+Specialized in developing AI solutions for healthcare and financial data analysis with focus on natural language processing and predictive modeling.
+
+· Developed advanced NLP models for medical text analysis and clinical decision support systems
+· Built real-time data processing pipelines for financial market analysis using Apache Spark and Kafka
+· Implemented machine learning models for healthcare outcome prediction with 92% accuracy
+· Designed and deployed scalable AI services using microservices architecture and containerization
+· Collaborated with healthcare professionals to develop clinical decision support tools
+· Integrated AI models with existing healthcare information systems through secure APIs
+
+- Medical Diagnosis Automation System
+· Built AI-powered multi-specialist medical diagnosis system to streamline collaboration between different medical specialists
+· Implemented advanced NLP models for medical report analysis and symptom identification
+· Developed automated initial assessment tools allowing doctors to focus on critical cases
+· Integrated with electronic health record (EHR) systems through HL7 FHIR standards
+· Achieved 90% accuracy in initial diagnosis suggestions and reduced specialist consultation time by 50%
+· Ensured full HIPAA compliance through encrypted data processing and secure model deployment
+
+- Personalized Healthcare Recommendation Engine
+· Developed recommendation systems for personalized treatment plans using patient history and medical literature
+· Implemented collaborative filtering algorithms for treatment outcome prediction
+· Built real-time patient monitoring systems with automated alert generation
+· Integrated with wearable devices and IoT sensors for continuous health monitoring
+· Achieved 85% improvement in treatment adherence through personalized recommendations
+
+Dana Scott Design, Indianapolis, United States
+AI Research Intern - Healthcare & NLP Focus    Jan 2017 – Feb 2018
+Conducted research in healthcare AI applications and natural language processing for medical text analysis.
+
+· Researched and implemented NLP models for medical text classification and information extraction
+· Developed prototype systems for automated medical report analysis and clinical decision support
+· Collaborated with healthcare professionals to understand clinical workflows and requirements
+· Published research findings on healthcare AI applications in peer-reviewed journals
+· Built proof-of-concept systems for patient data analysis and outcome prediction
+
+- Medical Text Analysis Research Project
+· Developed deep learning models for medical text classification using BERT and transformer architectures
+· Implemented named entity recognition systems for medical terminology extraction
+· Built automated medical report summarization tools for clinical decision support
+· Achieved 88% accuracy in medical text classification and 92% precision in entity recognition
+· Published research findings in healthcare AI conferences and journals
+
+CERTIFICATIONS
+AWS Certified Machine Learning - Specialty
+Google Cloud Professional Machine Learning Engineer
+HIPAA Compliance Certification
+Healthcare Data Analytics Certification
+
+EDUCATION
+Bachelor of Science in Computer Science
+Indiana University, Indianapolis, IN    2013-2017

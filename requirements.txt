@@ -6,7 +6,6 @@ streamlit
 langchain 
 langchain_community
 pypdf
-
 python-docx
 docx2pdf
 beautifulsoup4
@@ -14,5 +13,3 @@ requests
 pdfplumber
 python-dotenv
 pypandoc
-streamlit
-langchain_community
