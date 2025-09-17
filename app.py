@@ -311,17 +311,41 @@ def render_resume_builder(api_key):
 
     option = st.selectbox(
         "Select Resume Type:",
-        options=["M", "H", "R", "A", "M_Mikus"],
-        format_func=lambda x: f"Option {x}"  # Display options as "Option M", "Option H", etc.
+        options=["J", "B", "D"],
+        format_func=lambda x: {
+            "J": "John Thomason (insoftai, coreweave, kensho, dana scott design)",
+            "B": "Bobby Estes (Fingent, TravelPerk, Voyage Privé, Amazon)",
+            "D": "Davante Bonham (Fingent, Sigma AI, Kensho, Amazon.com)"
+        }.get(x, f"Option {x}")
     )
 
     # Map options to resume paths
     resume_paths = {
-        "M": "resume_builder/demo_resume/m_resume.txt",
-        "H": "resume_builder/demo_resume/h_resume.txt",
-        "R": "resume_builder/demo_resume/r_resume.txt",
-        "A": "resume_builder/demo_resume/a_resume.txt",
-        "M_Mikus": "resume_builder/demo_resume/m_m_resume.txt"
+        "J": "resume_builder/demo_resume/m_resume.txt",
+        "B": "resume_builder/demo_resume/h_resume.txt",  # Bobby Estes
+        "D": "resume_builder/demo_resume/r_resume.txt"   # Davante Bonham
+    }
+    
+    # Company lists for specific resume types
+    company_lists = {
+        "J": [  # John Thomason companies
+            "InsoftAI",
+            "CoreWeave", 
+            "Kensho Technologies",
+            "Dana Scott Design"
+        ],
+        "B": [  # Bobby Estes companies
+            "Fingent",
+            "TravelPerk", 
+            "Voyage Privé",
+            "Amazon"
+        ],
+        "D": [  # Davante Bonham companies
+            "Fingent",
+            "Sigma AI",
+            "Kensho Technologies", 
+            "Amazon.com"
+        ]
     }
 
     # Get the selected resume path
@@ -387,9 +411,25 @@ def render_resume_builder(api_key):
             with st.spinner("🤖 Generating optimized resume..."):
                 from config import easy_generate_prompt, projects_txt
                 
+                # Get specific company list for the selected resume type
+                specific_companies = company_lists.get(option, [])
+                companies_text = "\n".join([f"- {company}" for company in specific_companies]) if specific_companies else ""
+                
+                # Create enhanced prompt with specific companies and styling
+                styling_instructions = """
+                
+🎨 STYLING REQUIREMENTS:
+- Format company names with blue color: <span style="color: #0066cc; font-weight: bold;">Company Name</span>
+- Format job titles with blue color: <span style="color: #0066cc; font-weight: bold;">Job Title</span>
+- Use HTML formatting for better visual presentation
+- Example: <span style="color: #0066cc; font-weight: bold;">Kensho Technologies</span>, <span style="color: #0066cc; font-weight: bold;">Senior ML Engineer</span>
+"""
+                
+                enhanced_prompt = easy_generate_prompt + f"\n\nIMPORTANT: Use these specific companies in the experience section: {companies_text}" + styling_instructions
+                
                 message = [
                     {"role": "system", "content": "You are resume builder"},
-                    {"role": "user", "content": easy_generate_prompt.format(tech_context=context, target_job_description=job_description, resume_txt=resume_txt, 
+                    {"role": "user", "content": enhanced_prompt.format(tech_context=context, target_job_description=job_description, resume_txt=resume_txt, 
                     projects=projects_txt, 
                     extracted_tech_stacks=skills_txt)}
                 ]
@@ -433,6 +473,11 @@ def render_resume_builder(api_key):
             st.session_state.generated_resume = response
             st.session_state.original_resume = resume_txt
             st.session_state.job_description = job_description
+            
+            # Display the generated resume with HTML styling
+            st.markdown("---")
+            st.subheader("📄 Generated Resume")
+            st.markdown(response, unsafe_allow_html=True)
 
         except Exception as e:
             st.error(f"❌ An error occurred during resume generation: {str(e)}")
@@ -450,9 +495,25 @@ def render_resume_builder(api_key):
                     with st.spinner("🔄 Generating enhanced resume with improved detail and job alignment..."):
                         from config import resume_regeneration_prompt, projects_txt
                         
+                        # Get specific company list for the selected resume type
+                        specific_companies = company_lists.get(option, [])
+                        companies_text = "\n".join([f"- {company}" for company in specific_companies]) if specific_companies else ""
+                        
+                        # Create enhanced prompt with specific companies and styling
+                        styling_instructions = """
+                        
+🎨 STYLING REQUIREMENTS:
+- Format company names with blue color: <span style="color: #0066cc; font-weight: bold;">Company Name</span>
+- Format job titles with blue color: <span style="color: #0066cc; font-weight: bold;">Job Title</span>
+- Use HTML formatting for better visual presentation
+- Example: <span style="color: #0066cc; font-weight: bold;">Kensho Technologies</span>, <span style="color: #0066cc; font-weight: bold;">Senior ML Engineer</span>
+"""
+                        
+                        enhanced_regeneration_prompt = resume_regeneration_prompt + f"\n\nIMPORTANT: Use these specific companies in the experience section: {companies_text}" + styling_instructions
+                        
                         message = [
                             {"role": "system", "content": "You are an expert resume enhancement specialist"},
-                            {"role": "user", "content": resume_regeneration_prompt.format(
+                            {"role": "user", "content": enhanced_regeneration_prompt.format(
                                 previous_resume=st.session_state.generated_resume,
                                 original_resume=st.session_state.original_resume,
                                 target_job_description=st.session_state.job_description,
@@ -492,6 +553,11 @@ def render_resume_builder(api_key):
                     
                     st.success("🎉 Enhanced resume generated successfully!")
                     st.info("📄 The enhanced resume includes more detailed experience descriptions, better job alignment, and comprehensive technical coverage.")
+                    
+                    # Display the enhanced resume with HTML styling
+                    st.markdown("---")
+                    st.subheader("📄 Enhanced Resume")
+                    st.markdown(enhanced_response, unsafe_allow_html=True)
                     
                 except Exception as e:
                     st.error(f"❌ An error occurred during enhanced resume generation: {str(e)}")
