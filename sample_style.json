@@ -1,0 +1,24 @@
+{
+  "page_size": {
+    "width": 612.0,
+    "height": 792.0
+  },
+  "margins": {
+    "top": 0.7098432404992584,
+    "bottom": 0.9390042317081553,
+    "left": 1.0236002177666557,
+    "right": 1.0236130047911383
+  },
+  "font_name": "ourceSansPro-Regular",
+  "font_size": 14.903474334771916,
+  "line_spacing": 14.0,
+  "text_color": {
+    "type": "rgb",
+    "r": 0.0,
+    "g": 0.0,
+    "b": 0.0
+  },
+  "alignment": "left",
+  "bold": false,
+  "italic": false
+}

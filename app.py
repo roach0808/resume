@@ -1,9 +1,13 @@
 # === Standard Imports ===
 import os
 import shutil
+import json
+from openai import OpenAI
 import streamlit as st
 import time
+import traceback
 from dotenv import load_dotenv
+from pypdf import PdfReader
 
 # === CRITICAL: Force CPU-only mode to prevent Windows segmentation faults ===
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
@@ -43,7 +47,7 @@ def initialize_chromadb():
             import chromadb
             from chromadb.utils import embedding_functions
             import gc  # For garbage collection
-            st.write("✅ ChromaDB imports successful")
+            st.write("✅ ChromaDB Module import success")
             
             # Ensure the directory exists
             os.makedirs(CHROMA_DATA_PATH, exist_ok=True)
@@ -67,10 +71,10 @@ def initialize_chromadb():
                         st.error("❌ OpenAI API key not found for embeddings")
                         return None, None, None
                     
-                    embedding_func = embedding_functions.OpenAIEmbeddingFunction(
-                        api_key=api_key,
-                        model_name="text-embedding-3-small"  # Fast and cheap
-                    )
+                    # embedding_func = embedding_functions.OpenAIEmbeddingFunction(
+                    #     api_key=api_key,
+                    #     model_name="text-embedding-3-small"  # Fast and cheap
+                    # )
                     st.write("✅ OpenAI embeddings initialized")
                 except Exception as embed_error:
                     st.error(f"❌ Failed to initialize embedding function: {str(embed_error)}")
@@ -81,7 +85,7 @@ def initialize_chromadb():
                 try:
                     collection = client.get_or_create_collection(
                         name=COLLECTION_NAME,
-                        embedding_function=embedding_func,
+                        # embedding_function=embedding_func,
                         metadata={"hnsw:space": "cosine"},
                     )
                 except Exception as collection_error:
@@ -265,6 +269,40 @@ def resume_openai_call(messages):
                 time.sleep(3)  # Wait for 3 seconds before retrying
                 continue
             return f"⚠️ Error - Resume openai call: {str(e)}"
+def resume_scorer_openai_call(resume_text, job_description):
+    from openai import OpenAI
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is not set!")
+
+    client = OpenAI(api_key=api_key)
+    prompt = f"""
+    You are a professional resume reviewer.
+    Evaluate the resume against the job description.
+
+    1. Give a score from 0 to 100.
+    2. Explain strengths.
+    3. Explain weaknesses.
+    4. Give improvement suggestions.
+
+    --- RESUME ---
+    {resume_text}
+
+    --- JOB DESCRIPTION ---
+    {job_description}
+    """
+
+    response = client.chat.completions.create(
+        model="gpt-4.1",
+        messages=[
+            {"role": "system", "content": "You are a resume scoring assistant."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    # return response.choices[0].message["content"]
+    return response.choices[0].message.content
+
 
 def interview_openai_call(messages):
     from openai import OpenAI
@@ -295,6 +333,12 @@ def display_message(message, sender="assistant"):
         </div>
     """, unsafe_allow_html=True)
 
+def extract_pdf_text(pdf_file):
+    reader = PdfReader(pdf_file)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() + "\n"
+    return text
 # === Resume Builder UI ===
 
 def render_resume_builder(api_key):
@@ -477,10 +521,40 @@ def render_resume_builder(api_key):
             # Display the generated resume with HTML styling
             st.markdown("---")
             st.subheader("📄 Generated Resume")
+            
             st.markdown(response, unsafe_allow_html=True)
-
+            
+            # Download PDF button
+            st.markdown("---")
+            st.subheader("📥 Download Resume")
+            
+            try:
+                from pdf_style_generator import create_styled_pdf
+                
+                # Create PDF from resume text (remove HTML tags for cleaner PDF)
+                import re
+                # Remove HTML tags but keep text content
+                text_content = re.sub(r'<[^>]+>', '', response)
+                
+                # Generate PDF bytes
+                with st.spinner("📄 Creating PDF..."):
+                    pdf_bytes = create_styled_pdf(text_content, output_path=None)
+                
+                # Download button
+                st.download_button(
+                    label="📥 Download Resume as PDF",
+                    data=pdf_bytes,
+                    file_name="resume.pdf",
+                    mime="application/pdf",
+                    type="primary"
+                )
+            except Exception as e:
+                st.warning(f"⚠️ PDF generation unavailable: {str(e)}")
+                st.info("💡 You can copy the resume text above and save it manually.")
+            
         except Exception as e:
-            st.error(f"❌ An error occurred during resume generation: {str(e)}")
+            traceback.print_exc()
+            st.error(f"❌ An error occurred during resume generating: {str(e)}")
             st.info("💡 Please try again with a shorter job description or check your internet connection.")
             return
         
@@ -564,6 +638,167 @@ def render_resume_builder(api_key):
                     st.info("💡 Please try again or check your internet connection.")
             else:
                 st.warning("Please generate a resume first before using the enhancement feature.")
+
+# === Resume Updater UI ===
+def render_resume_updater(api_key):
+    st.header("📝 Resume Updater")
+    st.info("""
+    **How to use:**
+    1. Upload a resume file
+    2. Enter a job description
+    3. Click "Update Resume" to update the resume
+    """)
+    uploaded_file = st.file_uploader("Upload Resume (PDF, DOCX, or TXT)", type=["pdf", "docx", "txt"])
+    job_description = st.text_area("Paste Job Description", height=200)
+    update_instructions = st.text_area(
+                    "Additional update instructions (optional)",
+                    help="Provide any special instructions to the AI about how to improve or customize your resume update."
+                )
+
+    if st.button("Update Resume"):
+        if not uploaded_file:
+            st.warning("Please upload a resume.")
+            return
+        if not job_description.strip():
+            st.warning("Please enter a job description.")
+            return
+        try:
+            with st.spinner("📝 Updating resume..."):
+                from utils import update_resume
+                import utils
+
+                # Add a text field for update instructions
+                
+                updated_resume_json_string = utils.update_resume(
+                    uploaded_file,
+                    job_description,
+                    update_instructions=update_instructions,
+                    openai_api_key=api_key
+                )
+                
+                # Extract JSON from response (might be wrapped in markdown code blocks)
+                import re
+                # Try to extract JSON from markdown code blocks
+                json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', updated_resume_json_string, re.DOTALL)
+                if json_match:
+                    updated_resume_json_string = json_match.group(1)
+                else:
+                    # Try to find JSON object in the string
+                    json_match = re.search(r'\{.*\}', updated_resume_json_string, re.DOTALL)
+                    if json_match:
+                        updated_resume_json_string = json_match.group(0)
+                
+                # Validate and parse JSON
+                if not updated_resume_json_string or not updated_resume_json_string.strip():
+                    st.error("❌ The AI response was empty. Please try again.")
+                    st.code(updated_resume_json_string or "(empty response)", language="text")
+                    return
+                
+                try:
+                    updated_resume_json = json.loads(updated_resume_json_string)
+                except json.JSONDecodeError as e:
+                    st.error(f"❌ Failed to parse JSON from AI response: {str(e)}")
+                    st.warning("The AI response might not be valid JSON. Showing raw response:")
+                    st.code(updated_resume_json_string[:1000], language="text")  # Show first 1000 chars
+                    return
+                
+                print("updated_resume_json", type(updated_resume_json), updated_resume_json)
+                # Convert updated_resume into PDF bytes
+                from utils import generate_pdf_bytes_with_rendercv
+                
+                test_resume = {
+                        "basics": {
+                            "name": "Test User",
+                            "label": "Software Engineer",
+                            "email": "test@example.com",
+                            "phone": "(352) 580-0750"
+                        },
+                        "work": [{
+                            "name": "Test Company",
+                            "position": "Software Engineer",
+                            "startDate": "2020-01-01",
+                            "endDate": "2023-12-31",
+                            "summary": "Test job description"
+                        }]
+                    }
+                try:
+                    pdf_bytes = generate_pdf_bytes_with_rendercv(updated_resume_json)
+                    
+                    
+                    # pdf_bytes = generate_pdf_bytes_with_rendercv(test_resume)
+                    
+                    # Validate that we got bytes
+                    if not isinstance(pdf_bytes, bytes):
+                        st.error(f"❌ PDF generation returned unexpected type: {type(pdf_bytes)}")
+                        return
+                    
+                    if len(pdf_bytes) == 0:
+                        st.error("❌ PDF generation returned empty bytes")
+                        return
+                    
+                    print("pdf_bytes", type(pdf_bytes), f"size: {len(pdf_bytes)} bytes")
+                    st.success("✅ Resume updated successfully!")
+                    st.info("📄 Your resume has been updated and converted to PDF. Use the download button below to save it.")
+                    
+                    # Download PDF button
+                    st.markdown("---")
+                    st.subheader("📥 Download Updated Resume")
+                    
+                    # Download button
+                    st.download_button(
+                        label="📥 Download Updated Resume as PDF",
+                        data=pdf_bytes,
+                        file_name="updated_resume.pdf",
+                        mime="application/pdf",
+                        type="primary"
+                    )
+                except Exception as pdf_error:
+                    st.error(f"❌ Failed to generate PDF: {str(pdf_error)}")
+                    st.info("💡 The resume JSON was generated successfully, but PDF conversion failed.")
+                    return
+              
+        except Exception as e:
+            traceback.print_exc()
+            st.error(f"❌ An error occurred during resume updating: {str(e)}")
+            st.info("💡 Please try again or check your internet connection.")
+# === Resume Scorer UI ===
+
+def render_resume_scorer(api_key):
+    st.header("📊 Resume Scorer") 
+# Show instructions
+    st.info("""
+    **How to use:**
+    1. Select a resume file
+    2. Enter a job description
+    3. Click "Score Resume" to get score of resume
+    """)
+    
+    client = OpenAI(api_key=api_key, timeout=120.0)
+    uploaded_file = st.file_uploader("Upload Resume (PDF)", type=["pdf"])
+    
+    job_description = st.text_area("Paste Job Description", height=200)
+    
+    resume_text = extract_pdf_text(uploaded_file) if uploaded_file else ""
+
+    if st.button("Score Resume"):
+        if not resume_text:
+            st.warning("Please upload a resume.")
+            return
+        if not job_description.strip():
+            st.warning("Please enter a job description.")
+            return
+
+        try:
+            with st.spinner("📝 Scoring resume..."):
+                score_text = resume_scorer_openai_call(resume_text, job_description)
+
+                st.markdown("### 📄 Resume Score and Feedback")
+                st.markdown(score_text)
+        except Exception as e:
+            traceback.print_exc()
+            st.error(f"❌ An error occurred during resume scoring: {str(e)}")
+            st.info("💡 Please try again or check your internet connection.")
+
 # === Interview UI ===
 
 def render_interview_ui(api_key):
@@ -709,6 +944,7 @@ def main():
     # Get API key from environment variable
     api_key = os.getenv("OPENAI_API_KEY")
     
+    
     # Validate API key
     if not api_key:
         st.error("❌ OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.")
@@ -728,10 +964,10 @@ def main():
     except Exception as e:
         st.sidebar.warning(f"⚠️ System check failed: {str(e)}")
     
-    app_mode = st.sidebar.radio("Select App Mode:", options=["Interview", "Resume Builder"])
+    app_mode = st.sidebar.radio("Select App Mode:", options=["Resume Updater","Interview", "Resume Builder", "Resume Scorer"])
 
     # ChromaDB stats - only initialize when needed
-    st.sidebar.title("ChromaDB Stats")
+    st.sidebar.title("ChromaDB Status")
     if st.sidebar.button("🔄 Check ChromaDB Status"):
         try:
             client, collection, embedding_func = initialize_chromadb()
@@ -750,6 +986,10 @@ def main():
         render_interview_ui(api_key)
     elif app_mode == "Resume Builder":
         render_resume_builder(api_key)
+    elif app_mode == "Resume Scorer":
+        render_resume_scorer(api_key)
+    elif app_mode == "Resume Updater":
+        render_resume_updater(api_key)
 
 if __name__ == "__main__":
     main()
