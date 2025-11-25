@@ -664,68 +664,114 @@ def render_resume_updater(api_key):
             return
         try:
             with st.spinner("📝 Updating resume..."):
-                from utils import update_resume
+                from utils import update_resume, generate_pdf_bytes_from_yaml
                 import utils
 
                 # Add a text field for update instructions
                 
-                updated_resume_json_string = utils.update_resume(
+                ai_response_string = utils.update_resume(
                     uploaded_file,
                     job_description,
                     update_instructions=update_instructions,
                     openai_api_key=api_key
                 )
                 
-                # Extract JSON from response (might be wrapped in markdown code blocks)
+                # Extract Python dict string from AI response (might be wrapped in markdown code blocks)
                 import re
-                # Try to extract JSON from markdown code blocks
-                json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', updated_resume_json_string, re.DOTALL)
-                if json_match:
-                    updated_resume_json_string = json_match.group(1)
-                else:
-                    # Try to find JSON object in the string
-                    json_match = re.search(r'\{.*\}', updated_resume_json_string, re.DOTALL)
-                    if json_match:
-                        updated_resume_json_string = json_match.group(0)
+                import ast
                 
-                # Validate and parse JSON
-                if not updated_resume_json_string or not updated_resume_json_string.strip():
-                    st.error("❌ The AI response was empty. Please try again.")
-                    st.code(updated_resume_json_string or "(empty response)", language="text")
-                    return
+                # Try to extract Python dict from markdown code blocks (python or no language specified)
+                # code_block_match = re.search(r'```(?:python)?\s*(\{.*?\})\s*```', ai_response_string, re.DOTALL)
+                # print('ai_response_string', ai_response_string)
+                # if code_block_match:
+                #     dict_string = code_block_match.group(1)
+                # else:
+                #     # Try to find Python dict object in the string
+                #     dict_match = re.search(r'\{.*\}', ai_response_string, re.DOTALL)
+                #     if dict_match:
+                #         dict_string = dict_match.group(0)
+                #     else:
+                #         dict_string = ai_response_string
                 
-                try:
-                    updated_resume_json = json.loads(updated_resume_json_string)
-                except json.JSONDecodeError as e:
-                    st.error(f"❌ Failed to parse JSON from AI response: {str(e)}")
-                    st.warning("The AI response might not be valid JSON. Showing raw response:")
-                    st.code(updated_resume_json_string[:1000], language="text")  # Show first 1000 chars
-                    return
+                # # Validate that we have something to parse
+                # if not dict_string or not dict_string.strip():
+                #     st.error("❌ The AI response was empty. Please try again.")
+                #     st.code(ai_response_string or "(empty response)", language="text")
+                #     return
                 
-                print("updated_resume_json", type(updated_resume_json), updated_resume_json)
-                # Convert updated_resume into PDF bytes
+                # Parse as Python dict only (not JSON)
+                # updated_resume_python_dict = None
+                # try:
+                #     # Parse as Python dict literal (handles single/double quotes, Python syntax)
+                #     print("dict_string", dict_string)
+                #     updated_resume_python_dict = ast.literal_eval(dict_string)
+                #     print("updated_resume_python_dict", updated_resume_python_dict)
+                # except ValueError as e:
+                #     # ValueError: malformed node or string (e.g., invalid literal)
+                #     error_msg = str(e)
+                #     error_type = type(e).__name__
+                #     st.error(f"❌ Failed to parse Python dict from AI response: {error_type}")
+                #     st.error(f"   Error details: {error_msg}")
+                #     st.warning("The AI response contains invalid Python literal syntax.")
+                #     st.info("Common issues: invalid number formats, unescaped quotes, or unsupported literal types.")
+                #     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
+                #     print(f"❌ ast.literal_eval ValueError: {error_msg}")
+                #     print(f"   Error type: {error_type}")
+                #     print(f"   Dict string length: {len(dict_string)}")
+                #     print(f"   Dict string preview: {dict_string[:500]}")
+                #     return
+                # except SyntaxError as e:
+                #     # SyntaxError: invalid Python syntax
+                #     error_msg = str(e)
+                #     error_type = type(e).__name__
+                #     error_line = getattr(e, 'lineno', 'unknown')
+                #     error_offset = getattr(e, 'offset', 'unknown')
+                #     error_text = getattr(e, 'text', 'unknown')
+                #     st.error(f"❌ Failed to parse Python dict from AI response: {error_type}")
+                #     st.error(f"   Error details: {error_msg}")
+                #     st.error(f"   Line: {error_line}, Offset: {error_offset}")
+                #     if error_text:
+                #         st.error(f"   Problematic line: {error_text.strip()}")
+                #     st.warning("The AI response contains invalid Python syntax.")
+                #     st.info("Common issues: missing quotes, unmatched brackets, trailing commas, or invalid characters.")
+                #     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
+                #     print(f"❌ ast.literal_eval SyntaxError: {error_msg}")
+                #     print(f"   Error type: {error_type}")
+                #     print(f"   Line: {error_line}, Offset: {error_offset}")
+                #     print(f"   Problematic text: {error_text}")
+                #     print(f"   Dict string length: {len(dict_string)}")
+                #     print(f"   Dict string preview: {dict_string[:500]}")
+                #     return
+                # except Exception as e:
+                #     # Catch any other unexpected errors
+                #     error_msg = str(e)
+                #     error_type = type(e).__name__
+                #     st.error(f"❌ Unexpected error while parsing Python dict: {error_type}")
+                #     st.error(f"   Error details: {error_msg}")
+                #     st.warning("An unexpected error occurred while parsing the AI response.")
+                #     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
+                #     print(f"❌ ast.literal_eval unexpected error: {error_type}: {error_msg}")
+                #     print(f"   Dict string length: {len(dict_string)}")
+                #     print(f"   Dict string preview: {dict_string[:500]}")
+                #     import traceback
+                #     print(f"   Full traceback:\n{traceback.format_exc()}")
+                #     return
+                
+                # Ensure we got a dict
+                # if not isinstance(updated_resume_python_dict, dict):
+                #     st.error(f"❌ Parsed response is not a dictionary. Got type: {type(updated_resume_python_dict)}")
+                #     st.code(str(updated_resume_python_dict)[:1000], language="text")
+                #     return
+                
+                # print("updated_resume_python_dict", type(updated_resume_python_dict), updated_resume_python_dict)
+                
+                # Convert Python dict to PDF bytes (function expects Python dict, not JSON)
                 from utils import generate_pdf_bytes_with_rendercv
                 
-                test_resume = {
-                        "basics": {
-                            "name": "Test User",
-                            "label": "Software Engineer",
-                            "email": "test@example.com",
-                            "phone": "(352) 580-0750"
-                        },
-                        "work": [{
-                            "name": "Test Company",
-                            "position": "Software Engineer",
-                            "startDate": "2020-01-01",
-                            "endDate": "2023-12-31",
-                            "summary": "Test job description"
-                        }]
-                    }
                 try:
-                    pdf_bytes = generate_pdf_bytes_with_rendercv(updated_resume_json)
-                    
-                    
-                    # pdf_bytes = generate_pdf_bytes_with_rendercv(test_resume)
+                    # Pass Python dict (not JSON string) to the function
+                    # pdf_bytes = generate_pdf_bytes_with_rendercv(updated_resume_python_dict)
+                    pdf_bytes = generate_pdf_bytes_from_yaml(ai_response_string)
                     
                     # Validate that we got bytes
                     if not isinstance(pdf_bytes, bytes):
@@ -758,7 +804,7 @@ def render_resume_updater(api_key):
                     return
               
         except Exception as e:
-            traceback.print_exc()
+            # traceback.print_exc()
             st.error(f"❌ An error occurred during resume updating: {str(e)}")
             st.info("💡 Please try again or check your internet connection.")
 # === Resume Scorer UI ===

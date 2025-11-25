@@ -13,3 +13,5 @@ requests
 pdfplumber
 python-dotenv
 pypandoc
+rendercv
+reportlab

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  interview-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: interview-bot
+    ports:
+      - "8501:8501"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=""
+      - TOKENIZERS_PARALLELISM=false
+    volumes:
+      # Persist ChromaDB data
+      - ./chroma_data:/app/chroma_data
+      # Persist temp PDFs (optional)
+      - ./temp_pdfs:/app/temp_pdfs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+

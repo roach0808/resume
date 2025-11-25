@@ -40,7 +40,157 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
     system_prompt = (
         "You are an expert resume writer. Update and optimize the following resume to best align it to the provided job description."
         " Expand, rewrite, or rephrase experience and skills as needed, highlighting relevant qualifications and keywords from the job description."
-        "\n\nIMPORTANT: You MUST return ONLY valid JSON following the JSON Resume Schema (https://jsonresume.org/schema)."
+        '''\n\nIMPORTANT:You must generate resume data strictly following the RenderCV resume schema below.
+            DO NOT use JSON Resume schema.
+            DO NOT add extra fields not listed.
+
+            Output format must be valid YAML that RenderCV can validate and render.
+            Follow the structure exactly.
+
+            --- BEGIN RENDERCV SCHEMA ---
+           {"cv": {
+                "name": "string",
+                "email": "string",
+                "phone": "string",
+                "location": "string",
+                "label": "string (job title or similar)",
+                "summary": "string (a paragraph)",
+                "website": "string (optional)",
+                "social_networks": [
+                {
+                    "network": "string",
+                    "username": "string",
+                    "url": "string (optional)"
+                }
+                ],
+                "sections": {
+                "experience": [
+                    {
+                    "company": "string",
+                    "position": "string",
+                    "location": "string",
+                    "start_date": "string (YYYY-MM)",
+                    "end_date": "string (YYYY-MM or 'Present')",
+                    "highlights": [
+                        "string (highlight 1)",
+                        "string (highlight 2)"
+                    ]
+                    }
+                ],
+                "education": [
+                    {
+                    "institution": "string",
+                    "studyType": "string (e.g., B.Sc., M.Sc.)",
+                    "area": "string",
+                    "start_date": "string (YYYY-MM)",
+                    "end_date": "string (YYYY-MM)",
+                    "highlights": [
+                        "string (highlight 1)"
+                    ]
+                    }
+                ],
+                "skills": [
+                    {
+                    "name": "string"
+                    }
+                ],
+                "certifications": [
+                    {
+                    "name": "string",
+                    "issuer": "string",
+                    "date": "string (YYYY-MM)"
+                    }
+                ],
+                "publications": [
+                    {
+                    "title": "string",
+                    "journal": "string",
+                    "year": "string (YYYY)",
+                    "url": "string (optional)"
+                    }
+                ]
+                },
+                "__yaml_key_order__": "optional internal field (not required)"
+            }
+            }
+            --- END RENDERCV SCHEMA ---
+
+            Here is an example of a fully valid RenderCV resume:
+            --- BEGIN EXAMPLE ---
+           cv:
+            name: Jane Doe
+            email: jane.doe@example.com
+            phone: "+1‑555‑123‑4567"
+            location: San Francisco, CA, USA
+            label: Senior Software Engineer
+            summary: |
+                Senior Software Engineer with over 12 years of experience
+                building scalable web and AI solutions. Passionate about
+                efficient architectures and mentoring engineering teams.
+            website: https://janedoe.dev
+            social_networks:
+                - network: LinkedIn
+                username: janedoe
+                url: https://linkedin.com/in/janedoe
+                - network: GitHub
+                username: janedoe
+                url: https://github.com/janedoe
+
+            sections:
+                experience:
+                - company: TechCorp Inc.
+                    position: Lead Backend Engineer
+                    location: New York, NY, USA
+                    start_date: 2021‑06
+                    end_date: Present
+                    highlights:
+                    - Designed microservices architecture handling 10M+ daily requests.
+                    - Led team of 8 engineers across two continents.
+                - company: WebStart LLC
+                    position: Senior Software Engineer
+                    location: Seattle, WA, USA
+                    start_date: 2017‑09
+                    end_date: 2021‑05
+                    highlights:
+                    - Migrated monolith to containerized microservices reducing latency by 40%.
+                    - Introduced CI/CD pipeline improving release speed by 50%.
+
+                education:
+                - institution: University of Example
+                    area: Computer Science
+                    studyType: M.Sc.
+                    start_date: 2014‑09
+                    end_date: 2016‑06
+                    highlights:
+                    - Thesis: “Scalable Machine Learning Systems in the Cloud”
+                - institution: Example College
+                    area: Software Engineering
+                    studyType: B.Sc.
+                    start_date: 2010‑09
+                    end_date: 2014‑06
+
+                skills:
+                - name: Python
+                - name: Go
+                - name: Docker & Kubernetes
+                - name: AWS (EC2, Lambda, SageMaker)
+
+                certifications:
+                - name: AWS Certified Solutions Architect – Professional
+                    issuer: Amazon Web Services
+                    date: 2022‑11
+                - name: Certified Kubernetes Administrator (CKA)
+                    issuer: Cloud Native Computing Foundation
+                    date: 2023‑04
+
+                publications:
+                - title: “Scaling Web Services with Serverless Architecture”
+                    journal: WebTech Journal
+                    year: 2023
+                    url: https://example.com/publication1
+            --- END EXAMPLE ---
+        '''
+        "if something is not mentioned in the job description, make it None, not null."
         " Do NOT include any markdown code blocks, explanations, or other text. Return ONLY the raw JSON object starting with '{' and ending with '}'."
     )
     if update_instructions:
@@ -1158,231 +1308,164 @@ def _create_fallback_pdf(resume_data: Dict) -> bytes:
         return minimal_pdf
 
 
-def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic') -> bytes:
+def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', tmp_dir: Optional[str] = None) -> bytes:
     """
-    Generates PDF bytes from JSON resume data using RenderCV.
+    Generate PDF bytes from resume data using RenderCV.
     
     Args:
-        resume_data (dict): The resume data as a Python dictionary following JSON Resume schema.
-        theme (str): The theme to use for rendering (default: 'classic').
+        resume_data: Resume data as a Python dictionary (RenderCV format)
+        theme: Theme name for the PDF (default: 'classic')
+        tmp_dir: Optional custom temporary directory path. If None, uses current working directory / "temp_pdfs"
     
     Returns:
-        bytes: The PDF content as a byte string.
+        PDF bytes
     
     Raises:
-        RuntimeError: If RenderCV is unavailable or PDF generation fails.
+        RuntimeError: If PDF generation fails
     """
-    if not isinstance(resume_data, dict):
-        raise RuntimeError("`resume_data` must be a dict.")
+    from rendercv import create_a_pdf_from_a_python_dictionary, data, api
+    from pathlib import Path
+    import tempfile
+    import os
     
-    try:
-        from rendercv import create_a_pdf_from_a_python_dictionary
-        from pathlib import Path
-        import tempfile
-        import os
-        import shutil
-        import subprocess
-    except ImportError as exc:
-        raise RuntimeError(
-            "RenderCV is required. Install it with `pip install rendercv`."
-        ) from exc
+    # Prepare the data with design theme
+    rendercv_data = resume_data.copy()
+    if "design" not in rendercv_data:
+        rendercv_data["design"] = {}
+    rendercv_data["design"]["theme"] = theme
     
-    # Check if Typst is installed (required by RenderCV)
-    typst_available = False
-    try:
-        result = subprocess.run(
-            ["typst", "--version"],
-            capture_output=True,
-            check=True,
-            timeout=5
-        )
-        typst_available = True
-        print(f"✓ Typst is available: {result.stdout.decode().strip()}")
-    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired) as e:
-        # Typst not found - this will be caught by RenderCV's own checks,
-        # but we provide a helpful message if we detect it early
-        print(f"⚠️ Typst check failed: {e}")
-        typst_available = False
+    # Determine temporary directory location
+    if tmp_dir is None:
+        # Default to temp_pdfs in current working directory
+        tmp_dir = Path.cwd() / "temp_pdfs"
+    else:
+        tmp_dir = Path(tmp_dir)
     
-    try:
-        print("resume_data : before validation and cleaning", resume_data)
-        # Validate and clean input data first - remove invalid fields
-        validated_resume_data = _validate_and_clean_resume_data(resume_data)
-        
-        # Convert JSON Resume format to RenderCV format
-        rendercv_data = _convert_json_resume_to_rendercv_format(validated_resume_data)
-        
-        # Sanitize data to remove invalid values (None, empty strings, etc.)
-        rendercv_data = _sanitize_rendercv_data(rendercv_data)
-        
-        # Use independent validation function to ensure data matches RenderCV's exact requirements
-        rendercv_data = _validate_rendercv_data(rendercv_data)
-        
-        print("rendercv_data : after validation and cleaning", rendercv_data)
-        
-        # Add design settings with theme
-        rendercv_data["design"] = {"theme": theme}
-        
-        # Use a temporary file for PDF output
-        # Create directory in current working directory (CWD)
-        tmp_dir = Path.cwd() / "temp_pdfs"  # Creates temp_pdfs folder in CWD
-        
-        # Create the directory if it doesn't exist
-        tmp_dir.mkdir(parents=True, exist_ok=True)
+    # Create the directory if it doesn't exist
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Create a temporary subdirectory for this PDF generation
+    with tempfile.TemporaryDirectory(dir=tmp_dir) as tmp_subdir:
+        tmp_path = Path(tmp_subdir) / "resume.pdf"
         
         try:
-            # Create Path object in the temp directory with .pdf extension
-            tmp_path = tmp_dir / "resume.pdf"  # tmp_dir is already a Path object
+            yaml = data.generator.dictionary_to_yaml(rendercv_data)
+            # Generate PDF using RenderCV
+            result = api.create_a_pdf_from_a_yaml_string(
+                yaml_file_as_string=yaml,
+                output_file_path=tmp_path
+            )
+            print('result', result)
+            # Check if result indicates validation errors
+            if isinstance(result, list) and len(result) > 0:
+                if isinstance(result[0], dict) and 'loc' in result[0] and 'msg' in result[0]:
+                    error_details = "\n".join([f"  - {err.get('loc')}: {err.get('msg')}" for err in result])
+                    raise RuntimeError(f"RenderCV validation errors:\n{error_details}")
             
-            # Convert to string for display/debugging
-            tmp_path_str = str(tmp_path)
-            
-            # Debug: Print the path being used
-            print(f"Debug: Creating PDF at: {tmp_path_str}")
-            print(f"Debug: Parent directory exists: {tmp_path.parent.exists()}")
-            
-            # Create PDF directly from dictionary
-            try:
-                print(f"Debug: Calling create_a_pdf_from_a_python_dictionary...")
-                print(f"Debug: Output path: {tmp_path_str}")
-                print(f"Debug: Rendercv data keys: {list(rendercv_data.keys()) if isinstance(rendercv_data, dict) else 'Not a dict'}")
-                
-                # Call the function - it expects pathlib.Path, not a string
-                result = create_a_pdf_from_a_python_dictionary(
-                    input_file_as_a_dict=rendercv_data,
-                    output_file_path=tmp_path  # Pass Path object, not string
-                )
-                
-                print(f"Debug: Function returned: {result} (type: {type(result)})")
-                print(f"Debug: File exists immediately after call: {tmp_path.exists()}")
-                
-                # Check if result is a validation error list (list of dicts with 'loc' and 'msg' keys)
-                is_validation_error = (
-                    isinstance(result, list) and 
-                    len(result) > 0 and 
-                    isinstance(result[0], dict) and 
-                    'loc' in result[0] and 
-                    'msg' in result[0]
-                )
-                
-                if is_validation_error:
-                    # RenderCV returned validation errors - use fallback PDF
-                    print(f"⚠️ RenderCV validation errors detected. Using fallback PDF generation.")
-                    for error in result:
-                        print(f"   Error: {error.get('loc')} - {error.get('msg')}")
-                    
-                    # Generate fallback PDF
-                    pdf_bytes = _create_fallback_pdf(resume_data)
-                    return pdf_bytes
-                
-                # Validate that the function succeeded and file was created
-                # The function may return None or fail silently, so we must check file existence
-                if not tmp_path.exists():
-                    # RenderCV failed - use fallback PDF instead of raising error
-                    print(f"⚠️ RenderCV failed to create PDF. Using fallback PDF generation.")
-                    if result is None:
-                        print(f"   Reason: Function returned None (invalid input data or configuration error)")
-                    elif isinstance(result, list) and len(result) == 0:
-                        print(f"   Reason: Function returned empty list (validation errors)")
-                    else:
-                        print(f"   Reason: Function completed but PDF file was not created")
-                    
-                    # Generate fallback PDF
-                    pdf_bytes = _create_fallback_pdf(resume_data)
-                    return pdf_bytes
-                
-            except Exception as pdf_error:
-                # RenderCV raised an exception - use fallback PDF instead of failing
-                import traceback
-                print(f"⚠️ RenderCV PDF creation failed with exception: {pdf_error}")
-                print(f"   Using fallback PDF generation instead.")
-                print(f"   Traceback:\n{traceback.format_exc()}")
-                
-                # Generate fallback PDF
-                pdf_bytes = _create_fallback_pdf(resume_data)
-                return pdf_bytes
-            
-            # Verify the file was created (this check should not be needed if validation above worked)
-            # But if we reach here and file doesn't exist, use fallback
+            # Verify PDF file was created
             if not tmp_path.exists():
-                print(f"⚠️ PDF file not found after RenderCV call. Using fallback PDF generation.")
-                pdf_bytes = _create_fallback_pdf(resume_data)
-                return pdf_bytes
+                raise RuntimeError("RenderCV did not create the output PDF file.")
             
-            # Read the PDF bytes from the file
+            # Read PDF bytes
             with open(tmp_path, 'rb') as f:
                 pdf_bytes = f.read()
             
-            # Validate that we got bytes
-            if not isinstance(pdf_bytes, bytes):
-                print(f"⚠️ Invalid PDF data type: {type(pdf_bytes)}. Using fallback PDF.")
-                pdf_bytes = _create_fallback_pdf(resume_data)
-                return pdf_bytes
+            # Validate PDF bytes
+            if not pdf_bytes or len(pdf_bytes) == 0:
+                raise RuntimeError("Generated PDF file is empty.")
             
-            # Validate that it's not empty
-            if len(pdf_bytes) == 0:
-                print(f"⚠️ PDF file is empty. Using fallback PDF.")
-                pdf_bytes = _create_fallback_pdf(resume_data)
-                return pdf_bytes
-            
-            # Validate PDF header (PDF files start with %PDF)
             if not pdf_bytes.startswith(b'%PDF'):
-                print(f"⚠️ Invalid PDF format (doesn't start with %PDF). Using fallback PDF.")
-                pdf_bytes = _create_fallback_pdf(resume_data)
-                return pdf_bytes
-            
-            # Log success for debugging
-            print(f"✓ PDF generated successfully: {len(pdf_bytes)} bytes")
-            print(f"✓ PDF type: {type(pdf_bytes)}")
-            print(f"✓ PDF starts with: {pdf_bytes[:10]}")
+                raise RuntimeError("Generated file does not appear to be a valid PDF.")
             
             return pdf_bytes
-        finally:
-            # Clean up temporary directory (optional - comment out if you want to keep files)
-            if tmp_dir.exists():
-                try:
-                    shutil.rmtree(tmp_dir)
-                except:
-                    pass
-                    
-    except AttributeError as exc:
-        error_str = str(exc)
-        # Check for specific RenderCV Typst error messages
-        if "_partial_install_error_message" in error_str or "_partial_install_error_message" in error_str:
-            raise RuntimeError(
-                "RenderCV requires Typst to be installed. "
-                "Please install Typst from https://typst.com/docs/getting-started/installing. "
-                "On Windows, you can install it using: winget install Typst.Typst"
-            ) from exc
-        # If Typst is available, this is likely a different AttributeError
-        if typst_available:
-            raise RuntimeError(f"Failed to generate PDF with RenderCV (AttributeError): {error_str}") from exc
-        raise RuntimeError(f"Failed to generate PDF with RenderCV: {error_str}") from exc
-    except Exception as exc:
-        error_msg = str(exc)
-        error_lower = error_msg.lower()
+            
+        except Exception as e:
+            raise RuntimeError(f"Failed to generate PDF with RenderCV: {str(e)}") from e
+
+
+def generate_pdf_bytes_from_yaml(yaml_string: str, theme: str = 'classic', tmp_dir: Optional[str] = None) -> bytes:
+    """
+    Generate PDF bytes from YAML string using RenderCV.
+    
+    Args:
+        yaml_string: Resume data as a YAML string (RenderCV format)
+        theme: Theme name for the PDF (default: 'classic')
+        tmp_dir: Optional custom temporary directory path. If None, uses current working directory / "temp_pdfs"
+    
+    Returns:
+        PDF bytes
+    
+    Raises:
+        RuntimeError: If PDF generation fails
+    """
+    from rendercv import api
+    from pathlib import Path
+    import tempfile
+    import yaml
+    
+    # Parse YAML to add/update theme if needed
+    try:
+        yaml_data = yaml.safe_load(yaml_string)
+        if yaml_data is None:
+            raise ValueError("YAML string is empty or invalid")
         
-        # Only treat as Typst error if:
-        # 1. Typst is NOT available AND
-        # 2. The error specifically mentions Typst or command not found
-        is_typst_error = (
-            not typst_available and 
-            (
-                "typst" in error_lower or 
-                ("not found" in error_lower and ("command" in error_lower or "executable" in error_lower))
+        # Add or update design theme
+        if "design" not in yaml_data:
+            yaml_data["design"] = {}
+        yaml_data["design"]["theme"] = theme
+        
+        # Convert back to YAML string
+        yaml_string = yaml.dump(yaml_data, default_flow_style=False, allow_unicode=True)
+    except yaml.YAMLError as e:
+        raise ValueError(f"Invalid YAML format: {str(e)}") from e
+    
+    # Determine temporary directory location
+    if tmp_dir is None:
+        # Default to temp_pdfs in current working directory
+        tmp_dir = Path.cwd() / "temp_pdfs"
+    else:
+        tmp_dir = Path(tmp_dir)
+    
+    # Create the directory if it doesn't exist
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Create a temporary subdirectory for this PDF generation
+    with tempfile.TemporaryDirectory(dir=tmp_dir) as tmp_subdir:
+        tmp_path = Path(tmp_subdir) / "resume.pdf"
+        
+        try:
+            # Generate PDF using RenderCV from YAML string
+            result = api.create_a_pdf_from_a_yaml_string(
+                yaml_file_as_string=yaml_string,
+                output_file_path=tmp_path
             )
-        )
-        
-        if is_typst_error:
-            raise RuntimeError(
-                "RenderCV requires Typst to be installed and accessible in PATH. "
-                "Please install Typst from https://typst.com/docs/getting-started/installing. "
-                "On Windows, you can install it using: winget install Typst.Typst. "
-                "After installation, you may need to restart your terminal/IDE for PATH changes to take effect."
-            ) from exc
-        
-        # For other errors, show the actual error message
-        raise RuntimeError(f"Failed to generate PDF with RenderCV: {error_msg}") from exc
+            
+            # Check if result indicates validation errors
+            if isinstance(result, list) and len(result) > 0:
+                if isinstance(result[0], dict) and 'loc' in result[0] and 'msg' in result[0]:
+                    error_details = "\n".join([f"  - {err.get('loc')}: {err.get('msg')}" for err in result])
+                    raise RuntimeError(f"RenderCV validation errors:\n{error_details}")
+            
+            # Verify PDF file was created
+            if not tmp_path.exists():
+                raise RuntimeError("RenderCV did not create the output PDF file.")
+            
+            # Read PDF bytes
+            with open(tmp_path, 'rb') as f:
+                pdf_bytes = f.read()
+            
+            # Validate PDF bytes
+            if not pdf_bytes or len(pdf_bytes) == 0:
+                raise RuntimeError("Generated PDF file is empty.")
+            
+            if not pdf_bytes.startswith(b'%PDF'):
+                raise RuntimeError("Generated file does not appear to be a valid PDF.")
+            
+            return pdf_bytes
+            
+        except Exception as e:
+            raise RuntimeError(f"Failed to generate PDF with RenderCV: {str(e)}") from e
+
 
 def test_generate_pdf_bytes_with_rendercv():
     """
@@ -1443,3 +1526,24 @@ resume_data_rendercv = {
         "company": "Innovate Corp."
     }]
 }
+
+def convert_to_valid_structure(data):
+    if 'cv' in data and 'sections' in data['cv']:
+        sections_dict = data['cv']['sections']
+        
+        # Initialize the list to hold the converted sections
+        valid_sections_list = []
+        
+        # Convert each section to the correct structure
+        for section in sections_dict:
+            if 'name' in section and 'title' in section and 'items' in section:
+                valid_sections_list.append({
+                    'name': section['name'],
+                    'title': section['title'],
+                    'items': section['items']
+                })
+        
+        # Update the original data with the new sections list
+        data['cv']['sections'] = valid_sections_list
+    
+    return data
