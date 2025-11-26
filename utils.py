@@ -50,22 +50,20 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             --- BEGIN RENDERCV SCHEMA ---
            {
                 'cv': {
-                    'basics': {
-                        'name': 'string',
-                        'email': 'string',
-                        'phone': 'string',
-                        'location': 'string',
-                        'label': 'string',  # Job title or similar
-                        'summary': 'string',  # A paragraph summarizing the person
-                        'website': 'string (optional)',
-                        'social_networks': [
-                            {
-                                'network': 'string',  # Example: 'LinkedIn', 'GitHub'
-                                'username': 'string',
-                                'url': 'string (optional)'
-                            }
-                        ]
-                    },
+                    'name': 'string',
+                    'email': 'string',
+                    'phone': 'string',
+                    'location': 'string',
+                    'label': 'string',  # Job title or similar
+                    'summary': 'string',  # A paragraph summarizing the person
+                    'website': 'string (optional)',
+                    'social_networks': [
+                        {
+                            'network': 'string',  # Example: 'LinkedIn', 'GitHub'
+                            'username': 'string',
+                            'url': 'string (optional)'
+                        }
+                    ]
                     'sections': {
                         'experience': [
                             {
@@ -114,14 +112,12 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             --- BEGIN EXAMPLE ---
             {
                 'cv': {
-                    'basics': {
-                        'name': 'Andrew Long',
-                        'email': 'andrewlong0808@gmail.com',
-                        'phone': '(352) 580-0750',
-                        'location': 'Los Angeles, CA',
-                        'label': 'Senior Machine Learning Engineer',
-                        'summary': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.'
-                    },
+                    'name': 'Andrew Long',
+                    'email': 'andrewlong0808@gmail.com',
+                    'phone': '(352) 580-0750',
+                    'location': 'Los Angeles, CA',
+                    'label': 'Senior Machine Learning Engineer',
+                    'summary': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.',
                     'sections': [
                         {
                             'name': 'experience',
@@ -564,9 +560,6 @@ def suppress_flask_warnings():
             sys.stderr = original_stderr
             flask_logger.setLevel(logging.WARNING)
             flask_app_logger.setLevel(logging.WARNING)
-
-
- 
 
 def _normalize_phone_for_rendercv(phone: str) -> str:
     """
@@ -1278,12 +1271,12 @@ def _create_fallback_pdf(resume_data: Dict) -> bytes:
         return minimal_pdf
 
 
-def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', tmp_dir: Optional[str] = None) -> bytes:
+def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'engineeringclassic', tmp_dir: Optional[str] = None) -> bytes:
     """
     Generate PDF bytes from resume data using RenderCV.
     
     Args:
-        resume_data: Resume data as a Python dictionary (RenderCV format or JSON Resume format)
+        resume_data: Resume data as a Python dictionary (RenderCV format)
         theme: Theme name for the PDF (default: 'classic')
         tmp_dir: Optional custom temporary directory path. If None, uses current working directory / "temp_pdfs"
     
@@ -1298,32 +1291,8 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', 
     import tempfile
     import os
     
-    # Check if data is in JSON Resume format (has "basics" key) and convert to RenderCV format
-    if "basics" in resume_data and "cv" not in resume_data:
-        # Convert from JSON Resume format to RenderCV format
-        rendercv_data = _convert_json_resume_to_rendercv_format(resume_data)
-    elif "cv" in resume_data:
-        # Already in RenderCV format
-        rendercv_data = resume_data.copy()
-    else:
-        # Unknown format, try to use as-is but warn
-        rendercv_data = resume_data.copy()
-        if "cv" not in rendercv_data:
-            # Create minimal cv structure if missing
-            rendercv_data["cv"] = {
-                "name": resume_data.get("name", "Resume"),
-                "sections": {}
-            }
-    
-    # Ensure cv section exists and has basic info
-    if "cv" not in rendercv_data:
-        rendercv_data["cv"] = {}
-    
-    # Ensure name exists (required by RenderCV)
-    if not rendercv_data["cv"].get("name"):
-        rendercv_data["cv"]["name"] = resume_data.get("name") or resume_data.get("basics", {}).get("name") or "Resume"
-    
     # Prepare the data with design theme
+    rendercv_data = resume_data.copy()
     if "design" not in rendercv_data:
         rendercv_data["design"] = {}
     rendercv_data["design"]["theme"] = theme
@@ -1343,10 +1312,11 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', 
         tmp_path = Path(tmp_subdir) / "resume.pdf"
         
         try:
-            print('before cleaning', rendercv_data)
+            print('before cleaning======', rendercv_data)
             rendercv_data = clean_sections(rendercv_data)
-            print('after cleaning', rendercv_data)
+            print('after cleaning======', rendercv_data)
             yaml = data.generator.dictionary_to_yaml(rendercv_data)
+            print('yaml======', yaml)
             # Generate PDF using RenderCV
             result = api.create_a_pdf_from_a_yaml_string(
                 yaml_file_as_string=yaml,
@@ -1381,7 +1351,7 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', 
             raise RuntimeError(f"Failed to generate PDF with RenderCV: {str(e)}") from e
 
 
-def generate_pdf_bytes_from_yaml(yaml_string: str, theme: str = 'classic', tmp_dir: Optional[str] = None) -> bytes:
+def generate_pdf_bytes_from_yaml(yaml_string: str, theme: str = 'modern', tmp_dir: Optional[str] = None) -> bytes:
     """
     Generate PDF bytes from YAML string using RenderCV.
     
@@ -1465,54 +1435,6 @@ def generate_pdf_bytes_from_yaml(yaml_string: str, theme: str = 'classic', tmp_d
             raise RuntimeError(f"Failed to generate PDF with RenderCV: {str(e)}") from e
 
 
-def test_generate_pdf_bytes_with_rendercv():
-    """
-    Test function to verify that generate_pdf_bytes_with_rendercv returns bytes.
-    Run this to check if the function works correctly.
-    """
-    test_resume = {
-        "basics": {
-            "name": "Test User",
-            "label": "Software Engineer",
-            "email": "test@gmail.com",
-            "phone": "(352) 580-0750"
-        },
-        "work": [{
-            "name": "Test Company",
-            "position": "Software Engineer",
-            "startDate": "2020-01-01",
-            "endDate": "2023-12-31",
-            "summary": "Test job description"
-        }]
-    }
-    
-    try:
-        result = generate_pdf_bytes_with_rendercv(test_resume)
-        
-        print("\n" + "="*50)
-        print("TEST RESULTS:")
-        print("="*50)
-        print(f"Return type: {type(result)}")
-        print(f"Is bytes: {isinstance(result, bytes)}")
-        print(f"Size: {len(result)} bytes")
-        print(f"First 20 bytes: {result[:20]}")
-        print(f"Starts with %PDF: {result.startswith(b'%PDF')}")
-        print("="*50)
-        
-        if isinstance(result, bytes) and len(result) > 0 and result.startswith(b'%PDF'):
-            print("✓ SUCCESS: Function correctly returns PDF bytes!")
-            return True
-        else:
-            print("✗ FAILED: Function did not return valid PDF bytes!")
-            return False
-            
-    except Exception as e:
-        print(f"\n✗ ERROR: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return False
-
-
 # Example Usage:
 resume_data_rendercv = {
     "about": {
@@ -1549,16 +1471,16 @@ def convert_to_valid_structure(data):
 def clean_sections(cv_dict):
     """
     Clean empty or invalid sections from RenderCV data.
-    Handles both 'sections' and 'sections_input' keys.
+    Normalizes phone numbers to valid RenderCV format.
+    Removes the 'cv' key but keeps its content by moving it to the top level.
+    
+    Args:
+        cv_dict: Dictionary containing CV data with 'cv' key
+    
+    Returns:
+        Dictionary with cleaned sections and 'cv' key removed (content moved to top level)
     """
-    cv = cv_dict.get("cv", {})
-    
-    # Handle both 'sections' and 'sections_input' (RenderCV uses both)
-    sections = cv.get("sections") or cv.get("sections_input", {})
-    
-    if not sections:
-        return cv_dict
-    
+    sections = cv_dict.get("cv", {}).get("sections", {})
     keys_to_remove = []
 
     for section_name, entries in sections.items():
@@ -1568,5 +1490,23 @@ def clean_sections(cv_dict):
 
     for key in keys_to_remove:
         del sections[key]
+    
+    # Normalize phone number to valid format if it exists
+    cv = cv_dict.get("cv", {})
+    if "phone" in cv and cv["phone"]:
+        phone = cv["phone"]
+        if isinstance(phone, str):
+            normalized_phone = _normalize_phone_for_rendercv(phone)
+            if normalized_phone:
+                cv["phone"] = normalized_phone
+            else:
+                # Remove invalid phone number
+                del cv["phone"]
+    
+    # Remove 'cv' key but keep its content by moving it to top level
+    # if "cv" in cv_dict:
+    #     cv_content = cv_dict.pop("cv")
+    #     # Merge cv content into the top level
+    #     cv_dict.update(cv_content)
 
     return cv_dict
