@@ -664,7 +664,7 @@ def render_resume_updater(api_key):
             return
         try:
             with st.spinner("📝 Updating resume..."):
-                from utils import update_resume, generate_pdf_bytes_from_yaml
+                from utils import update_resume
                 import utils
 
                 # Add a text field for update instructions
@@ -681,97 +681,95 @@ def render_resume_updater(api_key):
                 import ast
                 
                 # Try to extract Python dict from markdown code blocks (python or no language specified)
-                # code_block_match = re.search(r'```(?:python)?\s*(\{.*?\})\s*```', ai_response_string, re.DOTALL)
-                # print('ai_response_string', ai_response_string)
-                # if code_block_match:
-                #     dict_string = code_block_match.group(1)
-                # else:
-                #     # Try to find Python dict object in the string
-                #     dict_match = re.search(r'\{.*\}', ai_response_string, re.DOTALL)
-                #     if dict_match:
-                #         dict_string = dict_match.group(0)
-                #     else:
-                #         dict_string = ai_response_string
+                code_block_match = re.search(r'```(?:python)?\s*(\{.*?\})\s*```', ai_response_string, re.DOTALL)
+                if code_block_match:
+                    dict_string = code_block_match.group(1)
+                else:
+                    # Try to find Python dict object in the string
+                    dict_match = re.search(r'\{.*\}', ai_response_string, re.DOTALL)
+                    if dict_match:
+                        dict_string = dict_match.group(0)
+                    else:
+                        dict_string = ai_response_string
                 
-                # # Validate that we have something to parse
-                # if not dict_string or not dict_string.strip():
-                #     st.error("❌ The AI response was empty. Please try again.")
-                #     st.code(ai_response_string or "(empty response)", language="text")
-                #     return
+                # Validate that we have something to parse
+                if not dict_string or not dict_string.strip():
+                    st.error("❌ The AI response was empty. Please try again.")
+                    st.code(ai_response_string or "(empty response)", language="text")
+                    return
                 
                 # Parse as Python dict only (not JSON)
-                # updated_resume_python_dict = None
-                # try:
-                #     # Parse as Python dict literal (handles single/double quotes, Python syntax)
-                #     print("dict_string", dict_string)
-                #     updated_resume_python_dict = ast.literal_eval(dict_string)
-                #     print("updated_resume_python_dict", updated_resume_python_dict)
-                # except ValueError as e:
-                #     # ValueError: malformed node or string (e.g., invalid literal)
-                #     error_msg = str(e)
-                #     error_type = type(e).__name__
-                #     st.error(f"❌ Failed to parse Python dict from AI response: {error_type}")
-                #     st.error(f"   Error details: {error_msg}")
-                #     st.warning("The AI response contains invalid Python literal syntax.")
-                #     st.info("Common issues: invalid number formats, unescaped quotes, or unsupported literal types.")
-                #     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
-                #     print(f"❌ ast.literal_eval ValueError: {error_msg}")
-                #     print(f"   Error type: {error_type}")
-                #     print(f"   Dict string length: {len(dict_string)}")
-                #     print(f"   Dict string preview: {dict_string[:500]}")
-                #     return
-                # except SyntaxError as e:
-                #     # SyntaxError: invalid Python syntax
-                #     error_msg = str(e)
-                #     error_type = type(e).__name__
-                #     error_line = getattr(e, 'lineno', 'unknown')
-                #     error_offset = getattr(e, 'offset', 'unknown')
-                #     error_text = getattr(e, 'text', 'unknown')
-                #     st.error(f"❌ Failed to parse Python dict from AI response: {error_type}")
-                #     st.error(f"   Error details: {error_msg}")
-                #     st.error(f"   Line: {error_line}, Offset: {error_offset}")
-                #     if error_text:
-                #         st.error(f"   Problematic line: {error_text.strip()}")
-                #     st.warning("The AI response contains invalid Python syntax.")
-                #     st.info("Common issues: missing quotes, unmatched brackets, trailing commas, or invalid characters.")
-                #     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
-                #     print(f"❌ ast.literal_eval SyntaxError: {error_msg}")
-                #     print(f"   Error type: {error_type}")
-                #     print(f"   Line: {error_line}, Offset: {error_offset}")
-                #     print(f"   Problematic text: {error_text}")
-                #     print(f"   Dict string length: {len(dict_string)}")
-                #     print(f"   Dict string preview: {dict_string[:500]}")
-                #     return
-                # except Exception as e:
-                #     # Catch any other unexpected errors
-                #     error_msg = str(e)
-                #     error_type = type(e).__name__
-                #     st.error(f"❌ Unexpected error while parsing Python dict: {error_type}")
-                #     st.error(f"   Error details: {error_msg}")
-                #     st.warning("An unexpected error occurred while parsing the AI response.")
-                #     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
-                #     print(f"❌ ast.literal_eval unexpected error: {error_type}: {error_msg}")
-                #     print(f"   Dict string length: {len(dict_string)}")
-                #     print(f"   Dict string preview: {dict_string[:500]}")
-                #     import traceback
-                #     print(f"   Full traceback:\n{traceback.format_exc()}")
-                #     return
+                updated_resume_python_dict = None
+                try:
+                    # Parse as Python dict literal (handles single/double quotes, Python syntax)
+                    print("dict_string", dict_string)
+                    updated_resume_python_dict = ast.literal_eval(dict_string)
+                    print("updated_resume_python_dict", updated_resume_python_dict)
+                except ValueError as e:
+                    # ValueError: malformed node or string (e.g., invalid literal)
+                    error_msg = str(e)
+                    error_type = type(e).__name__
+                    st.error(f"❌ Failed to parse Python dict from AI response: {error_type}")
+                    st.error(f"   Error details: {error_msg}")
+                    st.warning("The AI response contains invalid Python literal syntax.")
+                    st.info("Common issues: invalid number formats, unescaped quotes, or unsupported literal types.")
+                    st.code(dict_string[:1000], language="text")  # Show first 1000 chars
+                    print(f"❌ ast.literal_eval ValueError: {error_msg}")
+                    print(f"   Error type: {error_type}")
+                    print(f"   Dict string length: {len(dict_string)}")
+                    print(f"   Dict string preview: {dict_string[:500]}")
+                    return
+                except SyntaxError as e:
+                    # SyntaxError: invalid Python syntax
+                    error_msg = str(e)
+                    error_type = type(e).__name__
+                    error_line = getattr(e, 'lineno', 'unknown')
+                    error_offset = getattr(e, 'offset', 'unknown')
+                    error_text = getattr(e, 'text', 'unknown')
+                    st.error(f"❌ Failed to parse Python dict from AI response: {error_type}")
+                    st.error(f"   Error details: {error_msg}")
+                    st.error(f"   Line: {error_line}, Offset: {error_offset}")
+                    if error_text:
+                        st.error(f"   Problematic line: {error_text.strip()}")
+                    st.warning("The AI response contains invalid Python syntax.")
+                    st.info("Common issues: missing quotes, unmatched brackets, trailing commas, or invalid characters.")
+                    st.code(dict_string[:1000], language="text")  # Show first 1000 chars
+                    print(f"❌ ast.literal_eval SyntaxError: {error_msg}")
+                    print(f"   Error type: {error_type}")
+                    print(f"   Line: {error_line}, Offset: {error_offset}")
+                    print(f"   Problematic text: {error_text}")
+                    print(f"   Dict string length: {len(dict_string)}")
+                    print(f"   Dict string preview: {dict_string[:500]}")
+                    return
+                except Exception as e:
+                    # Catch any other unexpected errors
+                    error_msg = str(e)
+                    error_type = type(e).__name__
+                    st.error(f"❌ Unexpected error while parsing Python dict: {error_type}")
+                    st.error(f"   Error details: {error_msg}")
+                    st.warning("An unexpected error occurred while parsing the AI response.")
+                    st.code(dict_string[:1000], language="text")  # Show first 1000 chars
+                    print(f"❌ ast.literal_eval unexpected error: {error_type}: {error_msg}")
+                    print(f"   Dict string length: {len(dict_string)}")
+                    print(f"   Dict string preview: {dict_string[:500]}")
+                    import traceback
+                    print(f"   Full traceback:\n{traceback.format_exc()}")
+                    return
                 
                 # Ensure we got a dict
-                # if not isinstance(updated_resume_python_dict, dict):
-                #     st.error(f"❌ Parsed response is not a dictionary. Got type: {type(updated_resume_python_dict)}")
-                #     st.code(str(updated_resume_python_dict)[:1000], language="text")
-                #     return
+                if not isinstance(updated_resume_python_dict, dict):
+                    st.error(f"❌ Parsed response is not a dictionary. Got type: {type(updated_resume_python_dict)}")
+                    st.code(str(updated_resume_python_dict)[:1000], language="text")
+                    return
                 
-                # print("updated_resume_python_dict", type(updated_resume_python_dict), updated_resume_python_dict)
+                print("updated_resume_python_dict", type(updated_resume_python_dict), updated_resume_python_dict)
                 
                 # Convert Python dict to PDF bytes (function expects Python dict, not JSON)
                 from utils import generate_pdf_bytes_with_rendercv
                 
                 try:
                     # Pass Python dict (not JSON string) to the function
-                    # pdf_bytes = generate_pdf_bytes_with_rendercv(updated_resume_python_dict)
-                    pdf_bytes = generate_pdf_bytes_from_yaml(ai_response_string)
+                    pdf_bytes = generate_pdf_bytes_with_rendercv(updated_resume_python_dict)
                     
                     # Validate that we got bytes
                     if not isinstance(pdf_bytes, bytes):

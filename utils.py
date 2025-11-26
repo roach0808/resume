@@ -43,151 +43,121 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         '''\n\nIMPORTANT:You must generate resume data strictly following the RenderCV resume schema below.
             DO NOT use JSON Resume schema.
             DO NOT add extra fields not listed.
-
+            When mentioning about the current company do not use 'Present' for the end date, use 'present' instead.
             Output format must be valid YAML that RenderCV can validate and render.
             Follow the structure exactly.
 
             --- BEGIN RENDERCV SCHEMA ---
-           {"cv": {
-                "name": "string",
-                "email": "string",
-                "phone": "string",
-                "location": "string",
-                "label": "string (job title or similar)",
-                "summary": "string (a paragraph)",
-                "website": "string (optional)",
-                "social_networks": [
-                {
-                    "network": "string",
-                    "username": "string",
-                    "url": "string (optional)"
+           {
+                'cv': {
+                    'basics': {
+                        'name': 'string',
+                        'email': 'string',
+                        'phone': 'string',
+                        'location': 'string',
+                        'label': 'string',  # Job title or similar
+                        'summary': 'string',  # A paragraph summarizing the person
+                        'website': 'string (optional)',
+                        'social_networks': [
+                            {
+                                'network': 'string',  # Example: 'LinkedIn', 'GitHub'
+                                'username': 'string',
+                                'url': 'string (optional)'
+                            }
+                        ]
+                    },
+                    'sections': {
+                        'experience': [
+                            {
+                                'company': 'string',
+                                'position': 'string',
+                                'location': 'string',
+                                'start_date': 'string (YYYY-MM)',  # Example: '2020-01'
+                                'end_date': 'string (YYYY-MM or "Present")',
+                                'highlights': ['string', 'string', 'string']  # List of highlights
+                            }
+                        ],
+                        'education': [
+                            {
+                                'institution': 'string',
+                                'studyType': 'string',  # Example: 'B.Sc.', 'M.Sc.'
+                                'area': 'string',
+                                'start_date': 'string (YYYY-MM)',
+                                'end_date': 'string (YYYY-MM)',
+                                'highlights': ['string']  # List of highlights for education
+                            }
+                        ],
+                        'skills': [
+                            {'name': 'string'}  # Example: 'Python', 'AWS', 'Django'
+                        ],
+                        'certifications': [
+                            {
+                                'name': 'string',
+                                'issuer': 'string',
+                                'date': 'string (YYYY-MM)'  # Date of certification
+                            }
+                        ],
+                        'publications': [
+                            {
+                                'title': 'string',
+                                'journal': 'string',
+                                'year': 'string (YYYY)',
+                                'url': 'string (optional)'  # URL to the publication (optional)
+                            }
+                        ]
+                    }
                 }
-                ],
-                "sections": {
-                "experience": [
-                    {
-                    "company": "string",
-                    "position": "string",
-                    "location": "string",
-                    "start_date": "string (YYYY-MM)",
-                    "end_date": "string (YYYY-MM or 'Present')",
-                    "highlights": [
-                        "string (highlight 1)",
-                        "string (highlight 2)"
-                    ]
-                    }
-                ],
-                "education": [
-                    {
-                    "institution": "string",
-                    "studyType": "string (e.g., B.Sc., M.Sc.)",
-                    "area": "string",
-                    "start_date": "string (YYYY-MM)",
-                    "end_date": "string (YYYY-MM)",
-                    "highlights": [
-                        "string (highlight 1)"
-                    ]
-                    }
-                ],
-                "skills": [
-                    {
-                    "name": "string"
-                    }
-                ],
-                "certifications": [
-                    {
-                    "name": "string",
-                    "issuer": "string",
-                    "date": "string (YYYY-MM)"
-                    }
-                ],
-                "publications": [
-                    {
-                    "title": "string",
-                    "journal": "string",
-                    "year": "string (YYYY)",
-                    "url": "string (optional)"
-                    }
-                ]
-                },
-                "__yaml_key_order__": "optional internal field (not required)"
-            }
             }
             --- END RENDERCV SCHEMA ---
 
             Here is an example of a fully valid RenderCV resume:
             --- BEGIN EXAMPLE ---
-           cv:
-            name: Jane Doe
-            email: jane.doe@example.com
-            phone: "+1‑555‑123‑4567"
-            location: San Francisco, CA, USA
-            label: Senior Software Engineer
-            summary: |
-                Senior Software Engineer with over 12 years of experience
-                building scalable web and AI solutions. Passionate about
-                efficient architectures and mentoring engineering teams.
-            website: https://janedoe.dev
-            social_networks:
-                - network: LinkedIn
-                username: janedoe
-                url: https://linkedin.com/in/janedoe
-                - network: GitHub
-                username: janedoe
-                url: https://github.com/janedoe
+            {
+                'cv': {
+                    'basics': {
+                        'name': 'Andrew Long',
+                        'email': 'andrewlong0808@gmail.com',
+                        'phone': '(352) 580-0750',
+                        'location': 'Los Angeles, CA',
+                        'label': 'Senior Machine Learning Engineer',
+                        'summary': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.'
+                    },
+                    'sections': [
+                        {
+                            'name': 'experience',
+                            'title': 'Work Experience',
+                            'items': [
+                                {'company': 'Evertune AI', 'position': 'Software Engineer', 'location': 'Seattle, WA', 'start': '2025-04', 'end': 'Present'}
+                            ]
+                        },
+                        {
+                            'name': 'education',
+                            'title': 'Education',
+                            'items': [
+                                {'institution': 'University of Illinois at Chicago', 'studyType': 'B.Sc.', 'area': 'Computer Science', 'start': '2011', 'end': '2013'}
+                            ]
+                        },
+                        {
+                            'name': 'skills',
+                            'title': 'Skills',
+                            'items': [
+                                {'name': 'Python'},
+                                {'name': 'TypeScript'},
+                                {'name': 'JavaScript'}
+                            ]
+                        },
+                        {
+                            'name': 'certifications',
+                            'title': 'Certifications',
+                            'items': [
+                                {'name': 'AWS Certified Machine Learning - Specialty', 'issuer': 'Amazon Web Services', 'date': '2020-09'},
+                                {'name': 'TensorFlow Developer Certificate', 'issuer': 'TensorFlow', 'date': '2020-05'}
+                            ]
+                        }
+                    ]
+                }
+            }
 
-            sections:
-                experience:
-                - company: TechCorp Inc.
-                    position: Lead Backend Engineer
-                    location: New York, NY, USA
-                    start_date: 2021‑06
-                    end_date: Present
-                    highlights:
-                    - Designed microservices architecture handling 10M+ daily requests.
-                    - Led team of 8 engineers across two continents.
-                - company: WebStart LLC
-                    position: Senior Software Engineer
-                    location: Seattle, WA, USA
-                    start_date: 2017‑09
-                    end_date: 2021‑05
-                    highlights:
-                    - Migrated monolith to containerized microservices reducing latency by 40%.
-                    - Introduced CI/CD pipeline improving release speed by 50%.
-
-                education:
-                - institution: University of Example
-                    area: Computer Science
-                    studyType: M.Sc.
-                    start_date: 2014‑09
-                    end_date: 2016‑06
-                    highlights:
-                    - Thesis: “Scalable Machine Learning Systems in the Cloud”
-                - institution: Example College
-                    area: Software Engineering
-                    studyType: B.Sc.
-                    start_date: 2010‑09
-                    end_date: 2014‑06
-
-                skills:
-                - name: Python
-                - name: Go
-                - name: Docker & Kubernetes
-                - name: AWS (EC2, Lambda, SageMaker)
-
-                certifications:
-                - name: AWS Certified Solutions Architect – Professional
-                    issuer: Amazon Web Services
-                    date: 2022‑11
-                - name: Certified Kubernetes Administrator (CKA)
-                    issuer: Cloud Native Computing Foundation
-                    date: 2023‑04
-
-                publications:
-                - title: “Scaling Web Services with Serverless Architecture”
-                    journal: WebTech Journal
-                    year: 2023
-                    url: https://example.com/publication1
             --- END EXAMPLE ---
         '''
         "if something is not mentioned in the job description, make it None, not null."
@@ -1313,7 +1283,7 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', 
     Generate PDF bytes from resume data using RenderCV.
     
     Args:
-        resume_data: Resume data as a Python dictionary (RenderCV format)
+        resume_data: Resume data as a Python dictionary (RenderCV format or JSON Resume format)
         theme: Theme name for the PDF (default: 'classic')
         tmp_dir: Optional custom temporary directory path. If None, uses current working directory / "temp_pdfs"
     
@@ -1328,8 +1298,32 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', 
     import tempfile
     import os
     
+    # Check if data is in JSON Resume format (has "basics" key) and convert to RenderCV format
+    if "basics" in resume_data and "cv" not in resume_data:
+        # Convert from JSON Resume format to RenderCV format
+        rendercv_data = _convert_json_resume_to_rendercv_format(resume_data)
+    elif "cv" in resume_data:
+        # Already in RenderCV format
+        rendercv_data = resume_data.copy()
+    else:
+        # Unknown format, try to use as-is but warn
+        rendercv_data = resume_data.copy()
+        if "cv" not in rendercv_data:
+            # Create minimal cv structure if missing
+            rendercv_data["cv"] = {
+                "name": resume_data.get("name", "Resume"),
+                "sections": {}
+            }
+    
+    # Ensure cv section exists and has basic info
+    if "cv" not in rendercv_data:
+        rendercv_data["cv"] = {}
+    
+    # Ensure name exists (required by RenderCV)
+    if not rendercv_data["cv"].get("name"):
+        rendercv_data["cv"]["name"] = resume_data.get("name") or resume_data.get("basics", {}).get("name") or "Resume"
+    
     # Prepare the data with design theme
-    rendercv_data = resume_data.copy()
     if "design" not in rendercv_data:
         rendercv_data["design"] = {}
     rendercv_data["design"]["theme"] = theme
@@ -1349,13 +1343,17 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'classic', 
         tmp_path = Path(tmp_subdir) / "resume.pdf"
         
         try:
+            print('before cleaning', rendercv_data)
+            rendercv_data = clean_sections(rendercv_data)
+            print('after cleaning', rendercv_data)
             yaml = data.generator.dictionary_to_yaml(rendercv_data)
             # Generate PDF using RenderCV
             result = api.create_a_pdf_from_a_yaml_string(
                 yaml_file_as_string=yaml,
                 output_file_path=tmp_path
             )
-            print('result', result)
+            # Note: create_a_pdf_from_a_yaml_string returns None on success
+            # It returns a list only if there are validation errors
             # Check if result indicates validation errors
             if isinstance(result, list) and len(result) > 0:
                 if isinstance(result[0], dict) and 'loc' in result[0] and 'msg' in result[0]:
@@ -1547,3 +1545,28 @@ def convert_to_valid_structure(data):
         data['cv']['sections'] = valid_sections_list
     
     return data
+
+def clean_sections(cv_dict):
+    """
+    Clean empty or invalid sections from RenderCV data.
+    Handles both 'sections' and 'sections_input' keys.
+    """
+    cv = cv_dict.get("cv", {})
+    
+    # Handle both 'sections' and 'sections_input' (RenderCV uses both)
+    sections = cv.get("sections") or cv.get("sections_input", {})
+    
+    if not sections:
+        return cv_dict
+    
+    keys_to_remove = []
+
+    for section_name, entries in sections.items():
+        # Remove sections that are not lists or are empty lists
+        if not isinstance(entries, list) or len(entries) == 0:
+            keys_to_remove.append(section_name)
+
+    for key in keys_to_remove:
+        del sections[key]
+
+    return cv_dict
