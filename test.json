@@ -1,0 +1,147 @@
+{
+  "cv": {
+    "basics": {
+      "name": "Andrew Long",
+      "email": "andrewlong0808@gmail.com",
+      "phone": "(352) 580-0750",
+      "location": "Los Angeles, CA",
+      "label": "Data Scientist (Intelligence)",
+      "summary": "Experienced Data Scientist with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems. Skilled in developing scalable web applications, integrating machine learning models, and implementing production-grade solutions across various industries including AI, ad-tech, and entertainment. Proficient in using cutting-edge technologies such as Python, R, SQL, TensorFlow, PyTorch, FastAPI, React, and AWS to drive system performance and improve user experience. Proven ability to optimize machine learning models, streamline backend systems, and develop real-time data pipelines that increase efficiency, scalability, and user engagement. Strong collaborator with a history of leading cross-functional teams and delivering impactful AI-driven solutions that meet business objectives.",
+      "social_networks": [
+        {
+          "network": "GitHub",
+          "username": "AndrewLong",
+          "url": null
+        },
+        {
+          "network": "LinkedIn",
+          "username": "AndrewLong",
+          "url": null
+        }
+      ]
+    },
+    "sections": {
+      "experience": [
+        {
+          "company": "Evertune AI",
+          "position": "Software Engineer",
+          "location": "Seattle, WA",
+          "start_date": "2025-04",
+          "end_date": "present",
+          "highlights": [
+            "Improved suboptimal machine learning model performance by leading data-driven experiments using Python, Jupyter Notebooks, and libraries like scikit-learn, torch, and TensorFlow, showing a 30% increase in model efficiency.",
+            "Enhanced data quality by performing thorough preprocessing with numpy, pandas, and scipy, cleaning and structuring datasets to ensure 100% accuracy for model training, which improved model prediction accuracy by 25%.",
+            "Streamlined the transition of machine learning prototypes into production by working closely with engineering teams, ensuring seamless integration and zero performance degradation during deployment.",
+            "Refined AI system outputs by validating prompt-based inputs and improving alignment with model goals, which resulted in a 15% increase in output effectiveness.",
+            "Boosted predictive accuracy by building, evaluating, and iterating on models using TensorFlow and PyTorch, increasing real-world application results by 20%."
+          ]
+        },
+        {
+          "company": "Seesaw Learning",
+          "position": "Software Engineer",
+          "location": "Seattle, WA",
+          "start_date": "2025-01",
+          "end_date": "2025-03",
+          "highlights": [
+            "Automated resource conversion processes by developing an NLP-based system to convert PDFs and other resources into interactive activities, increasing content creation speed by 40% and reducing human error.",
+            "Streamlined reading fluency grading by implementing LLM-based auto-grading models, cutting manual grading time by 60% and improving consistency and accuracy in assessments.",
+            "Optimized backend systems by designing and integrating a FastAPI-based architecture, enabling real-time feedback for up to 50,000 interactions per day, improving system responsiveness.",
+            "Enhanced scalability and performance by incorporating AWS Lambda and DynamoDB, allowing the system to handle high volumes of user interactions without performance degradation, resulting in a 35% increase in throughput.",
+            "Reduced latency in real-time data updates by automating data pipelines and integrating GraphQL subscriptions, improving frontend response time by 30%."
+          ]
+        },
+        {
+          "company": "The Trade Desk",
+          "position": "Lead/Senior/Software Engineer",
+          "location": "Boulder & Denver, CO",
+          "start_date": "2017-10",
+          "end_date": "2023-06",
+          "highlights": [
+            "Increased ROI by 20% through the development of an AI-powered engine to predict audience reach and optimize campaign outcomes using TensorFlow and scikit-learn, improving targeting and decision-making.",
+            "Improved real-time campaign predictions by designing a machine learning pipeline to integrate user behavior, demographic data, and past campaign performance, enhancing prediction speed by 35%.",
+            "Optimized data processing by improving backend infrastructure with FastAPI and Docker, reducing processing times by 40% and enabling large-scale data handling without performance issues.",
+            "Reduced storage costs by 25% by integrating AWS S3 for optimized data storage and AWS Lambda for serverless data processing, maintaining smooth operations even with growing data volumes.",
+            "Enhanced decision-making speed by developing real-time dashboards using React and D3.js, reducing decision-making time by 50% through visualizations of key campaign metrics."
+          ]
+        },
+        {
+          "company": "Microsoft (Xbox Division)",
+          "position": "Software Engineer II/Engineer/SDET Intern",
+          "location": "Redmond, WA",
+          "start_date": "2014-02",
+          "end_date": "2017-09",
+          "highlights": [
+            "Improved test coverage by developing automated test scripts using C# and Selenium, reducing manual testing time by 70%, accelerating feedback loops, and improving overall software quality.",
+            "Accelerated issue resolution by designing and implementing a cloud-based diagnostic tool using C#, Azure, and SQL, automating telemetry data collection and reducing diagnostic time by 40%.",
+            "Increased scalability of Xbox Liveʼs microservices by designing a cloud-native architecture using .NET Core and Azure Functions, improving data processing time by 30% and handling higher user engagement.",
+            "Streamlined release cycles by implementing an automated CI/CD pipeline with Jenkins, GitHub Actions, and Docker, reducing integration and deployment times by 70% and improving release reliability.",
+            "Improved telemetry reporting speed by integrating Azure Stream Analytics and Power BI, reducing reporting time by 50% and enabling immediate insights into user behavior."
+          ]
+        },
+        {
+          "company": "Self-Employed",
+          "position": "Music Producer / ML Engineer",
+          "location": null,
+          "start_date": null,
+          "end_date": null,
+          "highlights": [
+            "Automated genre classification by developing a Python-based pipeline with librosa and TensorFlow, reducing manual tagging time by 50% and improving consistency across large music catalogs.",
+            "Improved metadata accuracy by integrating Hugging Face Transformers to generate emotion-based tags, increasing metadata consistency by 30% and enhancing track discoverability.",
+            "Streamlined metadata submission by deploying a FastAPI service with Docker, automating the process and reducing manual intervention by 70%, speeding up track releases.",
+            "Enhanced track quality assessment by building a web dashboard with React and librosa to visualize spectral data, reducing pre-release quality checks by 40% and enabling faster production decisions.",
+            "Automated spectral analysis for mastering feedback, cutting validation time by 35% and accelerating the production process with AI-driven recommendations."
+          ]
+        }
+      ],
+      "education": [
+        {
+          "institution": "University of Illinois at Chicago",
+          "studyType": "B.Sc.",
+          "area": "Computer Science",
+          "start_date": "2011",
+          "end_date": "2013",
+          "highlights": []
+        },
+        {
+          "institution": "Elgin Community College",
+          "studyType": "A.Sc.",
+          "area": "Computer Science",
+          "start_date": "2009",
+          "end_date": "2011",
+          "highlights": []
+        }
+      ],
+      "skills": [
+        { "name": "Python" },
+        { "name": "R" },
+        { "name": "SQL" },
+        { "name": "TensorFlow" },
+        { "name": "PyTorch" },
+        { "name": "FastAPI" },
+        { "name": "React" },
+        { "name": "AWS" },
+        { "name": "Machine Learning" },
+        { "name": "Statistical Modeling" },
+        { "name": "Predictive Analytics" },
+        { "name": "Cloud-based Computing" },
+        { "name": "Sports Analytics" },
+        { "name": "Data Science" },
+        { "name": "Agile Project Management" },
+        { "name": "MLOps" }
+      ],
+      "certifications": [
+        {
+          "name": "AWS Certified Machine Learning - Specialty",
+          "issuer": "Amazon Web Services",
+          "date": null
+        },
+        {
+          "name": "TensorFlow Developer Certificate",
+          "issuer": "TensorFlow",
+          "date": null
+        }
+      ],
+      "publications": []
+    }
+  }
+}

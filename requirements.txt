@@ -1,17 +1,34 @@
-PyMuPDF
-chromadb 
-sentence-transformers 
-openai 
-streamlit
-langchain 
-langchain_community
-pypdf
-python-docx
-docx2pdf
-beautifulsoup4
-requests
-pdfplumber
-python-dotenv
-pypandoc
-rendercv
-reportlab
+# Core dependencies
+openai>=1.0.0
+streamlit>=1.28.0
+python-dotenv>=1.0.0
+
+# PDF processing
+PyMuPDF>=1.23.0
+pypdf>=3.17.0
+pdfplumber>=0.10.0
+
+# Document processing
+python-docx>=1.1.0
+docx2pdf>=0.1.8
+pypandoc>=1.12
+
+# Vector database and embeddings
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# LangChain ecosystem
+langchain>=0.1.0
+langchain-community>=0.0.20
+langchain-text-splitters>=0.0.1
+
+# Web scraping
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+
+# PDF generation
+reportlab>=4.0.0
+rendercv>=0.3.0
+
+# YAML processing
+PyYAML>=6.0.1

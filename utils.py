@@ -46,7 +46,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             When mentioning about the current company do not use 'Present' for the end date, use 'present' instead.
             Output format must be valid YAML that RenderCV can validate and render.
             Follow the structure exactly.
-
+            ('cv', 'social_networks', '0', 'network'): Input should be 'LinkedIn', 'GitHub', 'GitLab', 'IMDB', 'Instagram', 'ORCID', 'Mastodon', 'StackOverflow', 'ResearchGate', 'YouTube', 'Google Scholar', 'Telegram', 'Leetcode' or 'X'.
             --- BEGIN RENDERCV SCHEMA ---
            {
                 'cv': {
@@ -55,7 +55,6 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                     'phone': 'string',
                     'location': 'string',
                     'label': 'string',  # Job title or similar
-                    'summary': 'string',  # A paragraph summarizing the person
                     'website': 'string (optional)',
                     'social_networks': [
                         {
@@ -65,6 +64,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                         }
                     ]
                     'sections': {
+                        'summary': 'string',  # A paragraph summarizing the person
                         'experience': [
                             {
                                 'company': 'string',
@@ -117,8 +117,8 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                     'phone': '(352) 580-0750',
                     'location': 'Los Angeles, CA',
                     'label': 'Senior Machine Learning Engineer',
-                    'summary': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.',
                     'sections': [
+                        {'name': 'summary', 'title': 'Summary', 'items': ['Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.']},
                         {
                             'name': 'experience',
                             'title': 'Work Experience',
@@ -1315,8 +1315,11 @@ def generate_pdf_bytes_with_rendercv(resume_data: Dict, theme: str = 'engineerin
             print('before cleaning======', rendercv_data)
             rendercv_data = clean_sections(rendercv_data)
             print('after cleaning======', rendercv_data)
+            
             yaml = data.generator.dictionary_to_yaml(rendercv_data)
-            print('yaml======', yaml)
+            print('yaml before cleaning======', yaml)
+            yaml = clean_yaml(yaml)
+            print('yaml after cleaning======', yaml)
             # Generate PDF using RenderCV
             result = api.create_a_pdf_from_a_yaml_string(
                 yaml_file_as_string=yaml,
@@ -1510,3 +1513,56 @@ def clean_sections(cv_dict):
     #     cv_dict.update(cv_content)
 
     return cv_dict
+
+
+def clean_yaml(yaml_string: str) -> str:
+    """
+    Clean and validate YAML string for RenderCV.
+    Parses YAML, applies cleaning (sections, phone normalization, etc.), and returns cleaned YAML.
+    
+    Args:
+        yaml_string: YAML string containing CV data
+    
+    Returns:
+        Cleaned and validated YAML string
+    
+    Raises:
+        ValueError: If YAML is invalid or cannot be parsed
+    """
+    import yaml
+    
+    # Parse YAML to dictionary
+    try:
+        yaml_data = yaml.safe_load(yaml_string)
+        if yaml_data is None:
+            raise ValueError("YAML string is empty or invalid")
+    except yaml.YAMLError as e:
+        raise ValueError(f"Invalid YAML format: {str(e)}") from e
+    
+    # Clean the dictionary using clean_sections
+    cleaned_data = clean_sections(yaml_data)
+    
+    # Clean social_networks: Remove 'url' field as RenderCV doesn't accept it
+    # RenderCV only accepts 'network' and 'username' fields
+    cv = cleaned_data.get("cv", {})
+    if "social_networks" in cv and isinstance(cv["social_networks"], list):
+        cleaned_social_networks = []
+        for social in cv["social_networks"]:
+            if isinstance(social, dict):
+                # Only keep 'network' and 'username' fields, remove 'url' and any other fields
+                cleaned_social = {}
+                if "network" in social:
+                    cleaned_social["network"] = social["network"]
+                if "username" in social:
+                    cleaned_social["username"] = social["username"]
+                # Only add if it has both required fields
+                if "network" in cleaned_social and "username" in cleaned_social:
+                    cleaned_social_networks.append(cleaned_social)
+        cv["social_networks"] = cleaned_social_networks
+    
+    # Convert back to YAML string
+    try:
+        cleaned_yaml = yaml.dump(cleaned_data, default_flow_style=False, allow_unicode=True, sort_keys=False)
+        return cleaned_yaml
+    except Exception as e:
+        raise ValueError(f"Failed to convert cleaned data back to YAML: {str(e)}") from e
