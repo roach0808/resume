@@ -264,7 +264,7 @@ def resume_openai_call(messages):
                 model="gpt-4o",
                 messages=messages,
                 temperature=0.6,
-                max_tokens=4000  # Limit response size to prevent memory issues
+                max_tokens=4000,  # Limit response size to prevent memory issues
                 api_key=openai_api_key
             )
             return response.choices[0].message.content
