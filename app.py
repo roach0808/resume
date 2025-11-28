@@ -992,7 +992,7 @@ def main():
     st.sidebar.title("🧭 Navigation")
 
     # Get API key from environment variable
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = openai_api_key
     
     
     # Validate API key
