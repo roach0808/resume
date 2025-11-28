@@ -1,8 +1,34 @@
 import streamlit as st
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
+def get_openai_api_key():
+    """
+    Get OpenAI API key from Streamlit secrets (for cloud deployment) 
+    with fallback to environment variable (for local development).
+    
+    Returns:
+        str: OpenAI API key
+        
+    Raises:
+        ValueError: If API key is not found in secrets or environment
+    """
+    try:
+        # Try to get from Streamlit secrets first (for cloud deployment)
+        if hasattr(st, 'secrets') and 'OPENAI_API_KEY' in st.secrets:
+            return st.secrets['OPENAI_API_KEY']
+    except Exception:
+        pass
+    
+    # Fallback to environment variable (for local development)
+    api_key = os.getenv("OPENAI_API_KEY")
+    if api_key:
+        return api_key
+    
+    # If neither is available, raise an error
+    raise ValueError(
+        "OpenAI API key not found. Please set it in Streamlit secrets (for cloud) "
+        "or as OPENAI_API_KEY environment variable (for local development)."
+    )
 
 system_tech_prt = """
 Here I am going to have an online job interview with the HR manager on Machine learning Engineer role and in this call I have to demonstrate my previous experience with Go.

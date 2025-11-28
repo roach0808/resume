@@ -2,14 +2,11 @@
 import os
 import streamlit as st
 import time
-from dotenv import load_dotenv
+from config import get_openai_api_key
 
 # === CRITICAL: Force CPU-only mode to prevent Windows segmentation faults ===
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
-# Load environment variables
-load_dotenv()
 
 # === Constants ===
 CHROMA_DATA_PATH = "chroma_data/"
@@ -26,10 +23,7 @@ def resume_openai_call(messages):
     try:
         from openai import OpenAI
         
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            return "❌ OpenAI API key not found"
-            
+        api_key = get_openai_api_key()
         client = OpenAI(api_key=api_key, timeout=120.0)
         
         response = client.chat.completions.create(
@@ -47,11 +41,7 @@ def interview_openai_call(messages):
     try:
         from openai import OpenAI
         
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            yield "❌ OpenAI API key not found"
-            return
-            
+        api_key = get_openai_api_key()
         client = OpenAI(api_key=api_key, timeout=20.0)
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -284,17 +274,15 @@ def main():
         
     st.sidebar.title("🧭 Navigation")
 
-    # Get API key from environment variable
-    api_key = os.getenv("OPENAI_API_KEY")
-    
-    # Validate API key
-    if not api_key:
-        st.error("❌ OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.")
-        st.info("💡 Create a .env file in your project root with: OPENAI_API_KEY=your_api_key_here")
+    # Get API key from Streamlit secrets or environment variable
+    try:
+        api_key = get_openai_api_key()
+        # Show API key status
+        st.sidebar.success("✅ OpenAI API Key loaded")
+    except ValueError as e:
+        st.error(f"❌ {str(e)}")
+        st.info("💡 For cloud deployment: Set OPENAI_API_KEY in Streamlit secrets. For local: Set OPENAI_API_KEY environment variable.")
         return
-    
-    # Show API key status
-    st.sidebar.success("✅ OpenAI API Key loaded from environment")
     
     # Add startup health check
     try:

@@ -1,10 +1,7 @@
 # Minimal Streamlit test to isolate segmentation fault
 import streamlit as st
 import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
+from config import get_openai_api_key
 
 def main():
     st.set_page_config(page_title="Minimal Test", layout="wide")
@@ -13,12 +10,12 @@ def main():
     # Test basic functionality
     st.success("✅ Streamlit is working!")
     
-    # Test environment
-    api_key = os.getenv("OPENAI_API_KEY")
-    if api_key:
+    # Test API key retrieval
+    try:
+        api_key = get_openai_api_key()
         st.success("✅ OpenAI API Key found")
-    else:
-        st.warning("⚠️ OpenAI API Key not found")
+    except ValueError as e:
+        st.warning(f"⚠️ OpenAI API Key not found: {str(e)}")
     
     # Test basic imports
     try:

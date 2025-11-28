@@ -9,6 +9,9 @@ import traceback
 from dotenv import load_dotenv
 from pypdf import PdfReader
 
+openai_api_key = st.secrets["OPENAI_API_KEY"]
+
+
 # === CRITICAL: Force CPU-only mode to prevent Windows segmentation faults ===
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Prevent tokenizer warnings
@@ -262,6 +265,7 @@ def resume_openai_call(messages):
                 messages=messages,
                 temperature=0.6,
                 max_tokens=4000  # Limit response size to prevent memory issues
+                api_key=openai_api_key
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -297,7 +301,8 @@ def resume_scorer_openai_call(resume_text, job_description):
         messages=[
             {"role": "system", "content": "You are a resume scoring assistant."},
             {"role": "user", "content": prompt}
-        ]
+        ],
+        api_key=openai_api_key
     )
 
     # return response.choices[0].message["content"]
@@ -313,7 +318,8 @@ def interview_openai_call(messages):
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            stream=True
+            stream=True,
+            api_key=openai_api_key
         )
         for chunk in response:
             if chunk.choices and len(chunk.choices) > 0:

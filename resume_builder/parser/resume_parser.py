@@ -5,7 +5,7 @@ from typing import Dict, List
 from docx import Document
 import pdfplumber
 from openai import OpenAI
-from dotenv import load_dotenv
+import streamlit as st
 import warnings
 
 from resume_builder.utils.prompt import parse_resume_prompt
@@ -13,8 +13,34 @@ from resume_builder.utils.prompt import parse_resume_prompt
 # Suppress specific warnings from pdfplumber
 warnings.filterwarnings("ignore", category=UserWarning, module="pdfplumber")
 
-
-load_dotenv()
+def get_openai_api_key():
+    """
+    Get OpenAI API key from Streamlit secrets (for cloud deployment) 
+    with fallback to environment variable (for local development).
+    
+    Returns:
+        str: OpenAI API key
+        
+    Raises:
+        ValueError: If API key is not found in secrets or environment
+    """
+    try:
+        # Try to get from Streamlit secrets first (for cloud deployment)
+        if hasattr(st, 'secrets') and 'OPENAI_API_KEY' in st.secrets:
+            return st.secrets['OPENAI_API_KEY']
+    except Exception:
+        pass
+    
+    # Fallback to environment variable (for local development)
+    api_key = os.getenv("OPENAI_API_KEY")
+    if api_key:
+        return api_key
+    
+    # If neither is available, raise an error
+    raise ValueError(
+        "OpenAI API key not found. Please set it in Streamlit secrets (for cloud) "
+        "or as OPENAI_API_KEY environment variable (for local development)."
+    )
 
 def _fix_json_syntax(json_str: str) -> str:
     """Fix common JSON syntax issues."""
@@ -93,7 +119,7 @@ def _extract_json_with_regex(response: str) -> Dict:
     return result
 
 def resume_openai_call(messages):
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = get_openai_api_key()
     client = OpenAI(api_key=api_key, timeout=20.0)
     try:        
         response = client.chat.completions.create(
