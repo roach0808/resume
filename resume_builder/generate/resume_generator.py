@@ -128,12 +128,40 @@ def create_resume_from_json(resume_json: dict, output_dir: str, output_format: s
         skills_heading.runs[0].font.size = Pt(13)
         skills_heading.runs[0].bold = True
 
-        for skill, items in resume_json['skills'].items():
-            para = doc.add_paragraph()
-            skill_run = para.add_run(f"{skill}: ")
-            skill_run.bold = True
-            skill_run.font.name = 'Georgia'
-            para.add_run(", ".join(items))
+        # Collect all skills from all categories into a flat list
+        all_skills = []
+        if isinstance(resume_json['skills'], dict):
+            # If skills is a dict with categories
+            for skill_category, items in resume_json['skills'].items():
+                if isinstance(items, list):
+                    all_skills.extend(items)
+                elif isinstance(items, str):
+                    # If items is a string, split by comma
+                    all_skills.extend([s.strip() for s in items.split(',')])
+        elif isinstance(resume_json['skills'], list):
+            # If skills is already a list
+            all_skills = resume_json['skills']
+        
+        # Display skills in a natural flowing format across multiple rows
+        # Group skills into chunks that will fit nicely on lines
+        skills_per_line = 4  # Adjust this number based on average skill name length
+        skills_para = doc.add_paragraph()
+        skills_para.runs[0].font.name = 'Georgia'
+        skills_para.runs[0].font.size = Pt(10)
+        
+        for i, skill in enumerate(all_skills):
+            if i > 0:
+                # Add comma and space before each skill (except the first)
+                skills_para.add_run(", ")
+            skills_para.add_run(str(skill))
+            
+            # Add line break every N skills to create natural wrapping
+            if (i + 1) % skills_per_line == 0 and i < len(all_skills) - 1:
+                skills_para = doc.add_paragraph()
+                skills_para.runs[0].font.name = 'Georgia'
+                skills_para.runs[0].font.size = Pt(10)
+        
+        skills_para.paragraph_format.space_after = Pt(10)
 
     # Add a line break
     doc.add_paragraph()

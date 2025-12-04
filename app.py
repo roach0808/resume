@@ -652,13 +652,15 @@ def render_resume_updater(api_key):
     **How to use:**
     1. Upload a resume file
     2. Enter a job description
-    3. Click "Update Resume" to update the resume
+    3. (Optional) Add company information to better tailor your resume
+    4. Click "Update Resume" to update the resume
     """)
     uploaded_file = st.file_uploader("Upload Resume (PDF, DOCX, or TXT)", type=["pdf", "docx", "txt"])
     job_description = st.text_area("Paste Job Description", height=200)
     update_instructions = st.text_area(
-                    "Additional update instructions (optional)",
-                    help="Provide any special instructions to the AI about how to improve or customize your resume update."
+                    "Company Information (optional)",
+                    height=150,
+                    help="Provide information about the company you're applying to (e.g., company culture, values, mission, industry focus, recent achievements). This will help tailor your resume to better match the company's needs and culture."
                 )
 
     if st.button("Update Resume"):

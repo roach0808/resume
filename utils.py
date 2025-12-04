@@ -9,11 +9,11 @@ from typing import Dict, Optional
 
 def update_resume(uploaded_file, job_description, update_instructions=None, openai_api_key=None):
     """
-    Updates a resume PDF based on the provided job description and update instructions using the OpenAI API.
+    Updates a resume PDF based on the provided job description and company information using the OpenAI API.
     Args:
         uploaded_file: Uploaded file-like object (PDF).
         job_description (str): The job description to align to.
-        update_instructions (str): Optional extra update instructions for LLM.
+        update_instructions (str): Optional company information (culture, values, mission, industry focus, etc.) to better tailor the resume.
         openai_api_key (str): Optional, if not set, attempts default behavior of OpenAI library.
     Returns:
         updated_resume (str): Updated resume text/content (HTML/Markdown). You may wish to post-process or return bytes.
@@ -38,8 +38,11 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
     # Step 2: Build the prompt for OpenAI
     system_prompt = (
-        "You are an expert resume writer. Update and optimize the following resume to best align it to the provided job description."
+        "You are an expert resume writer. Update and optimize the following resume to best align it to the provided job description and company information."
         " Expand, rewrite, or rephrase experience and skills as needed, highlighting relevant qualifications and keywords from the job description."
+        "The part you must pay attention is  professional experience."
+        "An experience at a company has rich 5-6 bullet points. Each bullet points should be one sentence which includes the issue, it's solution and used tech. "
+        "Each bullet point's explanation must be rich, not short.  it is better to use numbers to show efficiency. But don’t mention it everytime."
         '''\n\nIMPORTANT:You must generate resume data strictly following the RenderCV resume schema below.
             DO NOT use JSON Resume schema.
             DO NOT add extra fields not listed.
@@ -64,7 +67,10 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                         }
                     ]
                     'sections': {
-                        'summary': 'string',  # A paragraph summarizing the person
+                        'summary': {
+                            'title': 'string',
+                            'content': 'string',
+                        },  # A paragraph summarizing the person
                         'experience': [
                             {
                                 'company': 'string',
@@ -118,7 +124,11 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                     'location': 'Los Angeles, CA',
                     'label': 'Senior Machine Learning Engineer',
                     'sections': [
-                        {'name': 'summary', 'title': 'Summary', 'items': ['Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.']},
+                        {
+                        'name': 'summary', 
+                        'title': 'Summary', 
+                        'content': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.'
+                        },
                         {
                             'name': 'experience',
                             'title': 'Work Experience',
@@ -160,7 +170,12 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         " Do NOT include any markdown code blocks, explanations, or other text. Return ONLY the raw JSON object starting with '{' and ending with '}'."
     )
     if update_instructions:
-        system_prompt += f"\n\nAdditional instructions: {update_instructions}"
+        system_prompt += (
+            f"\n\nCOMPANY INFORMATION:\n{update_instructions}\n\n"
+            "Use this company information to better tailor the resume. Align the resume content, language, and emphasis "
+            "with the company's culture, values, mission, and industry focus. Highlight experiences and skills that resonate "
+            "with what the company values. Use terminology and focus areas that match the company's industry and priorities."
+        )
 
     user_prompt = (
         f"HERE IS THE JOB DESCRIPTION:\n{job_description}\n\n"
@@ -1483,10 +1498,43 @@ def clean_sections(cv_dict):
     Returns:
         Dictionary with cleaned sections and 'cv' key removed (content moved to top level)
     """
-    sections = cv_dict.get("cv", {}).get("sections", {})
+    cv = cv_dict.get("cv", {})
+    
+    # Clean sections (if exists)
+    sections = cv.get("sections", {})
     keys_to_remove = []
 
     for section_name, entries in sections.items():
+        # Always preserve summary section, but ensure it's a list
+        if section_name == "summary" or section_name == "summary_input":
+            # Convert summary to list format if it's not already
+            if not isinstance(entries, list):
+                if isinstance(entries, str) and entries.strip():
+                    sections[section_name] = [entries]
+                elif isinstance(entries, dict) and "content" in entries:
+                    # Extract 'content' property from dict/JSON format
+                    sections[section_name] = [entries["content"]] if entries["content"] else []
+                elif entries:  # If it's not empty but not a string or list
+                    sections[section_name] = [str(entries)]
+                else:
+                    # If empty, make it an empty list (RenderCV requires list format)
+                    sections[section_name] = []
+            else:
+                # If it's already a list, extract 'content' from each entry if it's a dict
+                cleaned_summary = []
+                for entry in entries:
+                    if isinstance(entry, dict) and "content" in entry:
+                        # Extract 'content' property from dict/JSON format
+                        if entry["content"]:
+                            cleaned_summary.append(entry["content"])
+                    elif isinstance(entry, str) and entry.strip():
+                        cleaned_summary.append(entry)
+                    elif entry:  # If it's not empty but not a string or dict
+                        cleaned_summary.append(str(entry))
+                sections[section_name] = cleaned_summary if cleaned_summary else []
+            # If it's already a list but empty, keep it as empty list (don't remove)
+            continue
+        
         # Remove sections that are not lists or are empty lists
         if not isinstance(entries, list) or len(entries) == 0:
             keys_to_remove.append(section_name)
@@ -1494,8 +1542,91 @@ def clean_sections(cv_dict):
     for key in keys_to_remove:
         del sections[key]
     
+    # Concatenate skills section if it exists
+    if "skills" in sections and isinstance(sections["skills"], list) and len(sections["skills"]) > 0:
+        all_skills = []
+        for skill in sections["skills"]:
+            if isinstance(skill, str):
+                all_skills.append(skill.strip())
+            elif isinstance(skill, dict):
+                # Handle dict format like {'name': 'Python'} or {'label': '...', 'details': '...'}
+                if "name" in skill:
+                    all_skills.append(str(skill["name"]).strip())
+                elif "details" in skill:
+                    all_skills.append(str(skill["details"]).strip())
+                elif "label" in skill:
+                    all_skills.append(str(skill["label"]).strip())
+            else:
+                all_skills.append(str(skill).strip())
+        
+        # Concatenate all skills with comma and create a single entry
+        if all_skills:
+            sections["skills"] = [", ".join(all_skills)]
+    
+    # Clean sections_input (if exists) - preserve summary here too
+    sections_input = cv.get("sections_input", {})
+    keys_to_remove_input = []
+
+    for section_name, entries in sections_input.items():
+        # Always preserve summary section, but ensure it's a list
+        if section_name == "summary":
+            # Convert summary to list format if it's not already
+            if not isinstance(entries, list):
+                if isinstance(entries, str) and entries.strip():
+                    sections_input[section_name] = [entries]
+                elif isinstance(entries, dict) and "content" in entries:
+                    # Extract 'content' property from dict/JSON format
+                    sections_input[section_name] = [entries["content"]] if entries["content"] else []
+                elif entries:  # If it's not empty but not a string or list
+                    sections_input[section_name] = [str(entries)]
+                else:
+                    # If empty, make it an empty list (RenderCV requires list format)
+                    sections_input[section_name] = []
+            else:
+                # If it's already a list, extract 'content' from each entry if it's a dict
+                cleaned_summary = []
+                for entry in entries:
+                    if isinstance(entry, dict) and "content" in entry:
+                        # Extract 'content' property from dict/JSON format
+                        if entry["content"]:
+                            cleaned_summary.append(entry["content"])
+                    elif isinstance(entry, str) and entry.strip():
+                        cleaned_summary.append(entry)
+                    elif entry:  # If it's not empty but not a string or dict
+                        cleaned_summary.append(str(entry))
+                sections_input[section_name] = cleaned_summary if cleaned_summary else []
+            # If it's already a list but empty, keep it as empty list (don't remove)
+            continue
+        
+        # Remove sections that are not lists or are empty lists
+        if not isinstance(entries, list) or len(entries) == 0:
+            keys_to_remove_input.append(section_name)
+
+    for key in keys_to_remove_input:
+        del sections_input[key]
+    
+    # Concatenate skills section in sections_input if it exists
+    if "skills" in sections_input and isinstance(sections_input["skills"], list) and len(sections_input["skills"]) > 0:
+        all_skills = []
+        for skill in sections_input["skills"]:
+            if isinstance(skill, str):
+                all_skills.append(skill.strip())
+            elif isinstance(skill, dict):
+                # Handle dict format like {'name': 'Python'} or {'label': '...', 'details': '...'}
+                if "name" in skill:
+                    all_skills.append(str(skill["name"]).strip())
+                elif "details" in skill:
+                    all_skills.append(str(skill["details"]).strip())
+                elif "label" in skill:
+                    all_skills.append(str(skill["label"]).strip())
+            else:
+                all_skills.append(str(skill).strip())
+        
+        # Concatenate all skills with comma and create a single entry
+        if all_skills:
+            sections_input["skills"] = [", ".join(all_skills)]
+    
     # Normalize phone number to valid format if it exists
-    cv = cv_dict.get("cv", {})
     if "phone" in cv and cv["phone"]:
         phone = cv["phone"]
         if isinstance(phone, str):
