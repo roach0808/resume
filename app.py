@@ -683,7 +683,7 @@ def render_resume_updater(api_key):
                     update_instructions=update_instructions,
                     openai_api_key=api_key
                 )
-                
+                print("ai_response_string", ai_response_string)
                 # Extract Python dict string from AI response (might be wrapped in markdown code blocks)
                 import re
                 import ast
@@ -694,11 +694,30 @@ def render_resume_updater(api_key):
                     dict_string = code_block_match.group(1)
                 else:
                     # Try to find Python dict object in the string
-                    dict_match = re.search(r'\{.*\}', ai_response_string, re.DOTALL)
-                    if dict_match:
-                        dict_string = dict_match.group(0)
+                    # Look for dict starting with 'cv' key which is the expected structure
+                    cv_dict_match = re.search(r'\{[^}]*\'cv\'[^}]*\{.*\}', ai_response_string, re.DOTALL)
+                    if cv_dict_match:
+                        dict_string = cv_dict_match.group(0)
+                        # Find the complete dict by counting braces
+                        brace_count = 0
+                        end_pos = 0
+                        for i, char in enumerate(dict_string):
+                            if char == '{':
+                                brace_count += 1
+                            elif char == '}':
+                                brace_count -= 1
+                                if brace_count == 0:
+                                    end_pos = i
+                                    break
+                        if end_pos > 0:
+                            dict_string = dict_string[:end_pos + 1]
                     else:
-                        dict_string = ai_response_string
+                        # Fallback: Try to find any dict object in the string
+                        dict_match = re.search(r'\{.*\}', ai_response_string, re.DOTALL)
+                        if dict_match:
+                            dict_string = dict_match.group(0)
+                        else:
+                            dict_string = ai_response_string
                 
                 # Validate that we have something to parse
                 if not dict_string or not dict_string.strip():
@@ -1016,7 +1035,8 @@ def main():
     except Exception as e:
         st.sidebar.warning(f"⚠️ System check failed: {str(e)}")
     
-    app_mode = st.sidebar.radio("Select App Mode:", options=["Resume Updater","Interview", "Resume Builder", "Resume Scorer"])
+    # app_mode = st.sidebar.radio("Select App Mode:", options=["Resume Updater","Interview", "Resume Builder", "Resume Scorer"])
+    app_mode = st.sidebar.radio("Select App Mode:", options=["Resume Updater"])
 
     # ChromaDB stats - only initialize when needed
     st.sidebar.title("ChromaDB Status")
