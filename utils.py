@@ -64,17 +64,32 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
     # Step 2: Build the prompt for OpenAI
     system_prompt = (
-       """ I need to update the whole resume according to the job description and company information.  
-        The part you must pay attention is  professional experience.
-        Carefully review the job description.  find the most important keywords, identify the terms and phrases used in the job posting and weave them naturally into your resume. (Think: relevant skills, tools, and industry terminology.)
-        Identify the key qualifications the employer is looking for and emphasize your relevant work experience and skills that match those requirements and incorporate the language from the JD. Use specific examples to demonstrate your expertise and show how your background makes you a strong candidate. Don’t copy the job description word for word. The keywords in your work history, skills, and summary have to, at the very least, resemble the job duties for the role you’re applying for. Irrelevant keywords won't paint a clear picture as to why a recruiter should hire you over other job seekers. Do use data and action verbs to show the impact of bullet points. Avoid overly exaggerating or falsifying metrics on your resume. While it might seem tempting to inflate your experience to get noticed.‍ Do include hard skills. 
-        **Avoid listing obvious soft skills like "communication," "teamwork," or "problem-solving" in your resume writing. These skills are important, but they are often assumed and can make your resume seem generic. Instead, demonstrate these skills **
-        A professional summary offers a succinct overview of your best achievements. It's what drives a hiring manager to dig deeper into your resume. Customizing this section for each job application ensures that your experience is tailored specifically for a role—and it’s one of the most effective steps when thinking about how to improve your resume.
-        Here's how to customize your professional summary:
-        Study the JD: Identify the key skills and experiences the employer is looking for. Note the language and keywords (like hard and soft skills) used.
-        Highlight relevant experience: Choose the most relevant experiences and bullet points that match the job description and show your results and how you got there.
-        Use specific metrics: Include quantifiable accomplishments that offer proof of success in similar roles. For example, "Developed and implemented strategy to scale AI content production 3X over Q3 using Claude, Airtable, Ch
-        atGPT, and Pipedream, resulting in an 8% month-over-month increase in organic traffic."""
+       "I need to update the whole resume according to the job description and company information. " 
+       " The part you must pay attention is  professional experience."
+       " Carefully review the job description."  
+       " find the most important keywords, identify the terms and phrases used in the job posting and weave them naturally into your resume."
+       " (Think: relevant skills, tools, and industry terminology.)"
+       " Identify the key qualifications the employer is looking for and emphasize your relevant work experience and skills that match those requirements and incorporate the language from the JD."
+       " Use specific examples to demonstrate your expertise and show how your background makes you a strong candidate."
+       " Don’t copy the job description word for word. "
+       " The keywords in your work history, skills, and summary have to, at the very least, resemble the job duties for the role you’re applying for."
+       " Irrelevant keywords won't paint a clear picture as to why a recruiter should hire you over other job seekers."
+       " Do use data and action verbs to show the impact of bullet points."
+       " Avoid overly exaggerating or falsifying metrics on your resume. "
+       " While it might seem tempting to inflate your experience to get noticed.‍"
+       " Do include hard skills. "
+       " **Avoid listing obvious soft skills like communication, teamwork, collaboration, or problem-solving in your resume writing."
+       " These skills are important, but they are often assumed and can make your resume seem generic. Instead, demonstrate these skills **"
+       " **Avoid listing obvious soft skills like communication, teamwork, or problem-solving in your resume writing."
+       " These skills are important, but they are often assumed and can make your resume seem generic. Instead, demonstrate these skills "
+       " A professional summary offers a succinct overview of your best achievements."
+       " It's what drives a hiring manager to dig deeper into your resume." 
+       " Customizing this section for each job application ensures that your experience is tailored specifically for a role—and it’s one of the most effective steps when thinking about how to improve your resume."
+       "  Here's how to customize your professional summary:"
+       " Study the JD: Identify the key skills and experiences the employer is looking for. Note the language and keywords (like hard and soft skills) used."
+       " Highlight relevant experience: Choose the most relevant experiences and bullet points that match the job description and show your results and how you got there."
+        "breakUse specific metrics: Include quantifiable accomplishments that offer proof of success in similar roles."
+        " For example, Developed and implemented strategy to scale AI content production 3X over Q3 using Claude, Airtable, ChatGPT, and Pipedream, resulting in an 8% month-over-month increase in organic traffic."
         "You are an expert resume writer. Update and optimize the following resume to best align it to the provided job description and company information."
         " Expand, rewrite, or rephrase experience and skills as needed, highlighting relevant qualifications and keywords from the job description."
         "The part you must pay attention is  professional experience."
@@ -83,7 +98,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         '''\n\nIMPORTANT:You must generate resume data strictly following the RenderCV resume schema below.
             Extract the social network informations and urls exactly which were made as link in original resume.
             DO NOT use JSON Resume schema.
-            DO NOT add extra fields not listed.
+            DO NOT add extra fields not listed.`
             When mentioning about the current company do not use 'Present' for the end date, use 'present' instead.
             Output format must be valid YAML that RenderCV can validate and render.
             Follow the structure exactly.
