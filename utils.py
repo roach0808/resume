@@ -73,7 +73,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
        " Use specific examples to demonstrate your expertise and show how your background makes you a strong candidate."
        " Don’t copy the job description word for word. "
        " The keywords in your work history, skills, and summary have to, at the very least, resemble the job duties for the role you’re applying for."
-       " Irrelevant keywords won't paint a clear picture as to why a recruiter should hire you over other job seekers."
+       " Never use irrelevant keywords, generic words and personality/motivational buzzwords like go-getter/hungry for success/ self-starter/ hardworking/ passionate... etc. "
        " Do use data and action verbs to show the impact of bullet points."
        " Avoid overly exaggerating or falsifying metrics on your resume. "
        " While it might seem tempting to inflate your experience to get noticed.‍"
