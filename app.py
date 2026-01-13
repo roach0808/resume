@@ -6,6 +6,7 @@ from openai import OpenAI
 import streamlit as st
 import time
 import traceback
+from datetime import datetime
 from dotenv import load_dotenv
 from pypdf import PdfReader
 
@@ -662,6 +663,7 @@ def render_resume_updater(api_key):
                     height=150,
                     help="Provide information about the company you're applying to (e.g., company culture, values, mission, industry focus, recent achievements). This will help tailor your resume to better match the company's needs and culture."
                 )
+    company_name = st.text_input("Company Name", help="Enter the company name you're applying to. This will be used in the downloaded filename.")
 
     if st.button("Update Resume"):
         if not uploaded_file:
@@ -669,6 +671,9 @@ def render_resume_updater(api_key):
             return
         if not job_description.strip():
             st.warning("Please enter a job description.")
+            return
+        if not company_name.strip():
+            st.warning("Please enter the company name.")
             return
         try:
             with st.spinner("📝 Updating resume..."):
@@ -815,11 +820,16 @@ def render_resume_updater(api_key):
                     st.markdown("---")
                     st.subheader("📥 Download Updated Resume")
                     
+                    # Generate filename with company name and date
+                    current_date = datetime.now()
+                    clean_company_name = company_name.lower().replace(" ", "_").replace("-", "_")
+                    filename = f"{clean_company_name}_{current_date.month}_{current_date.day}.pdf"
+
                     # Download button
                     st.download_button(
                         label="📥 Download Updated Resume as PDF",
                         data=pdf_bytes,
-                        file_name="updated_resume.pdf",
+                        file_name=filename,
                         mime="application/pdf",
                         type="primary"
                     )
