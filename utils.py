@@ -386,7 +386,11 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             - **Do not invent any fields**; only include keys listed in the schema.
             - **Escape special characters** when needed (`\` → `\\`, quotes inside strings → `\"` or `\'`)
             - Ensure the dict is **fully Python-parsable**, so `ast.literal_eval()` or `eval()` can read it without errors.
-            How to integrate:
+            - Use **double quotes** " " for all string values in the Python dict.
+            - Escape any double quotes inside strings with \"
+            - Escape backslashes as \\
+            - Do not break strings across multiple lines; each field must be a single-line string.
+            - All highlights / bullet points must also be single-line strings.
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
