@@ -365,18 +365,16 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
             ---
 
-            ## **RENDERCV SCHEMA**
-            - **All output must be a valid Python dict literal**. Do not return JSON, YAML, Markdown, or explanations.
-            - **All strings must be quoted** using double quotes `" "` (single quotes allowed optionally). Escape internal quotes with `\"` and backslashes with `\\`.
-            - **Do not leave any unquoted strings** that contain letters, numbers, slashes, parentheses, percentages, or multipliers.
-            - **All dates** (start_date, end_date, etc.) must be strings in `"YYYY-MM"` format. Use `"present"` for current roles (`end_date: "present"`).
-            - **All numbers with units, percentages, multipliers, or special metrics in highlights must be strings**, e.g., `"10x"`, `"80%"`, `"30%"`.
-            - **All bullet points / highlights must be single-line strings**. Do not break strings across multiple lines.
-            - **All lists and dicts must be properly opened and closed** (no unterminated brackets or braces).
-            - **Do not use decimal literals with leading zeros** (e.g., `04` → use `"04"` or `4`).
-            - **Do not invent any fields**; include only keys listed in the schema.
-            - Ensure the dict is fully Python-parsable so `ast.literal_eval()` or `eval()` can read it without errors.
+            ## Python Dict Output Rules (Safe for ast.literal_eval)
 
+            - All output must be a valid Python dict literal. Do not return YAML, JSON, Markdown, or explanations.
+            - All strings must be double-quoted " " (single quotes allowed optionally). Escape internal quotes with \\" and backslashes with \\\\.
+            - All lists and dicts must be **fully opened and closed**. Do not leave any unterminated [ ] or { }.
+            - All highlights / bullet points must be **single-line strings**.
+            - All numbers with units, percentages, or multipliers must be strings (e.g., "10x", "80%", "30%").
+            - All dates must be strings in "YYYY-MM" format. Use "present" for current roles.
+            - Do not invent any fields; include only keys listed in the schema.
+            - Ensure the dict is fully Python-parsable so ast.literal_eval() or eval() can read it without errors.
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
