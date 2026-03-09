@@ -391,6 +391,11 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             - Escape backslashes as \\
             - Do not break strings across multiple lines; each field must be a single-line string.
             - All highlights / bullet points must also be single-line strings.
+            - All lists (e.g., 'skills', 'highlights', 'experience') must be properly opened and closed.
+            - All strings must use double quotes " ".
+            - Escape internal quotes and backslashes: "John's project" → "John\'s project"
+            - Do not truncate lists or dicts — all brackets [] and braces {} must be closed.
+            - Each highlight must be a single-line string.
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
