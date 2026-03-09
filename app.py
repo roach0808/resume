@@ -763,6 +763,7 @@ def render_resume_updater(api_key):
                     st.error(f"   Line: {error_line}, Offset: {error_offset}")
                     if error_text:
                         st.error(f"   Problematic line: {error_text.strip()}")
+                        st.error(f"   Problematic line: {e}")
                     st.warning("The AI response contains invalid Python syntax.")
                     st.info("Common issues: missing quotes, unmatched brackets, trailing commas, or invalid characters.")
                     st.code(dict_string[:1000], language="text")  # Show first 1000 chars
