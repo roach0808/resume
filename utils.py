@@ -368,6 +368,12 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             ## **RENDERCV SCHEMA**
             - All dates (start_date, end_date, etc.) must be returned as **strings**, in the format "YYYY-MM".  
             - Always quote the dates. Example: start_date: "2025-04"
+            - Always quote numbers that are not pure decimals. For example: "10x", "80%", "30%" 
+            - All percentages, multipliers, and other numeric metrics in highlights must be strings, not bare numbers.
+            - Example line:
+                highlights:
+                    - "Increased throughput by 10x"
+                    - "Reduced latency by 80%"
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
