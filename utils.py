@@ -519,22 +519,26 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             - **Do NOT include extra text before or after the YAML**
 
             ---
-        '''
+    '''
     )
-    if update_instructions:
-        system_prompt += (
-            f"\n\n## COMPANY INFORMATION\n{update_instructions}\n\n"
-            "Use this company information as additional tailoring context. "
-            "Align the resume's language, emphasis, and prioritization with the company's culture, values, mission, business model, and industry focus. "
-            "Prefer experiences, achievements, and skills from the original resume that naturally resonate with this company context. "
-            "Use company-relevant terminology where it truthfully matches the candidate's background. "
-            "Do not invent experience, responsibilities, technologies, domains, or achievements that are not supported by the original resume."
-        )
+    
 
     user_prompt = (
         f"HERE IS THE JOB DESCRIPTION:\n{job_description}\n\n"
         f"HERE IS THE ORIGINAL RESUME:\n{resume_text}\n\n"
-        f"{f'HERE IS THE COMPANY INFORMATION (OPTIONAL):\n{company_info}\n\n' if company_info else ''}"
+    )
+
+    user_prompt = (
+    f"HERE IS THE JOB DESCRIPTION:\n{job_description}\n\n"
+    f"HERE IS THE ORIGINAL RESUME:\n{resume_text}\n\n"
+)
+
+    # Append company information only if it is provided and not empty
+    if update_instructions:
+        user_prompt += f"HERE IS THE COMPANY INFORMATION (OPTIONAL):\n{update_instructions}\n\n"
+
+    # Append the instructions for output format
+    user_prompt += (
         "Convert this resume to the **RenderCV YAML schema** format and return ONLY valid YAML. "
         "Do NOT include JSON, Markdown, code fences, explanations, or commentary. "
         "Follow the schema exactly and preserve all facts from the original resume. "
