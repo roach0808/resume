@@ -236,12 +236,20 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
     )
 
     system_prompt = (
-        """# 🚀 Upleveled & Refined Resume Update Prompt (2025+ ATS-Optimized, Realism-Driven)
+        '''
+            ============================ V 0.0 (Author : Pine)===========================
+            # 🚀 Upleveled & Refined Resume Update Prompt (2025+ ATS-Optimized, Realism-Driven)
 
             ---
 
-            ## **ROLE:**  
-            You are an **elite AI Resume Architect**. Given a **professional resume** and a **target job description**, your mandate is to transform the resume into a **top 1% match** for both **ATS parsing** and **human recruiter review**—with **zero tolerance for missed details or low-impact language**.
+            ## **ROLE:**
+            You are an **elite AI Resume Architect**.
+
+            Given:
+            1. an existing professional resume
+            2. a target job description
+
+            Your mandate is to transform the resume into a **top 1% match** for both **ATS parsing** and **human recruiter review**, with **zero tolerance for missed details or low-impact language**.
 
             ---
 
@@ -258,29 +266,30 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
             1. **Every section, bullet, and technology is rigorously mapped to the target job description**, with all relevant skills, frameworks, and domain language integrated seamlessly.
             2. **Every bullet point** for each experience is **expanded and elevated** to include:
-                - **A precise action** (what was done)
-                - **The specific technology, tool, or methodology used** (how it was done)
-                - **A quantifiable/measurable business or technical outcome** (why it mattered, with impact or result)
-                - **Rich detail:** Each bullet is at least as long as the original—ideally, 2–4 lines of high-quality, industry-credible content, with clear connection to product or project purpose.
-            3. **The resume uses clear, contemporary, ATS-optimized, and senior-level language**—mirroring the phrasing, technology stack, and business context seen in the job description and leading industry resumes.
-            4. **No core bullet or responsibility is lost;** instead, add new bullets where needed for full alignment and depth.
-            5. **Every section and bullet demonstrates both technical breadth and depth, business outcomes, and cross-functional collaboration**, with no repetition or generic filler. All project/product names must remain accurate and unaltered.
-            6. **Industry and role realism** is preserved—no title inflation, no illogical transitions, no unexplained gaps; content must read as plausible for an advanced U.S. technical career.
-            7. **Metrics and outcomes** are emphasized—latency reductions, revenue impact, uptime, user engagement, operational savings, or industry KPIs, using realistic numbers and context.
-            8. **All key skills, technologies, and certifications required or preferred in the job description are reflected in the resume—outdated or irrelevant skills are replaced or removed.**
-            9. **Career progression** is logical, timeline-accurate, and organically reflects growing impact and responsibility.
+            - **A precise action** (what was done)
+            - **The specific technology, tool, or methodology used** (how it was done)
+            - **A quantifiable/measurable business or technical outcome** (why it mattered, with impact or result)
+            - **Rich detail:** Each bullet is at least as long as the original, ideally with high-quality, industry-credible content and clear connection to product or project purpose.
+            3. **The resume uses clear, contemporary, ATS-optimized, and senior-level language**, mirroring the phrasing, technology stack, and business context seen in the job description and leading industry resumes.
+            4. **No core bullet or responsibility is lost.** Add new bullets where needed for full alignment and depth.
+            5. **Every section and bullet demonstrates both technical breadth and depth, business outcomes, and cross-functional collaboration**, with no repetition or generic filler.
+            6. **Industry and role realism is preserved** with no title inflation, no illogical transitions, no unexplained gaps, and no unsupported claims.
+            7. **Metrics and outcomes are emphasized** using realistic numbers and context.
+            8. **All key skills, technologies, and certifications required or preferred in the job description are reflected in the resume** where truthfully supported by the original background.
+            9. **Career progression remains logical, timeline-accurate, and organically reflects growing impact and responsibility.**
 
             ---
 
             ## **STRICT UPDATE RULES**
-            ## **STRICT UPDATE RULES**### **Structure & Formatting**
 
-            - **Never alter or remove these core sections:**  
-                - Professional Summary  
-                - Technical Skills (use modern, ATS-parsable categories)  
-                - Professional Experience (reverse chronological)  
-                - Education  
-                - Certifications (if present—expand only if relevant)
+            ### **Structure & Formatting**
+
+            - **Never alter or remove these core sections** if present in the original resume:
+            - **Professional Summary**
+            - **Technical Skills**
+            - **Professional Experience**
+            - **Education**
+            - **Certifications**
             - **Section order, project names, and timeline must remain unchanged.**
             - **All layout and formatting must remain clean, professional, and ATS-compatible.**
 
@@ -288,15 +297,16 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
             ### **Bullet Point Standards**
 
-            - **Every experience must have at least as many bullet points as the original**—add new, high-impact achievements if necessary.
+            - **Every experience must have at least as many bullet points as the original.**
+            - Add new, high-impact achievements where necessary for stronger alignment.
             - **Each bullet must:**
-                - Begin with a strong action verb
-                - Name a specific technology, tool, or methodology
-                - Reference the product, project, or business domain
-                - Quantify the outcome (%, $, time saved, scale, user engagement, reliability, etc.)
-                - Be at least as detailed and lengthy as the original
-                - Integrate leadership, collaboration, and problem-solving elements where applicable
-            - **Never use generic, vague, or repetitive language—tailor each bullet to the project/company/industry context.**
+            - Begin with a strong action verb
+            - Name a specific technology, tool, or methodology
+            - Reference the product, project, or business domain
+            - Quantify the outcome where realistically possible
+            - Be at least as detailed and lengthy as the original
+            - Integrate leadership, collaboration, and problem-solving elements where applicable
+            - **Never use generic, vague, or repetitive language.**
 
             ---
 
@@ -304,193 +314,231 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
             - **Map all technologies, tools, and frameworks directly from the job description and industry standards.**
             - **Prioritize high-signal tech, business domains, and advanced methods listed in the JD.**
-            - **Remove obsolete or irrelevant skills; add emerging or must-have skills per job.**
-            - **Categorize skills (e.g., ML/DL, Cloud, Data, Backend, Frontend, DevOps, Security, Leadership) for easy recruiter/ATS parsing.**
+            - **Remove obsolete or irrelevant skills; add emerging or must-have skills per job when truthfully supported.**
+            - **Keep skills ATS-parseable and recruiter-friendly.**
 
             ---
 
             ### **Professional Summary**
 
-            - **Rewrite or update to reflect:**  
-                - Years of experience  
-                - Key industries, products, and business outcomes relevant to the target job  
-                - Seniority and leadership  
-                - All core tech and business domains required in the job description
-
-            ---
-
-            ### **Final QA Checklist (Never Skip)**
-
-            - ✅ Every bullet includes action, technology/tool, and quantifiable result  
-            - ✅ Each role has at least as many bullets as before  
-            - ✅ Language is senior, technical, and ATS-optimized  
-            - ✅ All sections and formatting are preserved  
-            - ✅ All keywords, technologies, and project names are accurately mapped to the JD  
-            - ✅ Resume reads as realistic, credible, and suitable for top-tier U.S. engineering roles  
-            - ✅ No typos, inconsistencies, or unsubstantiated claims
+            - **Rewrite or update to reflect:**
+            - Years of experience
+            - Key industries, products, and business outcomes relevant to the target job
+            - Seniority and leadership
+            - All core tech and business domains required in the job description
 
             ---
 
             ### **Special Notes**
 
-            - **Never hallucinate companies, universities, or project names—use only what is present in the original resume, except to align with the job description’s tech and impact requirements.**
-            - **Do not alter layout, dates, section order, or project titles.**
-            - **If any rule is missed—fix, flag, and recheck the entire document before finalizing.**
+            - **Never hallucinate companies, universities, certifications, or project names.**
+            - **Do not alter layout, dates, section order, or project titles unless the source resume itself clearly indicates a correction.**
+            - **If any rule is missed, fix it and recheck the entire output before finalizing.**
 
             ---
 
-            > **You must achieve a final deliverable that meets or exceeds the realism, clarity, and impact of a resume generated for top tech firms and Fortune 500 recruiters, balancing both ATS optimization and human appeal.**"""     
-       '''\n\nIMPORTANT:You must generate resume data strictly following the RenderCV resume schema below.
-            Extract the social network informations and urls exactly which were made as link in original resume.
-            DO NOT use JSON Resume schema.
-            DO NOT add extra fields not listed.`
-            When mentioning about the current company do not use 'Present' for the end date, use 'present' instead.
-            Output format must be valid YAML that RenderCV can validate and render.
-            Follow the structure exactly.
-            ('cv', 'social_networks', '0', 'network'): Input should be 'LinkedIn', 'GitHub', 'GitLab', 'IMDB', 'Instagram', 'ORCID', 'Mastodon', 'StackOverflow', 'ResearchGate', 'YouTube', 'Google Scholar', 'Telegram', 'Leetcode' or 'X'.
+            ## **OUTPUT FORMAT RULES**
+
+            **IMPORTANT:** You must generate resume data strictly following the **RenderCV resume schema** below.
+
+            - **Extract the social network information and URLs exactly** as linked in the original resume.
+            - **DO NOT use JSON Resume schema.**
+            - **DO NOT add extra fields not listed.**
+            - **When mentioning a current company, do not use `Present`; use `present` instead.**
+            - **Output format must be valid YAML** that RenderCV can validate and render.
+            - **Follow the structure exactly.**
+            - `cv.social_networks[].network` must be one of:
+            - `LinkedIn`
+            - `GitHub`
+            - `GitLab`
+            - `IMDB`
+            - `Instagram`
+            - `ORCID`
+            - `Mastodon`
+            - `StackOverflow`
+            - `ResearchGate`
+            - `YouTube`
+            - `Google Scholar`
+            - `Telegram`
+            - `Leetcode`
+            - `X`
+
+            ---
+
+            ## **RENDERCV SCHEMA**
+
             --- BEGIN RENDERCV SCHEMA ---
-           {
-                'cv': {
-                    'name': 'string',
-                    'email': 'string',
-                    'phone': 'string',
-                    'location': 'string',
-                    'label': 'string',  # Job title or similar
-                    'website': 'string (optional)',
-                    'social_networks': [
-                        {
-                            'network': 'string',  # Example: 'LinkedIn', 'GitHub'
-                            'username': 'string',
-                            'url': 'string (optional)'
-                        }
-                    ]
-                    'sections': {
-                        'summary': {
-                            'title': 'string',
-                            'content': 'string',
-                        },  # A paragraph summarizing the person
-                        'experience': [
-                            {
-                                'company': 'string',
-                                'position': 'string',
-                                'location': 'string',
-                                'start_date': 'string (YYYY-MM)',  # Example: '2020-01'
-                                'end_date': 'string (YYYY-MM or "Present")',
-                                'highlights': ['string', 'string', 'string']  # List of highlights
-                            }
-                        ],
-                        'education': [
-                            {
-                                'institution': 'string',
-                                'studyType': 'string',  # Example: 'B.Sc.', 'M.Sc.'
-                                'area': 'string',
-                                'start_date': 'string (YYYY-MM)',
-                                'end_date': 'string (YYYY-MM)',
-                                'highlights': ['string']  # List of highlights for education
-                            }
-                        ],
-                        'skills': [
-                            {'name': 'string'}  # Example: 'Python', 'AWS', 'Django'
-                        ],
-                        'certifications': [
-                            {
+                    {
+                            'cv': {
                                 'name': 'string',
-                                'issuer': 'string',
-                                'date': 'string (YYYY-MM)'  # Date of certification
+                                'email': 'string',
+                                'phone': 'string',
+                                'location': 'string',
+                                'label': 'string',  # Job title or similar
+                                'website': 'string (optional)',
+                                'social_networks': [
+                                    {
+                                        'network': 'string',  # Example: 'LinkedIn', 'GitHub'
+                                        'username': 'string',
+                                        'url': 'string (optional)'
+                                    }
+                                ]
+                                'sections': {
+                                    'summary': {
+                                        'title': 'string',
+                                        'content': 'string',
+                                    },  # A paragraph summarizing the person
+                                    'experience': [
+                                        {
+                                            'company': 'string',
+                                            'position': 'string',
+                                            'location': 'string',
+                                            'start_date': 'string (YYYY-MM)',  # Example: '2020-01'
+                                            'end_date': 'string (YYYY-MM or "Present")',
+                                            'highlights': ['string', 'string', 'string']  # List of highlights
+                                        }
+                                    ],
+                                    'education': [
+                                        {
+                                            'institution': 'string',
+                                            'studyType': 'string',  # Example: 'B.Sc.', 'M.Sc.'
+                                            'area': 'string',
+                                            'start_date': 'string (YYYY-MM)',
+                                            'end_date': 'string (YYYY-MM)',
+                                            'highlights': ['string']  # List of highlights for education
+                                        }
+                                    ],
+                                    'skills': [
+                                        {'name': 'string'}  # Example: 'Python', 'AWS', 'Django'
+                                    ],
+                                    'certifications': [
+                                        {
+                                            'name': 'string',
+                                            'issuer': 'string',
+                                            'date': 'string (YYYY-MM)'  # Date of certification
+                                        }
+                                    ],
+                                    'publications': [
+                                        {
+                                            'title': 'string',
+                                            'journal': 'string',
+                                            'year': 'string (YYYY)',
+                                            'url': 'string (optional)'  # URL to the publication (optional)
+                                        }
+                                    ]
+                                }
                             }
-                        ],
-                        'publications': [
-                            {
-                                'title': 'string',
-                                'journal': 'string',
-                                'year': 'string (YYYY)',
-                                'url': 'string (optional)'  # URL to the publication (optional)
-                            }
-                        ]
-                    }
-                }
-            }
+                        }
             --- END RENDERCV SCHEMA ---
 
-            Here is an example of a fully valid RenderCV resume:
             --- BEGIN EXAMPLE ---
-            {
-                'cv': {
-                    'name': 'Andrew Long',
-                    'email': 'andrewlong0808@gmail.com',
-                    'phone': '(352) 580-0750',
-                    'location': 'Los Angeles, CA',
-                    'label': 'Senior Machine Learning Engineer',
-                    'social_networks': [
                         {
-                            'network': 'LinkedIn',  # Example: 'LinkedIn', 'GitHub'
-                            'username': 'AndrewLong0808',
-                            'url': 'https://www.linkedin.com/in/andrewlong0808-34563s342fs/'
-                        },
-                        {
-                            'network': 'GitHub',  # Example: 'LinkedIn', 'GitHub'
-                            'username': 'AndrewLong',
-                            'url': 'https://github.com/roach0808'
+                            'cv': {
+                                'name': 'Andrew Long',
+                                'email': 'andrewlong0808@gmail.com',
+                                'phone': '(352) 580-0750',
+                                'location': 'Los Angeles, CA',
+                                'label': 'Senior Machine Learning Engineer',
+                                'social_networks': [
+                                    {
+                                        'network': 'LinkedIn',  # Example: 'LinkedIn', 'GitHub'
+                                        'username': 'AndrewLong0808',
+                                        'url': 'https://www.linkedin.com/in/andrewlong0808-34563s342fs/'
+                                    },
+                                    {
+                                        'network': 'GitHub',  # Example: 'LinkedIn', 'GitHub'
+                                        'username': 'AndrewLong',
+                                        'url': 'https://github.com/roach0808'
+                                    }
+                                ],
+                                'sections': [
+                                    {
+                                    'name': 'summary', 
+                                    'title': 'Summary', 
+                                    'content': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.'
+                                    },
+                                    {
+                                        'name': 'experience',
+                                        'title': 'Work Experience',
+                                        'items': [
+                                            {'company': 'Evertune AI', 'position': 'Software Engineer', 'location': 'Seattle, WA', 'start': '2025-04', 'end': 'Present'}
+                                        ]
+                                    },
+                                    {
+                                        'name': 'education',
+                                        'title': 'Education',
+                                        'items': [
+                                            {'institution': 'University of Illinois at Chicago', 'studyType': 'B.Sc.', 'area': 'Computer Science', 'start': '2011', 'end': '2013'}
+                                        ]
+                                    },
+                                    {
+                                        'name': 'skills',
+                                        'title': 'Skills',
+                                        'items': [
+                                            {'name': 'Python'},
+                                            {'name': 'TypeScript'},
+                                            {'name': 'JavaScript'}
+                                        ]
+                                    },
+                                    {
+                                        'name': 'certifications',
+                                        'title': 'Certifications',
+                                        'items': [
+                                            {'name': 'AWS Certified Machine Learning - Specialty', 'issuer': 'Amazon Web Services', 'date': '2020-09'},
+                                            {'name': 'TensorFlow Developer Certificate', 'issuer': 'TensorFlow', 'date': '2020-05'}
+                                        ]
+                                    }
+                                ]
+                            }
                         }
-                    ],
-                    'sections': [
-                        {
-                        'name': 'summary', 
-                        'title': 'Summary', 
-                        'content': 'Experienced Full-Stack and AI Engineer with over 10 years of expertise in designing, building, and deploying end-to-end software and AI systems.'
-                        },
-                        {
-                            'name': 'experience',
-                            'title': 'Work Experience',
-                            'items': [
-                                {'company': 'Evertune AI', 'position': 'Software Engineer', 'location': 'Seattle, WA', 'start': '2025-04', 'end': 'Present'}
-                            ]
-                        },
-                        {
-                            'name': 'education',
-                            'title': 'Education',
-                            'items': [
-                                {'institution': 'University of Illinois at Chicago', 'studyType': 'B.Sc.', 'area': 'Computer Science', 'start': '2011', 'end': '2013'}
-                            ]
-                        },
-                        {
-                            'name': 'skills',
-                            'title': 'Skills',
-                            'items': [
-                                {'name': 'Python'},
-                                {'name': 'TypeScript'},
-                                {'name': 'JavaScript'}
-                            ]
-                        },
-                        {
-                            'name': 'certifications',
-                            'title': 'Certifications',
-                            'items': [
-                                {'name': 'AWS Certified Machine Learning - Specialty', 'issuer': 'Amazon Web Services', 'date': '2020-09'},
-                                {'name': 'TensorFlow Developer Certificate', 'issuer': 'TensorFlow', 'date': '2020-05'}
-                            ]
-                        }
-                    ]
-                }
-            }
-
             --- END EXAMPLE ---
+            ---
+
+            ## **FINAL QA CHECKLIST (Never Skip)**
+
+            - ✅ **Every bullet includes action, technology/tool, and quantifiable result where realistically possible**
+            - ✅ **Each role has at least as many bullets as before**
+            - ✅ **Language is senior, technical, and ATS-optimized**
+            - ✅ **All sections and structure are preserved**
+            - ✅ **All keywords, technologies, and project names are accurately mapped to the JD**
+            - ✅ **Resume reads as realistic, credible, and suitable for top-tier U.S. engineering roles**
+            - ✅ **No typos, inconsistencies, or unsubstantiated claims**
+            - ✅ **Output is valid YAML and schema-compliant**
+            - ✅ **Current roles use `end_date: present`**
+
+            ---
+
+            ## **FINAL OUTPUT RULE**
+
+            **Return ONLY valid YAML.**
+
+            - **Do NOT include explanations**
+            - **Do NOT include Markdown code fences**
+            - **Do NOT include commentary**
+            - **Do NOT include JSON**
+            - **Do NOT include extra text before or after the YAML**
+
+            ---
         '''
-        "if something is not mentioned in the job description, make it None, not null."
-        " Do NOT include any markdown code blocks, explanations, or other text. Return ONLY the raw JSON object starting with '{' and ending with '}'."
     )
     if update_instructions:
         system_prompt += (
-            f"\n\nCOMPANY INFORMATION:\n{update_instructions}\n\n"
-            "Use this company information to better tailor the resume. Align the resume content, language, and emphasis "
-            "with the company's culture, values, mission, and industry focus. Highlight experiences and skills that resonate "
-            "with what the company values. Use terminology and focus areas that match the company's industry and priorities."
+            f"\n\n## COMPANY INFORMATION\n{update_instructions}\n\n"
+            "Use this company information as additional tailoring context. "
+            "Align the resume's language, emphasis, and prioritization with the company's culture, values, mission, business model, and industry focus. "
+            "Prefer experiences, achievements, and skills from the original resume that naturally resonate with this company context. "
+            "Use company-relevant terminology where it truthfully matches the candidate's background. "
+            "Do not invent experience, responsibilities, technologies, domains, or achievements that are not supported by the original resume."
         )
 
     user_prompt = (
         f"HERE IS THE JOB DESCRIPTION:\n{job_description}\n\n"
         f"HERE IS THE ORIGINAL RESUME:\n{resume_text}\n\n"
-        "Convert this resume to JSON Resume format and return ONLY the JSON object (no markdown, no code blocks, no explanations)."
+        f"{f'HERE IS THE COMPANY INFORMATION (OPTIONAL):\n{company_info}\n\n' if company_info else ''}"
+        "Convert this resume to the **RenderCV YAML schema** format and return ONLY valid YAML. "
+        "Do NOT include JSON, Markdown, code fences, explanations, or commentary. "
+        "Follow the schema exactly and preserve all facts from the original resume. "
+        "For current roles, use `end_date: present` instead of 'Present'."
     )
 
     # Step 3: Call OpenAI API to get the updated resume
