@@ -337,34 +337,6 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
             ---
 
-            ## **OUTPUT FORMAT RULES**
-
-            **IMPORTANT:** You must generate resume data strictly following the **RenderCV resume schema** below.
-
-            - **Extract the social network information and URLs exactly** as linked in the original resume.
-            - **DO NOT use JSON Resume schema.**
-            - **DO NOT add extra fields not listed.**
-            - **When mentioning a current company, do not use `Present`; use `present` instead.**
-            - **Output format must be valid YAML** that RenderCV can validate and render.
-            - **Follow the structure exactly.**
-            - `cv.social_networks[].network` must be one of:
-            - `LinkedIn`
-            - `GitHub`
-            - `GitLab`
-            - `IMDB`
-            - `Instagram`
-            - `ORCID`
-            - `Mastodon`
-            - `StackOverflow`
-            - `ResearchGate`
-            - `YouTube`
-            - `Google Scholar`
-            - `Telegram`
-            - `Leetcode`
-            - `X`
-
-            ---
-
             ## Python Dict Output Rules (Safe for ast.literal_eval)
 
             - All output must be a valid Python dict literal. Do not return YAML, JSON, Markdown, or explanations.
