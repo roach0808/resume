@@ -338,7 +338,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             ---
 
             ## Python Dict Output Rules (Safe for ast.literal_eval)
-
+            - All keys must be double-quoted " ". Example: "name": "John"
             - All output must be a valid Python dict literal. Do not return YAML, JSON, Markdown, or explanations.
             - All strings must be double-quoted " " (single quotes allowed optionally). Escape internal quotes with \\" and backslashes with \\\\.
             - All lists and dicts must be **fully opened and closed**. Do not leave any unterminated [ ] or { }.
