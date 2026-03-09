@@ -374,6 +374,19 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                 highlights:
                     - "Increased throughput by 10x"
                     - "Reduced latency by 80%"
+
+            - **All output must be a valid Python dict literal**. Do not return JSON, YAML, Markdown, or explanations.
+            - **Quote all strings** using single `' '` or double `" "` quotes.  
+            - Examples: `'OpenAI API (GPT-4o / GPT-4 / GPT-5)'`, `"Reduced latency by 80%"`
+            - **Do not leave any unquoted strings** that contain letters, numbers, slashes, parentheses, percentages, or multipliers.  
+            - Examples: `10x`, `80%`, `GPT-4o` → must be `'10x'`, `'80%'`, `'GPT-4o'`
+            - **Do not use decimal literals with leading zeros** (e.g., `04` → use `"04"` as a string or `4` as an integer)
+            - **All dates must be strings** in `"YYYY-MM"` format. Current roles use `'end_date': "present"`.
+            - **All bullet points / highlights must be strings**, even if they contain numbers, percentages, or special characters.
+            - **Do not invent any fields**; only include keys listed in the schema.
+            - **Escape special characters** when needed (`\` → `\\`, quotes inside strings → `\"` or `\'`)
+            - Ensure the dict is **fully Python-parsable**, so `ast.literal_eval()` or `eval()` can read it without errors.
+            How to integrate:
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
