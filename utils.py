@@ -63,7 +63,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         raise RuntimeError(f"Failed to extract resume from uploaded PDF: {str(e)}")
 
     # Step 2: Build the prompt for OpenAI
-    system_prompt_1 = (
+    system_prompt = (
        "I need to update the whole resume according to the job description and company information. " 
        " The part you must pay attention is  professional experience."
        " Carefully review the job description."  
@@ -235,7 +235,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         " Do NOT include any markdown code blocks, explanations, or other text. Return ONLY the raw JSON object starting with '{' and ending with '}'."
     )
 
-    system_prompt = (
+    system_prompt1 = (
         '''
             ============================ V 0.0 (Author : Pine)===========================
             # 🚀 Upleveled & Refined Resume Update Prompt (2025+ ATS-Optimized, Realism-Driven)
