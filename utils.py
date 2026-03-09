@@ -366,36 +366,17 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             ---
 
             ## **RENDERCV SCHEMA**
-            - All dates (start_date, end_date, etc.) must be returned as **strings**, in the format "YYYY-MM".  
-            - Always quote the dates. Example: start_date: "2025-04"
-            - Always quote numbers that are not pure decimals. For example: "10x", "80%", "30%" 
-            - All percentages, multipliers, and other numeric metrics in highlights must be strings, not bare numbers.
-            - Example line:
-                highlights:
-                    - "Increased throughput by 10x"
-                    - "Reduced latency by 80%"
-
             - **All output must be a valid Python dict literal**. Do not return JSON, YAML, Markdown, or explanations.
-            - **Quote all strings** using single `' '` or double `" "` quotes.  
-            - Examples: `'OpenAI API (GPT-4o / GPT-4 / GPT-5)'`, `"Reduced latency by 80%"`
-            - **Do not leave any unquoted strings** that contain letters, numbers, slashes, parentheses, percentages, or multipliers.  
-            - Examples: `10x`, `80%`, `GPT-4o` → must be `'10x'`, `'80%'`, `'GPT-4o'`
-            - **Do not use decimal literals with leading zeros** (e.g., `04` → use `"04"` as a string or `4` as an integer)
-            - **All dates must be strings** in `"YYYY-MM"` format. Current roles use `'end_date': "present"`.
-            - **All bullet points / highlights must be strings**, even if they contain numbers, percentages, or special characters.
-            - **Do not invent any fields**; only include keys listed in the schema.
-            - **Escape special characters** when needed (`\` → `\\`, quotes inside strings → `\"` or `\'`)
-            - Ensure the dict is **fully Python-parsable**, so `ast.literal_eval()` or `eval()` can read it without errors.
-            - Use **double quotes** " " for all string values in the Python dict.
-            - Escape any double quotes inside strings with \"
-            - Escape backslashes as \\
-            - Do not break strings across multiple lines; each field must be a single-line string.
-            - All highlights / bullet points must also be single-line strings.
-            - All lists (e.g., 'skills', 'highlights', 'experience') must be properly opened and closed.
-            - All strings must use double quotes " ".
-            - Escape internal quotes and backslashes: "John's project" → "John\'s project"
-            - Do not truncate lists or dicts — all brackets [] and braces {} must be closed.
-            - Each highlight must be a single-line string.
+            - **All strings must be quoted** using double quotes `" "` (single quotes allowed optionally). Escape internal quotes with `\"` and backslashes with `\\`.
+            - **Do not leave any unquoted strings** that contain letters, numbers, slashes, parentheses, percentages, or multipliers.
+            - **All dates** (start_date, end_date, etc.) must be strings in `"YYYY-MM"` format. Use `"present"` for current roles (`end_date: "present"`).
+            - **All numbers with units, percentages, multipliers, or special metrics in highlights must be strings**, e.g., `"10x"`, `"80%"`, `"30%"`.
+            - **All bullet points / highlights must be single-line strings**. Do not break strings across multiple lines.
+            - **All lists and dicts must be properly opened and closed** (no unterminated brackets or braces).
+            - **Do not use decimal literals with leading zeros** (e.g., `04` → use `"04"` or `4`).
+            - **Do not invent any fields**; include only keys listed in the schema.
+            - Ensure the dict is fully Python-parsable so `ast.literal_eval()` or `eval()` can read it without errors.
+
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
