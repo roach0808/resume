@@ -366,7 +366,8 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
             ---
 
             ## **RENDERCV SCHEMA**
-
+            - All dates (start_date, end_date, etc.) must be returned as **strings**, in the format "YYYY-MM".  
+            - Always quote the dates. Example: start_date: "2025-04"
             --- BEGIN RENDERCV SCHEMA ---
                     {
                             'cv': {
