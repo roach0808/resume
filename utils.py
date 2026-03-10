@@ -535,14 +535,14 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         completion = client.chat.completions.create(
             # model="gpt-4",
             # model="gpt-4.1",
-            model="gpt-5.4",
+            model="gpt-5 mini",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
             temperature=0.3,
-            # max_tokens=2500,
-            max_completion_tokens=2500,
+            max_tokens=4000,
+            # max_completion_tokens=2500,
         )
         updated_resume = completion.choices[0].message.content.strip()
         return updated_resume
