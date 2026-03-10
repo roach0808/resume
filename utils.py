@@ -533,7 +533,7 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         else:
             client = OpenAI()
         completion = client.chat.completions.create(
-            # model="gpt-4",
+            model="gpt-4",
             # model="gpt-4.1",
             model="gpt-4o",
             messages=[
