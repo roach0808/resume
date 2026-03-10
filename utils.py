@@ -237,7 +237,6 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
 
     system_prompt = (
         '''
-            ============================ V 0.0 (Author : Pine)===========================
             # 🚀 Upleveled & Refined Resume Update Prompt (2025+ ATS-Optimized, Realism-Driven)
 
             ---
@@ -534,7 +533,9 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
         else:
             client = OpenAI()
         completion = client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-4",
+            # model="gpt-4.1",
+            # model="gpt-4o",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
