@@ -541,7 +541,8 @@ def update_resume(uploaded_file, job_description, update_instructions=None, open
                 {"role": "user", "content": user_prompt}
             ],
             temperature=0.3,
-            max_tokens=2500,
+            # max_tokens=2500,
+            max_completion_tokens=2500,
         )
         updated_resume = completion.choices[0].message.content.strip()
         return updated_resume
